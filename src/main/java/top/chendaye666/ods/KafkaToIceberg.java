@@ -10,12 +10,16 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
+import org.apache.flink.table.data.RowData;
+import org.apache.iceberg.flink.TableLoader;
+import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.pojo.Ncddzt;
 
 @Slf4j
 public class KafkaToIceberg {
   public static void main(String[] args) throws Exception {
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    env.enableCheckpointing(5000);
     env.setStateBackend(new FsStateBackend("hdfs://hadoop01:8020/warehouse/backend"));
 
     EnvironmentSettings blinkStreamSettings =
@@ -53,13 +57,13 @@ public class KafkaToIceberg {
     log.error("iceberg table ods_ncddzt:\n"+odsNcddztSql);
     tEnv.executeSql(odsNcddztSql);
 
-    //使用Hive Catalog创建Kafka流表
+    //使用Hive Catalog创建Kafka流表(注意不要和 hive 创建的 iceberg 表混了，可以放在不通的库)
     HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "D:\\code\\datalake\\src\\main\\resources",
         "2.1.1");
     tEnv.registerCatalog("kafka_hive_catalog", hiveCatalog);
     tEnv.executeSql("use catalog kafka_hive_catalog");
-    tEnv.executeSql("CREATE DATABASE IF NOT EXISTS ods");
-    tEnv.useDatabase("ods");
+    tEnv.executeSql("CREATE DATABASE IF NOT EXISTS kafka");
+    tEnv.useDatabase("kafka");
     tEnv.executeSql("DROP TABLE IF EXISTS ods_ncddzt");
     String kafkaOdsNcddzt = "CREATE TABLE ods_ncddzt (\n" +
         "    SOURCE_TYPE STRING,\n" +
@@ -100,18 +104,19 @@ public class KafkaToIceberg {
         "`POSITION` as `position`," +
         "LOG as log" +
         " FROM " +
-        "kafka_hive_catalog.ods" +
+        "kafka_hive_catalog.kafka" +
         ".ods_ncddzt";
     log.error("sinkSql:\n"+sinkSql);
 
     // table 转 流
-    Table table = tEnv.sqlQuery("select * from hadoop_catalog.ods.ods_ncddzt");
-    tEnv.toAppendStream(table, Ncddzt.class).map(new MapFunction<Ncddzt, String>() {
-      @Override
-      public String map(Ncddzt ncddzt) throws Exception {
-        return ncddzt.getTopic();
-      }
-    }).print();
+    TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
+    DataStream<RowData> stream = FlinkSource.forRowData()
+        .env(env)
+        .tableLoader(tableLoader)
+        .streaming(true)
+        // .startSnapshotId(2120L)
+        .build();
+    stream.print();
 
     tEnv.executeSql(sinkSql);
     env.execute();
