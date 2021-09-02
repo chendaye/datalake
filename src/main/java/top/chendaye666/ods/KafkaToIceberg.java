@@ -1,24 +1,21 @@
 package top.chendaye666.ods;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
-import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
 import org.apache.flink.table.data.RowData;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
-import top.chendaye666.pojo.Ncddzt;
 
 @Slf4j
 public class KafkaToIceberg {
   public static void main(String[] args) throws Exception {
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    // checkoutpoint
     env.enableCheckpointing(5000);
     env.setStateBackend(new FsStateBackend("hdfs://hadoop01:8020/warehouse/backend"));
 
@@ -107,16 +104,6 @@ public class KafkaToIceberg {
         "kafka_hive_catalog.kafka" +
         ".ods_ncddzt";
     log.error("sinkSql:\n"+sinkSql);
-
-    // table 转 流
-    TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
-    DataStream<RowData> stream = FlinkSource.forRowData()
-        .env(env)
-        .tableLoader(tableLoader)
-        .streaming(true)
-        // .startSnapshotId(2120L)
-        .build();
-    stream.print();
 
     tEnv.executeSql(sinkSql);
     env.execute();
