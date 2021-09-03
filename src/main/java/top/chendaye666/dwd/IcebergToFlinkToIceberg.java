@@ -2,6 +2,7 @@ package top.chendaye666.dwd;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -48,15 +49,20 @@ public class IcebergToFlinkToIceberg {
     Table table1 = tEnv.sqlQuery("select * from ods_ncddzt");
 
     DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table1, Ncddzt.class);
-    ncddztDataStream.process(new ProcessFunction<Ncddzt, Ncddzt>() {
+    ncddztDataStream.process(new ProcessFunction<Ncddzt, String>() {
+      @Override
+      public void open(Configuration parameters) throws Exception {
+        // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
+        String timeRegPattern = "\\[(\\d{8} \\d{9,})";
+      }
       @Override
       public void processElement(
-          Ncddzt ncddzt, Context context, Collector<Ncddzt> collector) throws Exception {
-
+          Ncddzt ncddzt, Context context, Collector<String> collector) throws Exception {
+          collector.collect(ncddzt.getLog());
       }
-    });
+    }).print();
     /*创建DWS表*/
-    createDwsTable(tEnv);
+    // createDwsTable(tEnv);
     env.execute();
   }
 
@@ -79,7 +85,7 @@ public class IcebergToFlinkToIceberg {
     tEnv.useDatabase("dws");
     // 建表
     tEnv.executeSql("DROP TABLE IF EXISTS dws_ncddzt");
-    String odsNcddztSql = "CREATE TABLE  dws_ncddzt (\n" +
+    String dwsNcddztSql = "CREATE TABLE  dws_ncddzt (\n" +
         "   source_type STRING,\n" +
         "   `index` STRING,\n" +
         "   `agent_timestamp` STRING,\n" +
@@ -88,8 +94,17 @@ public class IcebergToFlinkToIceberg {
         "   num INT,\n" +
         "   file_path STRING,\n" +
         "   `position` STRING,\n" +
-        "   log STRING\n" +
-        ")";
-    tEnv.executeSql(odsNcddztSql);
+        "   time INTEGER ,\n" +
+        "   log_type String ,\n" +
+        "   qd_number String ,\n" +
+        "   seat String ,\n" +
+        "   market String ,\n" +
+        "   cap_acc String ,\n" +
+        "   suborderno String ,\n" +
+        "   wt_pnum String ,\n" +
+        "   contract_num String \n" +
+        ") PARTITIONED BY (topic)";
+    log.error("dwsNcddztSql=\n"+dwsNcddztSql);
+    tEnv.executeSql(dwsNcddztSql);
   }
 }
