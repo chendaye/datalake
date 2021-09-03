@@ -15,6 +15,7 @@ import org.apache.flink.util.Collector;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.pojo.Ncddzt;
+import top.chendaye666.utils.RegInxParse;
 
 /**
  * ods_to_dws
@@ -53,12 +54,14 @@ public class IcebergToFlinkToIceberg {
       @Override
       public void open(Configuration parameters) throws Exception {
         // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
-        String timeRegPattern = "\\[(\\d{8} \\d{9,})";
       }
+
       @Override
       public void processElement(
           Ncddzt ncddzt, Context context, Collector<String> collector) throws Exception {
-          collector.collect(ncddzt.getLog());
+        String log = ncddzt.getLog();
+        String time = RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1);
+        collector.collect(time);
       }
     }).print();
     /*创建DWS表*/
@@ -68,6 +71,7 @@ public class IcebergToFlinkToIceberg {
 
   /**
    * 创建 dws 表
+   *
    * @param tEnv
    */
   public static void createDwsTable(StreamTableEnvironment tEnv) {
@@ -104,7 +108,7 @@ public class IcebergToFlinkToIceberg {
         "   wt_pnum String ,\n" +
         "   contract_num String \n" +
         ") PARTITIONED BY (topic)";
-    log.error("dwsNcddztSql=\n"+dwsNcddztSql);
+    log.error("dwsNcddztSql=\n" + dwsNcddztSql);
     tEnv.executeSql(dwsNcddztSql);
   }
 }
