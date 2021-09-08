@@ -22,7 +22,7 @@ import top.chendaye666.utils.RegInxParse;
 
 /**
  * ods_to_dws
- * flink 读取 iceberg 转换 再写到
+ * flink 读取 iceberg 转换 再写到 iceberg
  */
 @Slf4j
 public class IcebergToFlinkToIceberg {
@@ -84,9 +84,9 @@ public class IcebergToFlinkToIceberg {
             ncddztDws.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
             ncddztDws.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
             ncddztDws.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
-            ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "9102\\\":\\\"(\\d+)\\\"", 1));
-            ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8816\\\":\\\"(.*?)\\\"", 1));
-            ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8920\\\":\\\"(.*?)\\\"", 1));
+            ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
             collector.collect(ncddztDws);
           }
         });
