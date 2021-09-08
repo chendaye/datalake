@@ -1,7 +1,6 @@
 package top.chendaye666.dwd;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -16,16 +15,16 @@ import org.apache.flink.util.Collector;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.pojo.Ncddzt;
-import top.chendaye666.pojo.NcddztDws;
+import top.chendaye666.pojo.NcddztDwd;
 import top.chendaye666.utils.DateUtil;
 import top.chendaye666.utils.RegInxParse;
 
 /**
- * ods_to_dws
+ * ods_to_dwd
  * flink 读取 iceberg 转换 再写到 iceberg
  */
 @Slf4j
-public class IcebergToFlinkToIceberg {
+public class IcebergToFlinkToIcebergDwd {
   public static void main(String[] args) throws Exception {
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -52,8 +51,8 @@ public class IcebergToFlinkToIceberg {
     // table 转为 AppendStream 进行处理
     DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table, Ncddzt.class);
     // ETL
-    SingleOutputStreamOperator<NcddztDws> ncddztDwsDataStream =
-        ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDws>() {
+    SingleOutputStreamOperator<NcddztDwd> ncddztDwsDataStream =
+        ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDwd>() {
           @Override
           public void open(Configuration parameters) throws Exception {
             // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
@@ -61,58 +60,58 @@ public class IcebergToFlinkToIceberg {
 
           @Override
           public void processElement(
-              Ncddzt ncddzt, Context context, Collector<NcddztDws> collector) throws Exception {
-            NcddztDws ncddztDws = new NcddztDws();
+              Ncddzt ncddzt, Context context, Collector<NcddztDwd> collector) throws Exception {
+            NcddztDwd ncddztDwd = new NcddztDwd();
             String log = ncddzt.getLog();
-            ncddztDws.setSource_type(ncddzt.getSource_type());
-            ncddztDws.setIndex(ncddzt.getIndex());
-            ncddztDws.setAgent_timestamp(ncddzt.getAgent_timestamp());
-            ncddztDws.setIndex(ncddzt.getIndex());
-            ncddztDws.setSource_host(ncddzt.getSource_host());
-            ncddztDws.setTopic(ncddzt.getTopic());
-            ncddztDws.setFile_path(ncddzt.getFile_path());
-            ncddztDws.setPosition(ncddzt.getPosition());
-            ncddztDws.setTime(DateUtil.formatToTimestamp(
+            ncddztDwd.setSource_type(ncddzt.getSource_type());
+            ncddztDwd.setIndex(ncddzt.getIndex());
+            ncddztDwd.setAgent_timestamp(ncddzt.getAgent_timestamp());
+            ncddztDwd.setIndex(ncddzt.getIndex());
+            ncddztDwd.setSource_host(ncddzt.getSource_host());
+            ncddztDwd.setTopic(ncddzt.getTopic());
+            ncddztDwd.setFile_path(ncddzt.getFile_path());
+            ncddztDwd.setPosition(ncddzt.getPosition());
+            ncddztDwd.setTime(DateUtil.formatToTimestamp(
                 RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1),
                 "yyyyMMdd HHmmssSSS"));
-            ncddztDws.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
-            ncddztDws.setQd_number(RegInxParse.matcherValByReg(
+            ncddztDwd.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
+            ncddztDwd.setQd_number(RegInxParse.matcherValByReg(
                 log,
                 "\\[(send|recv|pub1)\\] \\[(10388101|00102025)\\] \\[" +
                     "(.*?)\\]",
                 3));
-            ncddztDws.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDws.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
-            ncddztDws.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
-            ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            collector.collect(ncddztDws);
+            ncddztDwd.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDwd.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
+            ncddztDwd.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
+            ncddztDwd.setSuborderno(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDwd.setWt_pnum(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDwd.setContract_num(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            collector.collect(ncddztDwd);
           }
         });
     // .map(NcddztDws::toString).print();
 
     /*创建临时表*/
-    tEnv.createTemporaryView("ods_dws_ncddzt", ncddztDwsDataStream);
-    Table dwsTable = tEnv.sqlQuery("select * from ods_dws_ncddzt");
+    tEnv.createTemporaryView("ods_dwd_ncddzt", ncddztDwsDataStream);
+    Table dwdTable = tEnv.sqlQuery("select * from ods_dwd_ncddzt");
 
     /*创建DWS表*/
     createDwsTable(tEnv);
 
     /*Sink*/
-    String sinkSql = "INSERT INTO  hadoop_catalog.dws.dws_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
+    String sinkSql = "INSERT INTO  hadoop_catalog.dwd.dwd_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
         "`source_host`,`topic`,`file_path`,`position`,`time`,`log_type`,`qd_number`,`seat`,`market`,`cap_acc`," +
         "`suborderno`,`wt_pnum`,`contract_num` FROM" +
         " default_catalog" +
         ".default_database" +
-        ".ods_dws_ncddzt";
+        ".ods_dwd_ncddzt";
     log.error("sinkSql:\n"+sinkSql);
     tEnv.executeSql(sinkSql);
     env.execute();
   }
 
   /**
-   * 创建 dws 表
+   * 创建 dwd 表
    *
    * @param tEnv
    */
@@ -127,11 +126,11 @@ public class IcebergToFlinkToIceberg {
     // use catalog
     tEnv.useCatalog("hadoop_catalog");
     // 建数据库
-    tEnv.executeSql("CREATE DATABASE IF NOT EXISTS hadoop_catalog.dws");
-    tEnv.useDatabase("dws");
+    tEnv.executeSql("CREATE DATABASE IF NOT EXISTS hadoop_catalog.dwd");
+    tEnv.useDatabase("dwd");
     // 建表
-    tEnv.executeSql("DROP TABLE IF EXISTS dws_ncddzt");
-    String dwsNcddztSql = "CREATE TABLE  dws_ncddzt (\n" +
+    tEnv.executeSql("DROP TABLE IF EXISTS dwd_ncddzt");
+    String dwdNcddztSql = "CREATE TABLE  dwd_ncddzt (\n" +
         "   source_type STRING,\n" +
         "   `index` STRING,\n" +
         "   `agent_timestamp` STRING,\n" +
@@ -149,7 +148,7 @@ public class IcebergToFlinkToIceberg {
         "   wt_pnum String ,\n" +
         "   contract_num String \n" +
         ") PARTITIONED BY (topic)";
-    log.error("dwsNcddztSql=\n" + dwsNcddztSql);
-    tEnv.executeSql(dwsNcddztSql);
+    log.error("dwdNcddztSql=\n" + dwdNcddztSql);
+    tEnv.executeSql(dwdNcddztSql);
   }
 }

@@ -86,7 +86,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.StreamingJob</mainClass>
+                  <mainClass>top.chendaye666.task.RewriteFileAction</mainClass>
                 </transformer>
               </transformers>
             </configuration>
