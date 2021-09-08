@@ -5,6 +5,7 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.EnvironmentSettings;
@@ -50,40 +51,63 @@ public class IcebergToFlinkToIceberg {
     Table table = tEnv.fromDataStream(stream);
     // table 转为 AppendStream 进行处理
     DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table, Ncddzt.class);
-    ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDws>() {
-      @Override
-      public void open(Configuration parameters) throws Exception {
-        // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
-      }
+    // ETL
+    SingleOutputStreamOperator<NcddztDws> ncddztDwsDataStream =
+        ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDws>() {
+          @Override
+          public void open(Configuration parameters) throws Exception {
+            // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
+          }
 
-      @Override
-      public void processElement(
-          Ncddzt ncddzt, Context context, Collector<NcddztDws> collector) throws Exception {
-        NcddztDws ncddztDws = new NcddztDws();
-        String log = ncddzt.getLog();
-        ncddztDws.setSource_type(ncddzt.getSource_type());
-        ncddztDws.setIndex(ncddzt.getIndex());
-        ncddztDws.setAgent_timestamp(ncddzt.getAgent_timestamp());
-        ncddztDws.setIndex(ncddzt.getIndex());
-        ncddztDws.setSource_host(ncddzt.getSource_host());
-        ncddztDws.setTopic(ncddzt.getTopic());
-        ncddztDws.setFile_path(ncddzt.getFile_path());
-        ncddztDws.setPosition(ncddzt.getPosition());
-        ncddztDws.setTime(DateUtil.formatToTimestamp(RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1), "yyyyMMdd HHmmssSSS"));
-        ncddztDws.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
-        ncddztDws.setQd_number(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\] \\[(10388101|00102025)\\] \\[" +
-            "(.*?)\\]", 3));
-        ncddztDws.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-        ncddztDws.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
-        ncddztDws.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
-        ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "9102\\\":\\\"(\\d+)\\\"", 1));
-        ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8816\\\":\\\"(.*?)\\\"", 1));
-        ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8920\\\":\\\"(.*?)\\\"", 1));
-        collector.collect(ncddztDws);
-      }
-    }).map(NcddztDws::toString).print();
+          @Override
+          public void processElement(
+              Ncddzt ncddzt, Context context, Collector<NcddztDws> collector) throws Exception {
+            NcddztDws ncddztDws = new NcddztDws();
+            String log = ncddzt.getLog();
+            ncddztDws.setSource_type(ncddzt.getSource_type());
+            ncddztDws.setIndex(ncddzt.getIndex());
+            ncddztDws.setAgent_timestamp(ncddzt.getAgent_timestamp());
+            ncddztDws.setIndex(ncddzt.getIndex());
+            ncddztDws.setSource_host(ncddzt.getSource_host());
+            ncddztDws.setTopic(ncddzt.getTopic());
+            ncddztDws.setFile_path(ncddzt.getFile_path());
+            ncddztDws.setPosition(ncddzt.getPosition());
+            ncddztDws.setTime(DateUtil.formatToTimestamp(
+                RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1),
+                "yyyyMMdd HHmmssSSS"));
+            ncddztDws.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
+            ncddztDws.setQd_number(RegInxParse.matcherValByReg(
+                log,
+                "\\[(send|recv|pub1)\\] \\[(10388101|00102025)\\] \\[" +
+                    "(.*?)\\]",
+                3));
+            ncddztDws.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+            ncddztDws.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
+            ncddztDws.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
+            ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "9102\\\":\\\"(\\d+)\\\"", 1));
+            ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8816\\\":\\\"(.*?)\\\"", 1));
+            ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8920\\\":\\\"(.*?)\\\"", 1));
+            collector.collect(ncddztDws);
+          }
+        });
+    // .map(NcddztDws::toString).print();
+
+    /*创建临时表*/
+    tEnv.createTemporaryView("ods_dws_ncddzt", ncddztDwsDataStream);
+    Table dwsTable = tEnv.sqlQuery("select * from ods_dws_ncddzt");
+
     /*创建DWS表*/
-    // createDwsTable(tEnv);
+    createDwsTable(tEnv);
+
+    /*Sink*/
+    String sinkSql = "INSERT INTO  hadoop_catalog.dws.dws_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
+        "`source_host`,`topic`,`file_path`,`position`,`time`,`log_type`,`qd_number`,`seat`,`market`,`cap_acc`," +
+        "`suborderno`,`wt_pnum`,`contract_num` FROM" +
+        " default_catalog" +
+        ".default_database" +
+        ".ods_dws_ncddzt";
+    log.error("sinkSql:\n"+sinkSql);
+    tEnv.executeSql(sinkSql);
     env.execute();
   }
 
@@ -115,7 +139,7 @@ public class IcebergToFlinkToIceberg {
         "   topic STRING,\n" +
         "   file_path STRING,\n" +
         "   `position` STRING,\n" +
-        "   time INTEGER ,\n" +
+        "   `time` BIGINT ,\n" +
         "   log_type String ,\n" +
         "   qd_number String ,\n" +
         "   seat String ,\n" +

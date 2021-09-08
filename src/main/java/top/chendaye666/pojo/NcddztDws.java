@@ -4,10 +4,10 @@ public class NcddztDws {
   private String source_type;
   private String index;
   private String agent_timestamp;
+  private String source_host;
   private String topic;
   private String file_path;
   private String position;
-  private String source_host;
   private long time;
   private String log_type;
   private String qd_number;
