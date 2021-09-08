@@ -15,6 +15,8 @@ import org.apache.flink.util.Collector;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.pojo.Ncddzt;
+import top.chendaye666.pojo.NcddztDws;
+import top.chendaye666.utils.DateUtil;
 import top.chendaye666.utils.RegInxParse;
 
 /**
@@ -44,13 +46,11 @@ public class IcebergToFlinkToIceberg {
         .streaming(true)
         // .startSnapshotId(2120L)
         .build();
+    // 从iceberg实时读取数据
     Table table = tEnv.fromDataStream(stream);
-    tEnv.createTemporaryView("ods_ncddzt", stream);
-
-    Table table1 = tEnv.sqlQuery("select * from ods_ncddzt");
-
-    DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table1, Ncddzt.class);
-    ncddztDataStream.process(new ProcessFunction<Ncddzt, String>() {
+    // table 转为 AppendStream 进行处理
+    DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table, Ncddzt.class);
+    ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDws>() {
       @Override
       public void open(Configuration parameters) throws Exception {
         // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
@@ -58,12 +58,30 @@ public class IcebergToFlinkToIceberg {
 
       @Override
       public void processElement(
-          Ncddzt ncddzt, Context context, Collector<String> collector) throws Exception {
+          Ncddzt ncddzt, Context context, Collector<NcddztDws> collector) throws Exception {
+        NcddztDws ncddztDws = new NcddztDws();
         String log = ncddzt.getLog();
-        String time = RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1);
-        collector.collect(time);
+        ncddztDws.setSource_type(ncddzt.getSource_type());
+        ncddztDws.setIndex(ncddzt.getIndex());
+        ncddztDws.setAgent_timestamp(ncddzt.getAgent_timestamp());
+        ncddztDws.setIndex(ncddzt.getIndex());
+        ncddztDws.setSource_host(ncddzt.getSource_host());
+        ncddztDws.setTopic(ncddzt.getTopic());
+        ncddztDws.setFile_path(ncddzt.getFile_path());
+        ncddztDws.setPosition(ncddzt.getPosition());
+        ncddztDws.setTime(DateUtil.formatToTimestamp(RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1), "yyyyMMdd HHmmssSSS"));
+        ncddztDws.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
+        ncddztDws.setQd_number(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\] \\[(10388101|00102025)\\] \\[" +
+            "(.*?)\\]", 3));
+        ncddztDws.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
+        ncddztDws.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
+        ncddztDws.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
+        ncddztDws.setSuborderno(RegInxParse.matcherValByReg(log, "9102\\\":\\\"(\\d+)\\\"", 1));
+        ncddztDws.setWt_pnum(RegInxParse.matcherValByReg(log, "8816\\\":\\\"(.*?)\\\"", 1));
+        ncddztDws.setContract_num(RegInxParse.matcherValByReg(log, "8920\\\":\\\"(.*?)\\\"", 1));
+        collector.collect(ncddztDws);
       }
-    }).print();
+    }).map(NcddztDws::toString).print();
     /*创建DWS表*/
     // createDwsTable(tEnv);
     env.execute();
@@ -95,7 +113,6 @@ public class IcebergToFlinkToIceberg {
         "   `agent_timestamp` STRING,\n" +
         "   source_host STRING,\n" +
         "   topic STRING,\n" +
-        "   num INT,\n" +
         "   file_path STRING,\n" +
         "   `position` STRING,\n" +
         "   time INTEGER ,\n" +

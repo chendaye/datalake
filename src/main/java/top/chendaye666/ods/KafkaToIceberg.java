@@ -106,6 +106,6 @@ public class KafkaToIceberg {
     log.error("sinkSql:\n"+sinkSql);
 
     tEnv.executeSql(sinkSql);
-    env.execute();
+    // env.execute();
   }
 }

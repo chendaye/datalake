@@ -84,5 +84,18 @@ public class Ncddzt {
         this.num = num;
     }
 
-
+    @Override
+    public String toString() {
+        return "Ncddzt{" +
+            "source_type='" + source_type + '\'' +
+            ", index='" + index + '\'' +
+            ", agent_timestamp='" + agent_timestamp + '\'' +
+            ", topic='" + topic + '\'' +
+            ", file_path='" + file_path + '\'' +
+            ", position='" + position + '\'' +
+            ", source_host='" + source_host + '\'' +
+            ", log='" + log + '\'' +
+            ", num=" + num +
+            '}';
+    }
 }

@@ -146,4 +146,25 @@ public class NcddztDws {
     this.contract_num = contract_num;
   }
 
+  @Override
+  public String toString() {
+    return "NcddztDws{" +
+        "source_type='" + source_type + '\'' +
+        ", index='" + index + '\'' +
+        ", agent_timestamp='" + agent_timestamp + '\'' +
+        ", topic='" + topic + '\'' +
+        ", file_path='" + file_path + '\'' +
+        ", position='" + position + '\'' +
+        ", source_host='" + source_host + '\'' +
+        ", time=" + time +
+        ", log_type='" + log_type + '\'' +
+        ", qd_number='" + qd_number + '\'' +
+        ", seat='" + seat + '\'' +
+        ", market='" + market + '\'' +
+        ", cap_acc='" + cap_acc + '\'' +
+        ", suborderno='" + suborderno + '\'' +
+        ", wt_pnum='" + wt_pnum + '\'' +
+        ", contract_num='" + contract_num + '\'' +
+        '}';
+  }
 }
