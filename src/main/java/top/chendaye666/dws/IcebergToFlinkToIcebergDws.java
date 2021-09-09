@@ -22,6 +22,9 @@ import top.chendaye666.utils.RegInxParse;
 /**
  * ods_to_dws
  * flink 读取 iceberg 转换 再写到 iceberg
+ *
+ * 在表中定义事件时间
+ * https://ci.apache.org/projects/flink/flink-docs-release-1.11/zh/dev/table/streaming/time_attributes.html
  */
 @Slf4j
 public class IcebergToFlinkToIcebergDws {
@@ -39,64 +42,23 @@ public class IcebergToFlinkToIcebergDws {
 
     // table 转 流
     TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/dwd/dwd_ncddzt");
-    // 准实时的查询
+    // batch 查询
     DataStream<RowData> stream = FlinkSource.forRowData()
         .env(env)
         .tableLoader(tableLoader)
-        .streaming(true)
-        // .startSnapshotId(2120L)
+        .streaming(false)
         .build();
-    // 从iceberg实时读取数据
+    // 从iceberg 批量读取所有数据
     Table table = tEnv.fromDataStream(stream);
-    // table 转为 AppendStream 进行处理
-    DataStream<Ncddzt> ncddztDataStream = tEnv.toAppendStream(table, Ncddzt.class);
-    // ETL
-    SingleOutputStreamOperator<NcddztDwd> ncddztDwsDataStream =
-        ncddztDataStream.process(new ProcessFunction<Ncddzt, NcddztDwd>() {
-          @Override
-          public void open(Configuration parameters) throws Exception {
-            // state = getRuntimeContext().getState(new ValueStateDescriptor<>("myState", CountWithTimestamp.class));
-          }
+    // 创建临时表
+    tEnv.createTemporaryView("ods_dws_ncddzt", table);
+    Table table1 = tEnv.sqlQuery("select * from ods_dws_ncddzt");
+    tEnv.toAppendStream(table1, NcddztDwd.class).map(NcddztDwd::toString).print();
 
-          @Override
-          public void processElement(
-              Ncddzt ncddzt, Context context, Collector<NcddztDwd> collector) throws Exception {
-            NcddztDwd ncddztDwd = new NcddztDwd();
-            String log = ncddzt.getLog();
-            ncddztDwd.setSource_type(ncddzt.getSource_type());
-            ncddztDwd.setIndex(ncddzt.getIndex());
-            ncddztDwd.setAgent_timestamp(ncddzt.getAgent_timestamp());
-            ncddztDwd.setIndex(ncddzt.getIndex());
-            ncddztDwd.setSource_host(ncddzt.getSource_host());
-            ncddztDwd.setTopic(ncddzt.getTopic());
-            ncddztDwd.setFile_path(ncddzt.getFile_path());
-            ncddztDwd.setPosition(ncddzt.getPosition());
-            ncddztDwd.setTime(DateUtil.formatToTimestamp(
-                RegInxParse.matcherValByReg(log, "\\[(\\d{8} \\d{9,})", 1),
-                "yyyyMMdd HHmmssSSS"));
-            ncddztDwd.setLog_type(RegInxParse.matcherValByReg(log, "\\[(send|recv|pub1)\\]", 1));
-            ncddztDwd.setQd_number(RegInxParse.matcherValByReg(
-                log,
-                "\\[(send|recv|pub1)\\] \\[(10388101|00102025)\\] \\[" +
-                    "(.*?)\\]",
-                3));
-            ncddztDwd.setSeat(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDwd.setMarket(RegInxParse.matcherValByReg(log, "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"", 2));
-            ncddztDwd.setCap_acc(RegInxParse.matcherValByReg(log, "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"", 2));
-            ncddztDwd.setSuborderno(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDwd.setWt_pnum(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            ncddztDwd.setContract_num(RegInxParse.matcherValByReg(log, "8810\\\":\\\"(\\d{1,})\\\"", 1));
-            collector.collect(ncddztDwd);
-          }
-        });
-    // .map(NcddztDws::toString).print();
 
-    /*创建临时表*/
-    tEnv.createTemporaryView("ods_dws_ncddzt", ncddztDwsDataStream);
-    Table dwsTable = tEnv.sqlQuery("select * from ods_dws_ncddzt");
 
     /*创建DWS表*/
-    createDwsTable(tEnv);
+    // createDwsTable(tEnv);
 
     /*Sink*/
     String sinkSql = "INSERT INTO  hadoop_catalog.dws.dws_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
@@ -105,7 +67,7 @@ public class IcebergToFlinkToIcebergDws {
         ".default_database" +
         ".ods_dws_ncddzt";
     log.error("sinkSql:\n"+sinkSql);
-    tEnv.executeSql(sinkSql);
+    // tEnv.executeSql(sinkSql);
     env.execute();
   }
 
