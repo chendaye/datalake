@@ -1,17 +1,22 @@
 package top.chendaye666.dws;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.data.RowData;
+import org.apache.flink.types.Row;
+import org.apache.flink.util.CloseableIterator;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.pojo.NcddztDwd;
 import org.apache.flink.table.api.Expressions;
+import top.chendaye666.pojo.NcddztDws;
 
 /**
  * ods_to_dws
@@ -63,23 +68,27 @@ public class IcebergToFlinkToIcebergDws {
     );
     // 创建临时表
     tEnv.createTemporaryView("ods_dws_ncddzt", table);
-    Table table1 = tEnv.sqlQuery("select * from ods_dws_ncddzt");
-    tEnv.toAppendStream(table1, NcddztDwd.class).map(NcddztDwd::toString).print();
-
+//    Table table1 = tEnv.sqlQuery("select `source_type`,`agent_timestamp`,topic,SUM(`time`) as total from ods_dws_ncddzt " +
+//            "group by `source_type`,`agent_timestamp`,topic");
+//    TableResult execute = table1.execute();
+//    CloseableIterator<Row> collect = execute.collect();
+//    DataStream<Tuple2<Boolean, NcddztDws>> tuple2DataStream = tEnv.toRetractStream(table1, NcddztDws.class);
+//    tuple2DataStream.map(v -> v.f1.toString()).print();
+//    DataStream<NcddztDws> ncddztDwsDataStream = tEnv.toAppendStream(table1, NcddztDws.class);
 
 
     /*创建DWS表*/
-    // createDwsTable(tEnv);
+     createDwsTable(tEnv);
 
     /*Sink*/
-    String sinkSql = "INSERT INTO  hadoop_catalog.dws.dws_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
-        "`topic`,`time`,`sum` FROM" +
+    String sinkSql = "INSERT INTO  hadoop_catalog.dws.dws_ncddzt SELECT `source_type`,`agent_timestamp`," +
+            "topic,SUM(`time`) as total FROM " +
         " default_catalog" +
         ".default_database" +
-        ".ods_dws_ncddzt";
+        ".ods_dws_ncddzt group by `source_type`,`agent_timestamp`,topic";
     log.error("sinkSql:\n"+sinkSql);
-    // tEnv.executeSql(sinkSql);
-    env.execute();
+     tEnv.executeSql(sinkSql);
+//    env.execute();
   }
 
   /**
@@ -104,13 +113,13 @@ public class IcebergToFlinkToIcebergDws {
     tEnv.executeSql("DROP TABLE IF EXISTS dws_ncddzt");
     String dwsNcddztSql = "CREATE TABLE  dws_ncddzt (\n" +
         "   source_type STRING,\n" +
-        "   `index` STRING,\n" +
         "   `agent_timestamp` STRING,\n" +
         "   topic STRING,\n" +
-        "   `time` BIGINT ,\n" +
-        "   sum BIGINT \n" +
+        "   total BIGINT \n" +
         ") PARTITIONED BY (topic)";
     log.error("dwsNcddztSql=\n" + dwsNcddztSql);
     tEnv.executeSql(dwsNcddztSql);
   }
+
+
 }
