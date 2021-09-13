@@ -18,6 +18,8 @@ import top.chendaye666.pojo.NcddztDwd;
 import org.apache.flink.table.api.Expressions;
 import top.chendaye666.pojo.NcddztDws;
 
+import static org.apache.flink.table.api.Expressions.$;
+
 /**
  * ods_to_dws
  * flink 读取 iceberg 转换 再写到 iceberg
@@ -49,22 +51,22 @@ public class IcebergToFlinkToIcebergDws {
         .build();
     // 从iceberg 批量读取所有数据
     Table table = tEnv.fromDataStream(stream,
-            Expressions.$("source_type"),
-            Expressions.$("index"),
-            Expressions.$("agent_timestamp"),
-            Expressions.$("source_host"),
-            Expressions.$("topic"),
-            Expressions.$("file_path"),
-            Expressions.$("position"),
-            Expressions.$("time"),
-            Expressions.$("log_type"),
-            Expressions.$("qd_number"),
-            Expressions.$("seat"),
-            Expressions.$("market"),
-            Expressions.$("cap_acc"),
-            Expressions.$("suborderno"),
-            Expressions.$("wt_pnum"),
-            Expressions.$("contract_num")
+            $("source_type"),
+            $("index"),
+            $("agent_timestamp"),
+            $("source_host"),
+            $("topic"),
+            $("file_path"),
+            $("position"),
+            $("time"),
+            $("log_type"),
+            $("qd_number"),
+            $("seat"),
+            $("market"),
+            $("cap_acc"),
+            $("suborderno"),
+            $("wt_pnum"),
+            $("contract_num")
     );
     // 创建临时表
     tEnv.createTemporaryView("ods_dws_ncddzt", table);
