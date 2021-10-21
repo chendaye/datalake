@@ -1,5 +1,4 @@
 package top.chendaye666.task;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.iceberg.Table;
 import org.apache.iceberg.actions.RewriteDataFilesActionResult;
 import org.apache.iceberg.flink.TableLoader;
@@ -12,10 +11,8 @@ import org.apache.iceberg.flink.actions.Actions;
  */
 public class RewriteFileAction {
   public static void main(String[] args) throws Exception {
-    // StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     System.setProperty("HADOOP_USER_NAME", "root");
     TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
-    tableLoader.open();
     Table table = tableLoader.loadTable();
     RewriteDataFilesActionResult result = Actions.forTable(table)
         .rewriteDataFiles()
