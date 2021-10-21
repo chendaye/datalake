@@ -18,6 +18,28 @@ public class NcddztDwd {
   private String wt_pnum;
   private String contract_num;
 
+  public NcddztDwd() {
+  }
+
+  public NcddztDwd(String source_type, String index, String agent_timestamp, String source_host, String topic, String file_path, String position, long time, String log_type, String qd_number, String seat, String market, String cap_acc, String suborderno, String wt_pnum, String contract_num) {
+    this.source_type = source_type;
+    this.index = index;
+    this.agent_timestamp = agent_timestamp;
+    this.source_host = source_host;
+    this.topic = topic;
+    this.file_path = file_path;
+    this.position = position;
+    this.time = time;
+    this.log_type = log_type;
+    this.qd_number = qd_number;
+    this.seat = seat;
+    this.market = market;
+    this.cap_acc = cap_acc;
+    this.suborderno = suborderno;
+    this.wt_pnum = wt_pnum;
+    this.contract_num = contract_num;
+  }
+
   public String getSource_type() {
     return source_type;
   }

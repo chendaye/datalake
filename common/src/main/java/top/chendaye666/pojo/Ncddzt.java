@@ -11,6 +11,20 @@ public class Ncddzt {
     private String log;
     private int num;
 
+    public Ncddzt() {
+    }
+
+    public Ncddzt(String source_type, String index, String agent_timestamp, String topic, String file_path, String position, String source_host, String log, int num) {
+        this.source_type = source_type;
+        this.index = index;
+        this.agent_timestamp = agent_timestamp;
+        this.topic = topic;
+        this.file_path = file_path;
+        this.position = position;
+        this.source_host = source_host;
+        this.log = log;
+        this.num = num;
+    }
 
     public String getSource_host() {
         return source_host;

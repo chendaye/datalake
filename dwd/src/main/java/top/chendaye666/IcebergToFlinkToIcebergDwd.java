@@ -148,7 +148,9 @@ public class IcebergToFlinkToIcebergDwd {
         "   suborderno String ,\n" +
         "   wt_pnum String ,\n" +
         "   contract_num String \n" +
-        ") PARTITIONED BY (topic)";
+        ") PARTITIONED BY (topic) WITH (\n" +
+            "    'write.distribution-mode'='hash'\n" +
+            ")";
     log.error("dwdNcddztSql=\n" + dwdNcddztSql);
     tEnv.executeSql(dwdNcddztSql);
   }

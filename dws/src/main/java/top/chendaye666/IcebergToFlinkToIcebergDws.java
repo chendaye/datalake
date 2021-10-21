@@ -111,7 +111,9 @@ public class IcebergToFlinkToIcebergDws {
         "   `agent_timestamp` STRING,\n" +
         "   topic STRING,\n" +
         "   total BIGINT \n" +
-        ") PARTITIONED BY (topic)";
+        ") PARTITIONED BY (topic) WITH (\n" +
+            "    'write.distribution-mode'='hash'\n" +
+            ")";
     log.error("dwsNcddztSql=\n" + dwsNcddztSql);
     tEnv.executeSql(dwsNcddztSql);
   }

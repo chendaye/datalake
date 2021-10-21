@@ -10,6 +10,16 @@ public class NcddztDws implements Serializable {
   private String topic;
   private Long total;
 
+  public NcddztDws() {
+  }
+
+  public NcddztDws(String source_type, String agent_timestamp, String topic, Long total) {
+    this.source_type = source_type;
+    this.agent_timestamp = agent_timestamp;
+    this.topic = topic;
+    this.total = total;
+  }
+
   public Long getTotal() {
     return total;
   }
