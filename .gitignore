@@ -1,1 +1,7 @@
 target/
+common/target/
+dwd/target/
+ods/target/
+dws/target/
+task/target/
+.idea/
