@@ -1,8 +1,11 @@
-package top.chendaye666.rewrite;
+package top.chendaye666.flink;
 
+import org.apache.iceberg.Snapshot;
 import org.apache.iceberg.Table;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.actions.Actions;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * iceberg 本身的架构设计决定了，对于实时入湖场景，会产生大量的 snapshot 文件，
@@ -16,10 +19,10 @@ public class SnapshotAction {
         TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
         tableLoader.open();
         Table table = tableLoader.loadTable();
-//        Actions.forTable(table).
-//                .expireSnapshots()
-//                .expireOlderThan(System.currentTimeMillis())
-//                .retainLast(5)
-//                .execute();
+        Snapshot snapshot = table.currentSnapshot();
+        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 60 * 24); // 1 day
+        long tsToExpire2 = snapshot.timestampMillis() - TimeUnit.MINUTES.toMillis(60); // 过去5分钟
+        table.expireSnapshots().expireOlderThan(tsToExpire2).commit();
+
     }
 }

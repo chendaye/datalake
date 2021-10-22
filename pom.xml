@@ -20,6 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--                <flink.version>1.13.1</flink.version>-->
+        <spark.varsion>2.4.0</spark.varsion>
         <flink.version>1.11.2</flink.version>
         <hadoop3.version>3.3.1</hadoop3.version>
         <hadoop2.version>2.7.1</hadoop2.version>
@@ -362,7 +363,7 @@
                                     </filter>
                                 </filters>
                                 <!--maven-shade-plugin 自动将所有不使用的类全部排除掉，将 jar 最小化-->
-                                <minimizeJar>true</minimizeJar>
+<!--                                <minimizeJar>true</minimizeJar>-->
                                 <!--设置 MainClass 创建一个可执行 Jar 包-->
 <!--                                <transformers>-->
 <!--                                    <transformer-->

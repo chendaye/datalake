@@ -43,8 +43,25 @@ table.updateSpec()
 > 这个功能目前暂未 merge 到社区版本，由于涉及到 format v2 的 compaction 的一些讨论，我们会在 0.12.0 版本中发布该功能。
 
 
-# 清除文件
+# 运维
+
+[Recommended Maintenance](https://iceberg.apache.org/maintenance/)
+
+[Configuration](https://iceberg.apache.org/configuration/#configuration)
 
 [Iceberg 合并小文件并删除历史](https://blog.csdn.net/M283592338/article/details/120769331)
 
 [Iceberg 实践 | 基于 Flink CDC 打通数据实时入湖](https://jishuin.proginn.com/p/763bfbd5bdbe)
+
+[基于Flink CDC打通数据实时入湖](https://www.163.com/dy/article/GC8GAT0A0511FQO9.html)
+
+## 压缩小文件
+
+## 快照过期处理
+
+## 清理orphan文件
+
+## 删除元数据文件
+
+
+

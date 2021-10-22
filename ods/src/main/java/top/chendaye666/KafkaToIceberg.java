@@ -50,6 +50,7 @@ public class KafkaToIceberg {
         "   `position` STRING,\n" +
         "   log STRING\n" +
         ") PARTITIONED BY (topic) WITH (\n" +
+            "    'type'='iceberg',\n" +
             "    'iceberg.format.version'='2',\n" + // 开启 v2 格式
             "    'engine.hive.enabled'='true',\n" + // 支持hive查询
             "    'read.split.target-size'='1073741824',\n" + // 减少split次数，提升查询效率
