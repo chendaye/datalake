@@ -15,6 +15,10 @@
         <module>ods</module>
         <module>task</module>
         <module>kafkasource</module>
+        <module>taskcompactsmallfile</module>
+        <module>taskexpiresnapshots</module>
+        <module>taskremoveorphanfiles</module>
+        <module>taskrewritemanifests</module>
     </modules>
 
     <properties>

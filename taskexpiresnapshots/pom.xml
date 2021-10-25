@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>task</artifactId>
+    <artifactId>taskexpiresnapshots</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -17,26 +17,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-clients_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
-        </dependency>
+
         <!--Hadoop-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -78,10 +59,6 @@
             <version>${spark.varsion}</version>
             <scope>provided</scope>
         </dependency>
-
-
-
-
     </dependencies>
 
     <build>
@@ -100,8 +77,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-<!--                                    <mainClass>top.chendaye666.flink.RewriteFileAction</mainClass>-->
-                                    <mainClass>top.chendaye666.spark2.RewriteSmallFilesAction</mainClass>
+                                    <mainClass>top.chendaye666.spark2.ExpireSnapshotsActions</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

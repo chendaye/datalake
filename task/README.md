@@ -65,3 +65,16 @@ table.updateSpec()
 
 
 
+# Spark 任务提交
+
+```bash
+spark-submit --class top.chendaye666.spark2.RewriteSmallFilesAction \
+        --master yarn \
+        --name rewrite-smalle-file \
+        --jars /opt/work/iceberg-spark-runtime-0.11.1.jar \
+        --deploy-mode cluster \
+        --driver-memory 1g \
+        --executor-memory 1g \
+        --executor-cores 2 \
+        /opt/work/task-1.0-SNAPSHOT.jar
+```
