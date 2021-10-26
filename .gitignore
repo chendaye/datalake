@@ -4,4 +4,8 @@ dwd/target/
 ods/target/
 dws/target/
 task/target/
+taskcompactsmallfile/target/
+taskexpiresnapshots/target/
+taskremoveorphanfiles/target/
+taskrewritemanifests/target/
 .idea/

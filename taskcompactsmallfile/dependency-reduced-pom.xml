@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.spark2.RewriteSmallFilesAction</mainClass>
+                  <mainClass>top.chendaye666.spark2.CompactSmallFilesAction</mainClass>
                 </transformer>
               </transformers>
             </configuration>

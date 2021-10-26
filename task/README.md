@@ -55,6 +55,9 @@ table.updateSpec()
 
 [基于Flink CDC打通数据实时入湖](https://www.163.com/dy/article/GC8GAT0A0511FQO9.html)
 
+
+[Flink集成iceberg数据湖之合并小文件](https://blog.csdn.net/zhangjun5965/article/details/110090578)
+
 ## 压缩小文件
 
 ## 快照过期处理
@@ -68,7 +71,7 @@ table.updateSpec()
 # Spark 任务提交
 
 ```bash
-spark-submit --class top.chendaye666.spark2.RewriteSmallFilesAction \
+spark-submit --class top.chendaye666.spark2.CompactSmallFilesAction \
         --master yarn \
         --name rewrite-smalle-file \
         --jars /opt/work/iceberg-spark-runtime-0.11.1.jar \

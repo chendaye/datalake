@@ -49,7 +49,7 @@ public class KafkaToIceberg {
         "   file_path STRING,\n" +
         "   `position` STRING,\n" +
         "   log STRING\n" +
-        ") PARTITIONED BY (topic) WITH (\n" +
+        ") PARTITIONED BY (num) WITH (\n" +
             "    'type'='iceberg',\n" +
             "    'iceberg.format.version'='2',\n" + // 开启 v2 格式
             "    'engine.hive.enabled'='true',\n" + // 支持hive查询

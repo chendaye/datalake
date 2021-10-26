@@ -63,7 +63,7 @@ public class AsynchronousProducer {
             agent_timestamp = Long.toString(lastTime+100L);
             lastTime = lastTime+100L;
             position = Integer.toString(RandomInt.get(1000,50000));
-            num = RandomInt.get(1,1000);
+            num = RandomInt.get(1,5);
             topic = topics[RandomInt.get(0,5)];
 
             source_type = DateUtil.ToDate();

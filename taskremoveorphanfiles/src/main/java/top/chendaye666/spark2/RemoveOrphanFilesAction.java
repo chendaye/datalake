@@ -21,6 +21,6 @@ public class RemoveOrphanFilesAction {
                 .removeOrphanFiles()
                 .execute();
 
-        sparkSession.close();
+//        sparkSession.close();
     }
 }

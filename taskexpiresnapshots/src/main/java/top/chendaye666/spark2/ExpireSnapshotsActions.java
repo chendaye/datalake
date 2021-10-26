@@ -7,7 +7,7 @@ import org.apache.iceberg.hadoop.HadoopTables;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * 删除过期快照
+ * todo: 运行成功 ：删除过期快照
  */
 public class ExpireSnapshotsActions {
     public static void main(String[] args) {
@@ -17,12 +17,12 @@ public class ExpireSnapshotsActions {
         HadoopTables tables = new HadoopTables(conf);
         Table table = tables.load("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
 
-        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 60 * 24); // 1 day
+        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 20 * 1); // 20min
         Actions.forTable(table)
                 .expireSnapshots()
                 .expireOlderThan(tsToExpire)
                 .execute();
 
-        sparkSession.close();
+//        sparkSession.close();
     }
 }
