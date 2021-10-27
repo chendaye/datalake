@@ -12,9 +12,11 @@
 
 ## 依赖的jar包
 
-### Iceberg 版本 0.11.1
+### Iceberg 版本 0.11.2
 
 > 以下jar 放入 flink/lib
+
+> scala 2.12 版本也在下面的地址
 
 [flink-sql-connector-hive-2.2.0_2.11-1.11.2.jar](https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hive-2.2.0_2.11/1.11.2/flink-sql-connector-hive-2.2.0_2.11-1.11.2.jar)
 

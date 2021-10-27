@@ -1,3 +1,14 @@
+# 安装 Flink
+[Apache Flink1.13.x HA集群部署](https://blog.csdn.net/networken/article/details/118734717)
+
+> 修改 2个文件
+
+- conf/flink-conf.yaml
+- masters
+- workers
+
+> 同步文件
+
 # 安装 spark3.2
 
 ## 配置 
@@ -21,10 +32,11 @@
 # 依赖的jar包
 
 ## flink+spark+iceberg 版本选择
-- flink：1.11.2
+- flink：1.12.5
 - scala: 2.12
 - hadoop: 3.0.0-cdh6.3.2
 - spark： 3.2.0
+- iceberg: 0.12.0
 
 
 ### Iceberg 版本 0.12.0
@@ -33,9 +45,11 @@
 
 > 以下jar 放入 flink/lib
 
-[flink-sql-connector-hive-2.2.0_2.11-1.11.2.jar](https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hive-2.2.0_2.11/1.11.2/flink-sql-connector-hive-2.2.0_2.11-1.11.2.jar)
+> scala 2.12
 
-[flink-sql-connector-kafka_2.11-1.11.2.jar](https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.11.2/flink-sql-connector-kafka_2.11-1.11.2.jar)
+[flink-sql-connector-hive-2.2.0_2.12-1.12.5.jar](https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hive-2.2.0_2.12/1.12.5/flink-sql-connector-hive-2.2.0_2.12-1.12.5.jar)
+
+[flink-sql-connector-kafka_2.12-1.12.5.jar](https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.12/1.12.5/flink-sql-connector-kafka_2.12-1.12.5.jar)
 
 [iceberg-flink-runtime-0.12.0.jar](https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-flink-runtime/0.12.0/iceberg-flink-runtime-0.12.0.jar)
 

@@ -1,5 +1,6 @@
 package top.chendaye666;
 
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -36,11 +37,20 @@ public class ReadIcebergTest {
                 .streaming(true)
                 // .startSnapshotId(2120L)
                 .build();
-        // 从iceberg实时读取数据
-        Table table = tEnv.fromDataStream(stream);
-        // table 转为 AppendStream 进行处理
-        DataStream<Row> dataStream = tEnv.toAppendStream(table, Row.class);
-        dataStream.print();
+        stream.print();
+
+
+//        // 从iceberg实时读取数据
+//        Table table = tEnv.fromDataStream(stream);
+//        // table 转为 AppendStream 进行处理
+//        DataStream<TestPo> dataStream = tEnv.toAppendStream(table, TestPo.class);
+//        // Print all records to stdout.
+//        dataStream.map(new MapFunction<TestPo, String>() {
+//            @Override
+//            public String map(TestPo rowData) throws Exception {
+//                return rowData.toString();
+//            }
+//        }).print();
         env.execute("");
     }
 }
