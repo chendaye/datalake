@@ -1,15 +1,18 @@
 # 前期准备
 
-## 版本选择
+## flink+iceberg 版本选择
 
 - flink：1.11.2
 - scala: 2.11
 - iceberg: 0.11.1
 - hive: 2.1.1
 - kafka: 2.2.1
-- hadoop: 2.7.1 (cdh6:3.3.0)
+- hadoop:  3.0.0-cdh6.3.2
+
 
 ## 依赖的jar包
+
+### Iceberg 版本 0.11.1
 
 > 以下jar 放入 flink/lib
 
@@ -382,5 +385,54 @@ FROM iceberg_hadoop.iceberg.ncddzt /*+ OPTIONS('streaming'='true', 'monitor-inte
 -- Read all incremental data starting from the snapshot-id '3821550127947089987' (records from this snapshot will be excluded).
 SELECT *
 FROM iceberg_hadoop.iceberg.ncddzt /*+ OPTIONS('streaming'='true', 'monitor-interval'='1s', 'start-snapshot-id'='3821550127947089987')*/ ;
+
+```
+
+
+# 其他
+
+## CDH路径结构说明
+
+```bash
+# 各种应用的shell客户端
+cd /opt/cloudera/parcels/CDH/bin
+
+# 各种应用的安装位置 
+cd /opt/cloudera/parcels/CDH/lib
+
+# 安装各个组件目录 
+cd /opt/cloudera/parcels/
+
+# 各种应用的日志目录 
+cd /var/log
+
+# 各种应用的配置文件目录
+# cm agent的配置目录
+cd /etc/cloudera-scm-agent/config.ini
+#  cm server的配置目录
+cd /etc/cloudera-scm-server/
+# Hadoop各个组件的配置
+cd /etc/hadoop/conf
+# hive配置文件目录
+cd /etc/hive/conf
+#  hbase配置文件目录
+cd /etc/hbase/conf
+# 是hadoop集群以及组件的配置文件文件夹
+cd /opt/cloudera/parcels/CDH/etc
+
+# 服务运行时所有组件的配置文件目录
+cd /var/run/cloudera-scm-agent/process
+
+# jar包目录
+# 所有jar包所在目录 
+cd /opt/cloudera/parcels/CDH/jars
+# 各个服务组件对应的jar包
+cd /opt/cloudera/parcels/CDH/lib/
+
+# Parcels包目录
+# 服务软件包数据(parcels)
+cd /opt/cloudera/parcel-repo/
+# 服务软件包缓存数据
+cd /opt/cloudera/parcel-cache/
 
 ```
