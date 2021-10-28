@@ -108,9 +108,9 @@ spark-sql
   
   
 # 或者进入 spark-sql shell
-set spark.sql.catalog.hive_prod = org.apache.iceberg.spark.SparkCatalog
-set spark.sql.catalog.hive_prod.type = hive
-set spark.sql.catalog.hive_prod.uri = thrift://metastore-host:port
+set spark.sql.catalog.hive_prod = org.apache.iceberg.spark.SparkCatalog;
+set spark.sql.catalog.hive_prod.type = hive;
+set spark.sql.catalog.hive_prod.uri = thrift://metastore-host:port;
 # omit uri to use the same URI as Spark: hive.metastore.uris in hive-site.xml
 
 ```
@@ -120,7 +120,7 @@ set spark.sql.catalog.hive_prod.uri = thrift://metastore-host:port
 ```bash
 # 创建
 spark-sql 
-  --master local[*] \
+#  --master local[*] \
   --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
   --conf spark.sql.catalog.hadoop_prod=org.apache.iceberg.spark.SparkCatalog \
   --conf spark.sql.catalog.hadoop_prod.type=hadoop \
@@ -129,9 +129,9 @@ spark-sql
   
   
 # 或者
-set spark.sql.catalog.hadoop_prod = org.apache.iceberg.spark.SparkCatalog
-set spark.sql.catalog.hadoop_prod.type = hadoop
-set spark.sql.catalog.hadoop_prod.warehouse = hdfs://nn:8020/warehouse/path
+set spark.sql.catalog.hadoop_prod = org.apache.iceberg.spark.SparkCatalog;
+set spark.sql.catalog.hadoop_prod.type = hadoop;
+set spark.sql.catalog.hadoop_prod.warehouse = hdfs://hadoop01:8020/warehouse/iceberg;
 
 # To see the current catalog and namespace, run 
 show current namespace;

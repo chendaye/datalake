@@ -31,14 +31,15 @@
         <!-- Iceberg -->
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-flink-runtime</artifactId>
+            <artifactId>iceberg-spark3-runtime</artifactId>
+            <version>${iceberg.version}</version>
         </dependency>
 
         <!--spark-->
         <!-- https://mvnrepository.com/artifact/org.apache.iceberg/iceberg-spark -->
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-spark</artifactId>
+            <artifactId>iceberg-spark3</artifactId>
             <version>${iceberg.version}</version>
         </dependency>
         <dependency>

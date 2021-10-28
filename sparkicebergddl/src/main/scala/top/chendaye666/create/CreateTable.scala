@@ -11,6 +11,8 @@ import org.apache.spark.sql.SparkSession
 
 object CreateTable {
   def main(args: Array[String]): Unit = {
+    System.setProperty("HADOOP_USER_NAME", "root")
+
     // 创建 SparkSession 设置Hadoop Catalog
     val sparkSession = SparkSession
       .builder()
@@ -25,7 +27,7 @@ object CreateTable {
     val warehousePath = "hdfs://hadoop01:8020/warehouse/iceberg"
     val catalog = new HadoopCatalog(conf, warehousePath)
     // 数据库 表
-    val name = TableIdentifier.of("logging", "logs")
+    val name = TableIdentifier.of("t1", "test3")
     val schema = new Schema(
       Types.NestedField.required(1, "id", Types.StringType.get()),
       Types.NestedField.required(2, "name", Types.StringType.get()),

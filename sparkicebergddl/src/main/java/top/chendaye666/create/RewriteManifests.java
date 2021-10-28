@@ -1,22 +1,20 @@
-package top.chendaye666.spark2;
+package top.chendaye666.create;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.iceberg.Table;
 import org.apache.iceberg.actions.Actions;
-import org.apache.iceberg.catalog.Namespace;
 import org.apache.iceberg.catalog.TableIdentifier;
 import org.apache.iceberg.hadoop.HadoopCatalog;
-import org.apache.iceberg.hadoop.HadoopTables;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * 压缩小文件
- * https://cloud.tencent.com/developer/article/1770789
+ * 重写 manifests
  */
-public class CompactSmallFilesAction {
+public class RewriteManifests {
     public static void main(String[] args) {
         SparkSession sparkSession = SparkSession
                 .builder()
-                .appName("CompactSmallFilesAction")
+                .appName("RewriteManifests")
                 .master("local[*]")
                 .getOrCreate();
 
@@ -24,13 +22,12 @@ public class CompactSmallFilesAction {
         String warehousePath = "hdfs://hadoop01:8020/warehouse/iceberg";
         HadoopCatalog catalog1 = new HadoopCatalog(conf, warehousePath);
         Table table = catalog1.loadTable(TableIdentifier.of("t1", "test"));
-        Actions.forTable(table)
-                .rewriteDataFiles()
-//            .filter(Expressions.equal("day", day))
-                .targetSizeInBytes(500 * 1024 * 1024)// 128mb
-                .execute();
+
+        table.rewriteManifests()
+                .rewriteIf(file -> file.length() < 10 * 1024 * 1024) // 10 MB
+//                .clusterBy(file -> file.partition().get(0, Integer.class))
+                .commit();
 
         sparkSession.close();
     }
 }
-

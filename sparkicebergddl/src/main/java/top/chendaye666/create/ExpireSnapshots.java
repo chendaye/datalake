@@ -1,22 +1,20 @@
-package top.chendaye666.spark2;
+package top.chendaye666.create;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.iceberg.Table;
 import org.apache.iceberg.actions.Actions;
-import org.apache.iceberg.catalog.Namespace;
 import org.apache.iceberg.catalog.TableIdentifier;
 import org.apache.iceberg.hadoop.HadoopCatalog;
-import org.apache.iceberg.hadoop.HadoopTables;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * 压缩小文件
- * https://cloud.tencent.com/developer/article/1770789
+ * 删除过期数据
  */
-public class CompactSmallFilesAction {
+public class ExpireSnapshots {
     public static void main(String[] args) {
         SparkSession sparkSession = SparkSession
                 .builder()
-                .appName("CompactSmallFilesAction")
+                .appName("ExpireSnapshots")
                 .master("local[*]")
                 .getOrCreate();
 
@@ -24,13 +22,13 @@ public class CompactSmallFilesAction {
         String warehousePath = "hdfs://hadoop01:8020/warehouse/iceberg";
         HadoopCatalog catalog1 = new HadoopCatalog(conf, warehousePath);
         Table table = catalog1.loadTable(TableIdentifier.of("t1", "test"));
+
+        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 60 * 24); // 1 day
         Actions.forTable(table)
-                .rewriteDataFiles()
-//            .filter(Expressions.equal("day", day))
-                .targetSizeInBytes(500 * 1024 * 1024)// 128mb
+                .expireSnapshots()
+                .expireOlderThan(tsToExpire)
                 .execute();
 
         sparkSession.close();
     }
 }
-
