@@ -1,4 +1,4 @@
-package top.chendaye666.task
+package top.chendaye666.scala.maintenance
 
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession

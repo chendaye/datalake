@@ -188,6 +188,14 @@
             <artifactId>flink-connector-redis_2.11</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
@@ -210,7 +218,10 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>top.chendaye666.task.RewriteFileAction</mainClass>
+                                    <!--通过maven 把项目打包成jar，然后运行main方法，有两种情况，
+                                    一种是在MANIFEST.MF中指定运行的main方法；
+                                    另外一种是通过命令行指定运行的main方法的包；同时可以添加对应的参数传递到main方法中去-->
+                                    <mainClass>top.chendaye666.v2.KafkaToSparkIceberg</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

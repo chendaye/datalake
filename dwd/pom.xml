@@ -212,7 +212,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>top.chendaye666.task.RewriteFileAction</mainClass>
+                                    <mainClass>top.chendaye666.scala.maintenance.RewriteFileAction</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

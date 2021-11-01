@@ -39,7 +39,7 @@ public class IcebergToFlinkToIcebergDwd {
     System.setProperty("HADOOP_USER_NAME", "root");
 
     // table 转 流
-    TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
+    TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/iceberg/ods/ncddzt");
     // 准实时的查询
     DataStream<RowData> stream = FlinkSource.forRowData()
         .env(env)
@@ -93,19 +93,19 @@ public class IcebergToFlinkToIcebergDwd {
     // .map(NcddztDws::toString).print();
 
     /*创建临时表*/
-    tEnv.createTemporaryView("ods_dwd_ncddzt", ncddztDwsDataStream);
-    Table dwdTable = tEnv.sqlQuery("select * from ods_dwd_ncddzt");
+    tEnv.createTemporaryView("ods_ncddzt", ncddztDwsDataStream);
+    Table dwdTable = tEnv.sqlQuery("select * from ods_ncddzt");
 
     /*创建DWS表*/
     createDwsTable(tEnv);
 
     /*Sink*/
-    String sinkSql = "INSERT INTO  hadoop_catalog.dwd.dwd_ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
+    String sinkSql = "INSERT INTO  hadoop_catalog.dwd.ncddzt SELECT `source_type`,`index`,`agent_timestamp`," +
         "`source_host`,`topic`,`file_path`,`position`,`time`,`log_type`,`qd_number`,`seat`,`market`,`cap_acc`," +
         "`suborderno`,`wt_pnum`,`contract_num` FROM" +
         " default_catalog" +
         ".default_database" +
-        ".ods_dwd_ncddzt";
+        ".ods_ncddzt";
     log.error("sinkSql:\n"+sinkSql);
     tEnv.executeSql(sinkSql);
     env.execute();
@@ -130,8 +130,8 @@ public class IcebergToFlinkToIcebergDwd {
     tEnv.executeSql("CREATE DATABASE IF NOT EXISTS hadoop_catalog.dwd");
     tEnv.useDatabase("dwd");
     // 建表
-    tEnv.executeSql("DROP TABLE IF EXISTS dwd_ncddzt");
-    String dwdNcddztSql = "CREATE TABLE  dwd_ncddzt (\n" +
+    tEnv.executeSql("DROP TABLE IF EXISTS ncddzt");
+    String dwdNcddztSql = "CREATE TABLE  ncddzt (\n" +
         "   source_type STRING,\n" +
         "   `index` STRING,\n" +
         "   `agent_timestamp` STRING,\n" +

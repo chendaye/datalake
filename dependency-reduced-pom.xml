@@ -76,7 +76,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.task.RewriteFileAction</mainClass>
+                  <mainClass>top.chendaye666.scala.maintenance.RewriteFileAction</mainClass>
                 </transformer>
               </transformers>
             </configuration>

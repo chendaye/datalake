@@ -20,6 +20,7 @@
         <module>taskremoveorphanfiles</module>
         <module>taskrewritemanifests</module>
         <module>sparkicebergddl</module>
+        <module>testmaven</module>
     </modules>
 
     <properties>
@@ -47,7 +48,7 @@
         <target.java.version>1.8</target.java.version>
         <maven.compiler.source>${target.java.version}</maven.compiler.source>
         <maven.compiler.target>${target.java.version}</maven.compiler.target>
-        <log4j.version>2.12.1</log4j.version>
+        <log4j.version>1.7.22</log4j.version>
     </properties>
     <!--仓库配置-->
     <repositories>
@@ -296,6 +297,25 @@
                 <version>4.1.68.Final</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/org.apache.phoenix/phoenix-core -->
+            <dependency>
+                <groupId>org.apache.phoenix</groupId>
+                <artifactId>phoenix-client-hbase-1.3</artifactId>
+                <version>4.3.0-clabs-phoenix-1.0.0</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -394,7 +414,7 @@
 <!--                                <transformers>-->
 <!--                                    <transformer-->
 <!--                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-<!--                                        <mainClass>top.chendaye666.task.RewriteFileAction</mainClass>-->
+<!--                                        <mainClass>top.chendaye666.scala.task.RewriteFileAction</mainClass>-->
 <!--                                    </transformer>-->
 <!--                                </transformers>-->
                             </configuration>

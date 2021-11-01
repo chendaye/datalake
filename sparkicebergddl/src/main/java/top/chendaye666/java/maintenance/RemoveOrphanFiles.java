@@ -1,4 +1,4 @@
-package top.chendaye666.create;
+package top.chendaye666.java.maintenance;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.iceberg.Table;
@@ -8,13 +8,14 @@ import org.apache.iceberg.hadoop.HadoopCatalog;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * 合并小文件
+ * 删除孤立文件
  */
-public class CompactSmallFile {
+public class RemoveOrphanFiles {
     public static void main(String[] args) {
+        System.setProperty("HADOOP_USER_NAME", "root");
         SparkSession sparkSession = SparkSession
                 .builder()
-                .appName("CompactSmallFile")
+                .appName("RemoveOrphanFiles")
                 .master("local[*]")
                 .getOrCreate();
 
@@ -22,12 +23,10 @@ public class CompactSmallFile {
         String warehousePath = "hdfs://hadoop01:8020/warehouse/iceberg";
         HadoopCatalog catalog1 = new HadoopCatalog(conf, warehousePath);
         Table table = catalog1.loadTable(TableIdentifier.of("t1", "test"));
-        Actions.forTable(table)
-                .rewriteDataFiles()
-//            .filter(Expressions.equal("day", day))
-                .targetSizeInBytes(500 * 1024 * 1024)// 128mb
-                .execute();
 
+        Actions.forTable(table)
+                .removeOrphanFiles()
+                .execute();
         sparkSession.close();
     }
 }
