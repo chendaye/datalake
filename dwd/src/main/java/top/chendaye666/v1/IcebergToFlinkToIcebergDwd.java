@@ -1,4 +1,4 @@
-package top.chendaye666;
+package top.chendaye666.v1;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;

@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.scala.maintenance.RewriteFileAction</mainClass>
+                  <mainClass>top.chendaye666.v2.IcebergToFlinkToSparkIcebergDwd</mainClass>
                 </transformer>
               </transformers>
             </configuration>

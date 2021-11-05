@@ -9,6 +9,7 @@ import org.apache.flink.table.catalog.hive.HiveCatalog;
 
 /**
  * ods：Kafka 数据入 Iceberg
+ *  /opt/flink-1.12.5/bin/flink run -t yarn-per-job --detached  /opt/work/datalake/ods-1.0-SNAPSHOT.jar
  */
 @Slf4j
 public class KafkaToSparkIceberg {
@@ -32,10 +33,10 @@ public class KafkaToSparkIceberg {
    
 
     //todo: 建Kafka表 使用Hive Catalog创建Kaf-ka流表(注意不要和 hive 创建的 iceberg 表混了，可以放在不同的库)
-//    HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "ods/src/main/resources",
-//        "2.1.1");
-    HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "/etc/hive/conf",
+    HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "ods/src/main/resources",
         "2.1.1");
+//    HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "/etc/hive/conf",
+//        "2.1.1");
     tEnv.registerCatalog("kafka_hive_catalog", hiveCatalog);
     tEnv.executeSql("use catalog kafka_hive_catalog");
     tEnv.executeSql("CREATE DATABASE IF NOT EXISTS kafka");

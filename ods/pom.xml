@@ -14,6 +14,10 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+<!--        <scala.binary.version>2.12</scala.binary.version>-->
+<!--        <flink.version>1.11.2</flink.version>-->
+<!--        <iceberg.version>0.12.0</iceberg.version>-->
+<!--        <iceberg.version>0.11.1</iceberg.version>-->
     </properties>
     <dependencies>
         <!-- 引入 common 封装 -->

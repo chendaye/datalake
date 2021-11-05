@@ -30,9 +30,9 @@
             - Scala： 2.11 2.22
         -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--        <spark.varsion>2.4.0</spark.varsion>-->
+        <!--        <spark.varsion>2.4.0</spark.varsion>-->
         <spark.varsion>3.1.2</spark.varsion>
-<!--        <flink.version>1.11.2</flink.version>-->
+        <!--        <flink.version>1.11.2</flink.version>-->
         <flink.version>1.12.5</flink.version>
         <hadoop3.version>3.3.1</hadoop3.version>
         <hadoop2.version>2.7.1</hadoop2.version>
@@ -332,6 +332,63 @@
                         <target>${target.java.version}</target>
                     </configuration>
                 </plugin>
+                <!-- We use the maven-shade plugin to create a fat jar that contains all necessary dependencies. -->
+                <!-- Change the value of <mainClass>...</mainClass> if your program entry point changes. -->
+                <!--包含依赖库 重命名依赖库的包名（以避免类库的冲突） 有选择地打包-->
+                <!--https://www.jianshu.com/p/7a0e20b30401-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <executions>
+                        <!-- Run shade goal on package phase
+                         maven-shade-plugin 将 goal shade:shade 绑定到 phase package 上-->
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <!--将该工程依赖的部分 Jar 包 include/exclude 掉-->
+                                <artifactSet>
+                                    <excludes>
+                                        <exclude>org.apache.flink:force-shading</exclude>
+                                        <exclude>com.google.code.findbugs:jsr305</exclude>
+                                        <!--
+                                        https://codeleading.com/article/40236084757/
+                                        因为之前的maven配置为了防止和Linux环境上的jar包冲突，所以配置了以下标签内容<excludes></excludes>
+                                        现在要运行的jar是在裸环境中运行jar包，不用担心jar包冲突，所以将以下配置删除，不然上线可能找不到jar 包
+                                        -->
+<!--                                        <exclude>org.slf4j:*</exclude>-->
+<!--                                        <exclude>org.apache.logging.log4j:*</exclude>-->
+                                    </excludes>
+                                </artifactSet>
+                                <!--将依赖的某个 Jar 包内部的类或者资源 include/exclude 掉-->
+                                <filters>
+                                    <filter>
+                                        <!-- Do not copy the signatures in the META-INF folder.
+                                        Otherwise, this might cause SecurityExceptions when using the JAR. -->
+                                        <artifact>*:*</artifact>
+                                        <excludes>
+                                            <exclude>META-INF/*.SF</exclude>
+                                            <exclude>META-INF/*.DSA</exclude>
+                                            <exclude>META-INF/*.RSA</exclude>
+                                        </excludes>
+                                    </filter>
+                                </filters>
+                                <!--maven-shade-plugin 自动将所有不使用的类全部排除掉，将 jar 最小化-->
+                                <!--                                <minimizeJar>true</minimizeJar>-->
+                                <!--设置 MainClass 创建一个可执行 Jar 包-->
+                                <!--                                <transformers>-->
+                                <!--                                    <transformer-->
+                                <!--                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                                <!--                                        <mainClass>top.chendaye666.scala.task.RewriteFileAction</mainClass>-->
+                                <!--                                    </transformer>-->
+                                <!--                                </transformers>-->
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!-- Scala Compiler -->
                 <plugin>
                     <groupId>org.scala-tools</groupId>
@@ -368,59 +425,6 @@
                     </executions>
                 </plugin>
 
-
-                <!-- We use the maven-shade plugin to create a fat jar that contains all necessary dependencies. -->
-                <!-- Change the value of <mainClass>...</mainClass> if your program entry point changes. -->
-                <!--包含依赖库 重命名依赖库的包名（以避免类库的冲突） 有选择地打包-->
-                <!--https://www.jianshu.com/p/7a0e20b30401-->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.1.1</version>
-                    <executions>
-                        <!-- Run shade goal on package phase
-                         maven-shade-plugin 将 goal shade:shade 绑定到 phase package 上-->
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                            <configuration>
-                                <!--将该工程依赖的部分 Jar 包 include/exclude 掉-->
-                                <artifactSet>
-                                    <excludes>
-                                        <exclude>org.apache.flink:force-shading</exclude>
-                                        <exclude>com.google.code.findbugs:jsr305</exclude>
-                                        <exclude>org.slf4j:*</exclude>
-                                        <exclude>org.apache.logging.log4j:*</exclude>
-                                    </excludes>
-                                </artifactSet>
-                                <!--将依赖的某个 Jar 包内部的类或者资源 include/exclude 掉-->
-                                <filters>
-                                    <filter>
-                                        <!-- Do not copy the signatures in the META-INF folder.
-                                        Otherwise, this might cause SecurityExceptions when using the JAR. -->
-                                        <artifact>*:*</artifact>
-                                        <excludes>
-                                            <exclude>META-INF/*.SF</exclude>
-                                            <exclude>META-INF/*.DSA</exclude>
-                                            <exclude>META-INF/*.RSA</exclude>
-                                        </excludes>
-                                    </filter>
-                                </filters>
-                                <!--maven-shade-plugin 自动将所有不使用的类全部排除掉，将 jar 最小化-->
-<!--                                <minimizeJar>true</minimizeJar>-->
-                                <!--设置 MainClass 创建一个可执行 Jar 包-->
-<!--                                <transformers>-->
-<!--                                    <transformer-->
-<!--                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-<!--                                        <mainClass>top.chendaye666.scala.task.RewriteFileAction</mainClass>-->
-<!--                                    </transformer>-->
-<!--                                </transformers>-->
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>

@@ -39,7 +39,7 @@ public class KafkaToIceberg {
     tEnv.useDatabase("ods");
     //todo: 建Iceberg表
     tEnv.executeSql("DROP TABLE IF EXISTS ods_ncddzt");
-    String odsNcddztSql = "CREATE TABLE  ods_ncddzt (\n" +
+    String odsNcddztSql = "CREATE TABLE   ods_ncddzt (\n" +
         "   source_type STRING,\n" +
         "   `index` STRING,\n" +
         "   `agent_timestamp` STRING,\n" +

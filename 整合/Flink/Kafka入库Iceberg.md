@@ -438,3 +438,11 @@ cd /opt/cloudera/parcel-repo/
 cd /opt/cloudera/parcel-cache/
 
 ```
+
+# Hadoop
+
+```bash
+# 切换用户  sudo -u 用户名  command
+sudo -u hdfs  hdfs dfs -chown root:supergroup  /warehouse/iceberg/iceberg_db
+sudo -u hdfs hdfs dfs -rm -skipTrash -r /warehouse/iceberg/*
+```
