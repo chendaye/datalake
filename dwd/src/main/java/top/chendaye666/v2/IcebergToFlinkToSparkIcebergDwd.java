@@ -134,7 +134,7 @@ public class IcebergToFlinkToSparkIcebergDwd {
                 ".ods_ncddzt";
         log.error("sinkSql:\n" + sinkSql);
         tEnv.executeSql(sinkSql);
-//        env.execute();
+//        env.execute("dwd-iceberg");
     }
 
 }
