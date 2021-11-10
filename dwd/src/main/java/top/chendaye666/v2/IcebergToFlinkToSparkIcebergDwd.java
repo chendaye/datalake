@@ -129,7 +129,7 @@ public class IcebergToFlinkToSparkIcebergDwd {
                 " default_catalog" +
                 ".default_database" +
                 ".ods_ncddzt";
-        log.error("sinkSql:\n" + sinkSql);
+        log.info("sinkSql:\n" + sinkSql+"\n 这里运行的是 DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS ");
         tEnv.executeSql(sinkSql);
 //        env.execute("dwd-iceberg");
     }

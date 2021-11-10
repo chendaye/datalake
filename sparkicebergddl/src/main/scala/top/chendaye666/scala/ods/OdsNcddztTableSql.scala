@@ -8,7 +8,7 @@ import org.apache.spark.sql.SparkSession
  */
 object OdsNcddztTableSql {
   def main(args: Array[String]): Unit = {
-    System.setProperty("HADOOP_USER_NAME", "hdfs")
+    System.setProperty("HADOOP_USER_NAME", "root")
     val conf = new SparkConf()
     conf.set("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
     conf.set("spark.sql.catalog.hadoop_prod", "org.apache.iceberg.spark.SparkCatalog")
