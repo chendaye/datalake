@@ -106,10 +106,6 @@ public class IcebergToFlinkToSparkIcebergDwd {
 
         /*创建临时表*/
         tEnv.createTemporaryView("ods_ncddzt", ncddztDwsDataStream);
-        Table dwdTable = tEnv.sqlQuery("select * from ods_ncddzt");
-
-        /*创建DWS表*/
-        /*createDwsTable(tEnv);*/
 
         //todo: 创建 hadoop catalog
         String hadoopCatalogSql = "CREATE CATALOG hadoop_prod WITH (\n" +
@@ -129,7 +125,7 @@ public class IcebergToFlinkToSparkIcebergDwd {
                 " default_catalog" +
                 ".default_database" +
                 ".ods_ncddzt";
-        log.info("sinkSql:\n" + sinkSql+"\n 这里运行的是 DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS ");
+        log.info("sinkSql:\n" + sinkSql+"\n 这里运行的是 DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS DWS \n\n ");
         tEnv.executeSql(sinkSql);
 //        env.execute("dwd-iceberg");
     }

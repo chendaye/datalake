@@ -58,7 +58,7 @@ public class AsynchronousProducer {
         long lastTime = System.currentTimeMillis();
         //TODO:发送数据
         while (true){
-            Thread.sleep(100); // 1s 一条
+            Thread.sleep(3000); // 1s 一条
             index = RandomInt.get(1000,50000);
             agent_timestamp = Long.toString(lastTime+100L);
             lastTime = lastTime+100L;
