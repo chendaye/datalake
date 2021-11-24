@@ -32,9 +32,13 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.12</artifactId>
-      <version>2.4.0</version>
+      <version>3.0.0</version>
       <scope>provided</scope>
       <exclusions>
+        <exclusion>
+          <artifactId>paranamer</artifactId>
+          <groupId>com.thoughtworks.paranamer</groupId>
+        </exclusion>
         <exclusion>
           <artifactId>avro-mapred</artifactId>
           <groupId>org.apache.avro</groupId>
@@ -48,7 +52,7 @@
           <groupId>com.twitter</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>xbean-asm6-shaded</artifactId>
+          <artifactId>xbean-asm7-shaded</artifactId>
           <groupId>org.apache.xbean</groupId>
         </exclusion>
         <exclusion>
@@ -80,6 +84,10 @@
           <groupId>javax.activation</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>commons-text</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>jul-to-slf4j</artifactId>
           <groupId>org.slf4j</groupId>
         </exclusion>
@@ -104,7 +112,15 @@
           <groupId>org.roaringbitmap</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>scala-xml_2.12</artifactId>
+          <groupId>org.scala-lang.modules</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>scala-library</artifactId>
+          <groupId>org.scala-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>scala-reflect</artifactId>
           <groupId>org.scala-lang</groupId>
         </exclusion>
         <exclusion>
@@ -132,6 +148,10 @@
           <groupId>org.glassfish.jersey.containers</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>jersey-hk2</artifactId>
+          <groupId>org.glassfish.jersey.inject</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>netty-all</artifactId>
           <groupId>io.netty</groupId>
         </exclusion>
@@ -153,6 +173,10 @@
         </exclusion>
         <exclusion>
           <artifactId>metrics-graphite</artifactId>
+          <groupId>io.dropwizard.metrics</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>metrics-jmx</artifactId>
           <groupId>io.dropwizard.metrics</groupId>
         </exclusion>
         <exclusion>
@@ -192,7 +216,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_2.12</artifactId>
-      <version>2.4.0</version>
+      <version>3.0.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -212,11 +236,15 @@
           <groupId>org.apache.orc</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>hive-storage-api</artifactId>
+          <groupId>org.apache.hive</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>spark-tags_2.12</artifactId>
           <groupId>org.apache.spark</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>xbean-asm6-shaded</artifactId>
+          <artifactId>xbean-asm7-shaded</artifactId>
           <groupId>org.apache.xbean</groupId>
         </exclusion>
         <exclusion>
@@ -228,7 +256,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-streaming_2.12</artifactId>
-      <version>2.4.0</version>
+      <version>3.0.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>

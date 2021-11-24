@@ -6,7 +6,7 @@
 - scala: 2.11
 - iceberg: 0.11.1
 - hive: 2.1.1
-- kafka: 2.2.1
+- kafka: 2.4.1
 - hadoop:  3.0.0-cdh6.3.2
 
 
@@ -117,7 +117,7 @@ CREATE
 CATALOG hive WITH (
      'type'='hive',
      'property-version'='1',
-     'hive-version'='2.1.1',
+     'hive-version'='3.1.2',
      'hive-conf-dir'='/etc/hive/conf.cloudera.hive'
 );
 
@@ -181,7 +181,7 @@ catalogs: # empty list
   - name: hive
     type: hive
     hive-conf-dir: /etc/hive/conf.cloudera.hive
-    hive-version: 2.1.1
+    hive-version: 3.1.2
     property-version: 1
   - name: iceberg_hive
     type: iceberg
@@ -325,7 +325,7 @@ CREATE
 CATALOG hive WITH (
      'type'='hive',
      'property-version'='1',
-     'hive-version'='2.1.1',
+     'hive-version'='3.1.2',
      'hive-conf-dir'='/etc/hive/conf.cloudera.hive'
 );
 

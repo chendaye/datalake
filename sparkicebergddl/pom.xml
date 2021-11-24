@@ -14,7 +14,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <spark.varsion>3.1.2</spark.varsion>
+        <spark.varsion>3.0.0</spark.varsion>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.8</scala.version>
         <parquet.version>1.10.1</parquet.version>
@@ -31,46 +31,14 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.module</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <!--                <exclusion>-->
-                <!--                    <groupId>org.apache.avro</groupId>-->
-                <!--                    <artifactId>*</artifactId>-->
-                <!--                </exclusion>-->
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.module</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <!--                <exclusion>-->
-                <!--                    <groupId>org.apache.avro</groupId>-->
-                <!--                    <artifactId>*</artifactId>-->
-                <!--                </exclusion>-->
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <!--spark  https://stackoverflow.com/questions/68337031/unable-to-write-data-in-table-by-apache-iceberg-using-spark-->
         <!-- https://mvnrepository.com/artifact/org.apache.iceberg/iceberg-spark3 -->
@@ -113,19 +81,10 @@
 <!--            <scope>provided</scope>-->
         </dependency>
 
-
         <!--Test-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.specs</groupId>
-            <artifactId>specs</artifactId>
-            <version>1.2.5</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -21,7 +21,7 @@ public class KafkaToIceberg {
     EnvironmentSettings blinkStreamSettings =
         EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
     StreamTableEnvironment tEnv = StreamTableEnvironment.create(env,blinkStreamSettings);
-    System.setProperty("HADOOP_USER_NAME", "root");
+    System.setProperty("HADOOP_USER_NAME", "hadoop");
 
     //todo: 创建 hadoop catalog
     String hadoopCatalogSql = "CREATE CATALOG hadoop_catalog WITH (\n" +
@@ -67,7 +67,7 @@ public class KafkaToIceberg {
 
     //todo: 建Kafka表 使用Hive Catalog创建Kafka流表(注意不要和 hive 创建的 iceberg 表混了，可以放在不通的库)
     HiveCatalog hiveCatalog =new HiveCatalog("kafka_hive_catalog", null, "ods/src/main/resources",
-        "2.1.1");
+        "3.1.2");
     tEnv.registerCatalog("kafka_hive_catalog", hiveCatalog);
     tEnv.executeSql("use catalog kafka_hive_catalog");
     tEnv.executeSql("CREATE DATABASE IF NOT EXISTS kafka");

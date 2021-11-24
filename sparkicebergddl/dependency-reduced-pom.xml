@@ -80,7 +80,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <spark.varsion>3.1.2</spark.varsion>
+    <spark.varsion>3.0.0</spark.varsion>
     <scala.version>2.12.8</scala.version>
     <parquet.version>1.10.1</parquet.version>
     <scala.binary.version>2.12</scala.binary.version>
