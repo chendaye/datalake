@@ -29,7 +29,7 @@ public class IcebergToFlinkToSparkIcebergDws {
         env.enableCheckpointing(5000);
         env.setStateBackend(new FsStateBackend("hdfs://hadoop01:8020/warehouse/backend"));
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
-        System.setProperty("HADOOP_USER_NAME", "root");
+        System.setProperty("HADOOP_USER_NAME", "hadoop");
 
         // table 转 流
         TableLoader tableLoader = TableLoader.fromHadoopTable("hdfs://hadoop01:8020/warehouse/iceberg/dwd/ncddzt");

@@ -29,7 +29,7 @@ import static org.apache.flink.table.api.Expressions.$;
 @Slf4j
 public class IcebergToFlinkToSparkIcebergDwd {
     public static void main(String[] args) throws Exception {
-        System.setProperty("HADOOP_USER_NAME", "hdfs");
+        System.setProperty("HADOOP_USER_NAME", "hadoop");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // checkpoint
