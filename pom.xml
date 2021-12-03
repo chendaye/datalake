@@ -21,6 +21,7 @@
         <module>taskrewritemanifests</module>
         <module>sparkicebergddl</module>
         <module>testmaven</module>
+        <module>flumeinterceptor</module>
     </modules>
 
     <properties>
