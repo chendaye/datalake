@@ -22,6 +22,7 @@
         <module>sparkicebergddl</module>
         <module>testmaven</module>
         <module>flumeinterceptor</module>
+        <module>hiveudtf</module>
     </modules>
 
     <properties>
