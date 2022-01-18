@@ -34,6 +34,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spark.varsion>3.0.0</spark.varsion>
         <flink.version>1.12.5</flink.version>
+<!--        <flink.version>1.12.7</flink.version>-->
         <hadoop3.version>3.1.3</hadoop3.version>
         <scala.binary.version>2.12</scala.binary.version>
         <iceberg.version>0.12.0</iceberg.version>

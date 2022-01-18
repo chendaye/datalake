@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.v2.KafkaToSparkIceberg</mainClass>
+                  <mainClass>top.chendaye666.v2.KafkaToSparkIcebergOds</mainClass>
                 </transformer>
               </transformers>
             </configuration>

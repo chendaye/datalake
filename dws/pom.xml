@@ -205,7 +205,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>top.chendaye666.v2.IcebergToFlinkToSparkIcebergDwd</mainClass>
+                                    <mainClass>top.chendaye666.v2.IcebergToFlinkToSparkIcebergDws</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
