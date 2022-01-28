@@ -56,7 +56,7 @@ public class OdsService {
     }
 
     public void insertToOds(StreamTableEnvironment tEnv){
-        String sinkSql = "INSERT INTO  hadoop_prod.ods.ncddzt" +
+        String sinkSql = "INSERT INTO  hadoop_prod.realtime.ods_ncddzt" +
                 " SELECT " +
                 "SOURCE_TYPE as source_type ," +
                 " `INDEX` as index, " +
@@ -68,8 +68,7 @@ public class OdsService {
                 "`POSITION` as `position`," +
                 "LOG as log" +
                 " FROM " +
-                "kafka_hive_catalog.kafka" +
-                ".ods_ncddzt";
+                "kafka.ods_ncddzt";
 
 
         tEnv.executeSql(sinkSql);
