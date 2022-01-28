@@ -42,7 +42,7 @@ public class KafkaToSparkIcebergOds {
     tEnv.executeSql("CREATE DATABASE IF NOT EXISTS kafka");
     tEnv.useDatabase("kafka");
     tEnv.executeSql("DROP TABLE IF EXISTS ods_ncddzt");
-    String kafkaOdsNcddzt = "CREATE TABLE ods_ncddzt (\n" +
+    String kafkaOdsNcddzt = "CREATE TABLE  ods_ncddzt (\n" +
         "    SOURCE_TYPE STRING,\n" +
         "    `INDEX` STRING,\n" +
         "    SOURCE_HOST STRING,\n" +
