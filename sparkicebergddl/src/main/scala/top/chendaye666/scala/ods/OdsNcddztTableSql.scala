@@ -44,7 +44,7 @@ object OdsNcddztTableSql {
         | 'read.split.target-size'='1073741824'
         |)
         |""".stripMargin
-
+    //write.distribution-mode = hash  减少小文件
     spark.sql(sql)
     spark.close()
   }

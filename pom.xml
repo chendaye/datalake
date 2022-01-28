@@ -23,6 +23,7 @@
         <module>testmaven</module>
         <module>flumeinterceptor</module>
         <module>hiveudtf</module>
+        <module>realtimewarehouse</module>
     </modules>
 
     <properties>
