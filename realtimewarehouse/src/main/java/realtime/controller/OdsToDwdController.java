@@ -1,16 +1,14 @@
 package realtime.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import realtime.service.CommonService;
-import realtime.service.OdsService;
+import realtime.service.DwdService;
 
-@Slf4j
-public class KafkaToOdsController {
+public class OdsToDwdController {
     public static CommonService commonService = new CommonService();
-    public static OdsService odsService = new OdsService();
+    public static DwdService dwdService = new DwdService();
 
     public static void main(String[] args) {
         System.setProperty("HADOOP_USER_NAME", "hadoop");
@@ -21,9 +19,9 @@ public class KafkaToOdsController {
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
         // hadoop catalog
         commonService.createHadoopCatalog(tEnv);
-        // 创建 kafka session表
-        odsService.createKafkaTable(tEnv);
-        // 插入 ods 表
-        odsService.insertToOds(tEnv);
+        // 创建DWD表
+        dwdService.createDwdTable(tEnv);
+        // ods -> dwd
+        dwdService.insertToDwd(env, tEnv);
     }
 }
