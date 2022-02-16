@@ -46,7 +46,7 @@ public class AsynchronousProducer {
 
         String position = "461121";
         int num = 2;
-        int index = 2;
+        long index = 2;
         String agent_timestamp = "1627436679538";
         String topic = "";
         String template = "";
@@ -57,9 +57,10 @@ public class AsynchronousProducer {
 
         long lastTime = System.currentTimeMillis();
         //TODO:发送数据
+        long ind = 0L;
         while (true){
             Thread.sleep(3000); // 1s 一条
-            index = RandomInt.get(1000,50000);
+            index = ++ind;
             agent_timestamp = Long.toString(lastTime+100L);
             lastTime = lastTime+100L;
             position = Integer.toString(RandomInt.get(1000,50000));
