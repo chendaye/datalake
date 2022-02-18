@@ -8,14 +8,9 @@ import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.data.RowData;
-import org.apache.flink.util.Collector;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import realtime.dao.Mock;
-import realtime.dao.Ncddzt;
-import realtime.dao.NcddztDwd;
-import top.chendaye666.util.DateUtil;
-import top.chendaye666.util.RegInxParse;
 
 import static org.apache.flink.table.api.Expressions.$;
 
