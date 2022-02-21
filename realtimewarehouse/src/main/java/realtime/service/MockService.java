@@ -85,7 +85,7 @@ public class MockService {
                 .env(env)
                 .tableLoader(tableLoader)
                 .streaming(true)
-                 .startSnapshotId(5755344342814085506L)
+//                 .startSnapshotId(5755344342814085506L)
                 .build();
 //         stream.print();
 
@@ -96,7 +96,6 @@ public class MockService {
                 $("name"),
                 $("num")
         );
-
         // table 转为 AppendStream 进行处理
         DataStream<Mock> mockStream = tEnv.toAppendStream(table, Mock.class);
         mockStream.print();

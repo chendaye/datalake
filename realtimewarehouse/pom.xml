@@ -14,6 +14,9 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <flink.version>1.14.3</flink.version>
+        <iceberg.version>0.13.1</iceberg.version>
     </properties>
     <dependencies>
         <!-- 引入 common 封装 -->
@@ -40,10 +43,10 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-common</artifactId>
@@ -113,10 +116,23 @@
         </dependency>
 
         <!-- Iceberg -->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-flink-runtime</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-flink-runtime</artifactId>
+            <artifactId>iceberg-flink</artifactId>
+            <version>0.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-core</artifactId>
+            <version>0.13.1</version>
+        </dependency>
+
+
+
         <!-- kafka-->
         <dependency>
             <groupId>org.apache.flink</groupId>

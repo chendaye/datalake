@@ -37,8 +37,8 @@
         <scala.binary.version>2.12</scala.binary.version>
         <spark.varsion>3.0.0</spark.varsion>
         <flink.version>1.12.5</flink.version>
-        <flink1.14.3.version>1.14.3</flink1.14.3.version>
         <iceberg.version>0.12.0</iceberg.version>
+        <flink1.14.3.version>1.14.3</flink1.14.3.version>
         <iceberg.version0.13.1>0.13.1</iceberg.version0.13.1>
         <hive.version>3.1.2</hive.version>
         <hive.cdh.version>2.1.1-cdh6.3.1</hive.cdh.version>

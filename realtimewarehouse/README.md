@@ -17,7 +17,5 @@ kafka-console-consumer.sh --bootstrap-server hadoop01:9092 --from-beginning --to
 `10位时间戳：精度 s`
 
 ```json
-{"id":17,"topic":"A","name":"lisa","num":76.8,"ts":1642435233328}
-{"id":18,"topic":"A","name":"lisa","num":76.8,"ts":1642435233328}
-{"id":19,"topic":"A","name":"lisa","num":76.8,"ts":1642435233328}
+{"id":23,"topic":"A","name":"lisa","num":76.8,"ts":1642435233328}
 ```

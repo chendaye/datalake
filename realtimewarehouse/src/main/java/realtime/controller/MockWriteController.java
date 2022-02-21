@@ -10,7 +10,7 @@ public class MockWriteController {
     public static CommonService commonService = new CommonService();
     public static MockService mockService = new MockService();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.setProperty("HADOOP_USER_NAME", "hadoop");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // checkpoint
