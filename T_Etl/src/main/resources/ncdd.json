@@ -1,0 +1,497 @@
+{
+  "baseConf": {
+    "flinkJobName": "flink_ncdd_etl",
+    "kafkaAdds": "hadoop01:9092,hadoop02:9092,hadoop03:9092",
+    "topicName": "ncdd_log",
+    "consumerID": "ncdd_etl"
+  },
+  "sourceType": {
+    "gtulog": {
+      "time": {
+        "type": "raw",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetTimeBlankParseImpl"
+      },
+      "time2": {
+        "type": "raw",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetTimeFormatParseImpl"
+      },
+      "node": {
+        "type": "raw",
+        "field": "SOURCE_HOST",
+        "strategy": "com.zj.parselog.GetRawParseImpl"
+      },
+      "BS_NCDD_QD_NUM3": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\[(00102024)\\]",
+        "regIndex": "1"
+      },
+      "BS_NCDD_PUB0_SEAT1": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "(8843|STKPBU)\\\":\\\"(\\d{6}|\\d{5})\\\"",
+        "regIndex": "2"
+      },
+      "BS_NCDD_PUB0_MARKET": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"",
+        "regIndex": "2"
+      },
+      "BS_NCDD_CAP_ACC2": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"",
+        "regIndex": "2"
+      },
+      "BS_NCDD_WT_PNUM": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "66\\\":\\\"(.*?)\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_CONTRACT_NUM2": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\\"(ORDER_ID|11)\\\":\\\"(.*)\\\",\\\"(ORDER_PRICE|15)\\\"",
+        "regIndex": "2"
+      },
+      "BS_NCDD_QD_NUM1": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\[recv\\] \\[10302001\\] \\[(.*?)\\]",
+        "regIndex": "1"
+      },
+      "BS_NCDD_CAP_ACC1": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "8920\\\":\\\"(\\d+)\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_QD_NUM2": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\[send\\] \\[10302001\\] \\[(.*?)\\]",
+        "regIndex": "1"
+      },
+      "BS_NCDD_SEND_SEAT1": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "8843\\\":\\\"(\\d{6}|\\d{5})\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_SEND_MARKET": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\\"625\\\":\\\"(\\d{2})\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_CONTRACT_NUM1": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "\\\"11\\\":\\\"(.*)\\\",\\\"38\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_MSG_NUM": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "8817\\\":\\\"(11313)\\\"",
+        "regIndex": "1"
+      },
+      "BS_NCDD_MSG_DESC": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "8819\\\":\\\"(.*)\\\"",
+        "regIndex": "1"
+      }
+    },
+    "szv5": {
+      "time": {
+        "type": "raw",
+        "field": "AGENT_TIMESTAMP",
+        "strategy": "com.zj.parselog.GetRawParseImpl"
+      },
+      "time2": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "([0-9]{1,8}-[0-9]{1,6}[0-9]\\]\\[[0-9]{1,3})",
+        "regIndex": "1"
+      },
+      "node": {
+        "type": "raw",
+        "field": "SOURCE_HOST",
+        "strategy": "com.zj.parselog.GetRawParseImpl"
+      },
+      "BS_NCDD_ORDERID": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "(ClOrdID|ClOrd)\\:([A-Za-z0-9]{1,8})",
+        "regIndex": "2"
+      },
+      "BS_NCDD_ORIGID": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "(OrigClOrd)\\:([A-Za-z0-9]{1,8})",
+        "regIndex": "2"
+      },
+      "BS_NCDD_SZV5_ACC": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "(AccountID|Acc)\\:(\\d+)",
+        "regIndex": "2"
+      },
+      "BS_NCDD_MSGTYPE": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "MsgType\\:(100101|200102)",
+        "regIndex": "1"
+      }
+    },
+    "runlog": {
+      "time": {
+        "type": "raw",
+        "field": "AGENT_TIMESTAMP",
+        "strategy": "com.zj.parselog.GetRawParseImpl"
+      },
+      "node": {
+        "type": "raw",
+        "field": "SOURCE_HOST",
+        "strategy": "com.zj.parselog.GetRawParseImpl"
+      },
+      "BS_NCDD_RUNLOGID": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "fail \\[([0-9]{1,5})\\]",
+        "regIndex": "1"
+      },
+      "BS_NCDD_ORDERID": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "fail \\[11206\\].*ORDER_ID:(\\w+)\\]",
+        "regIndex": "1"
+      },
+      "BS_NCDD_RUNLOGMSG": {
+        "type": "indexreg",
+        "field": "LOG",
+        "strategy": "com.zj.parselog.GetRegInxParseImpl",
+        "reg": "fail \\[[0-9]{1,5}\\]-(.*)",
+        "regIndex": "1"
+      }
+    },
+    "custsum10min": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "custsumallday": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "ncddoiw": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "NODE": {
+        "type": "raw_log",
+        "field": "LOG.NODE",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL2": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL2",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "ncddoiw2": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "NODE": {
+        "type": "raw_log",
+        "field": "LOG.NODE",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL2": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL2",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "wtcounts": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "NODE": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "msgcounts": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "NODE": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL2": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL2",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "nowwtcust": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "custnum": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "kswtqtzl": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "kswtlastten": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "kscjqt": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "kscjlastten": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "cdlastten": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "nowcd": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "cjjinetotal": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "zctotal": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CHANNEL2": {
+        "type": "raw_log",
+        "field": "LOG.CHANNEL2",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "nowwcrate": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "jzjyyj": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "rzrqyj": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "vipyj": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    },
+    "custrate": {
+      "TIME": {
+        "type": "raw_log",
+        "field": "LOG.TIME",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      },
+      "CNT": {
+        "type": "raw_log",
+        "field": "LOG.CNT",
+        "strategy": "com.zj.parselog.GetRawLogParseImpl"
+      }
+    }
+  }
+}

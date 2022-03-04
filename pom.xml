@@ -24,6 +24,7 @@
         <module>flumeinterceptor</module>
         <module>hiveudtf</module>
         <module>realtimewarehouse</module>
+        <module>T_Etl</module>
     </modules>
 
     <properties>
