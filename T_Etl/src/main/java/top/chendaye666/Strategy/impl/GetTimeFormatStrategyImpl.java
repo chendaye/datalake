@@ -1,6 +1,6 @@
-package top.chendaye666.parse.impl;
+package top.chendaye666.Strategy.impl;
 
-import top.chendaye666.parse.Parse;
+import top.chendaye666.Strategy.Strategy;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;
@@ -10,10 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class GetTimeFormatParseImpl implements Parse {
+public class GetTimeFormatStrategyImpl implements Strategy {
     private String logData = null;
 
-    public GetTimeFormatParseImpl(String logData) {
+    public GetTimeFormatStrategyImpl(String logData) {
         this.logData = logData;
     }
 

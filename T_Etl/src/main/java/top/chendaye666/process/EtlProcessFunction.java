@@ -46,10 +46,13 @@ public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, 
         Iterator<Map.Entry<String, Object>> iterator = parseRules.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry<String, Object> next = iterator.next();
+            // 要解析的字段
             String logField = next.getKey();
+            // 解析字段的方式
             JSONObject logFieldRule = (JSONObject)next.getValue();
             System.out.println(logField+"----------"+logFieldRule+"-------"+logFieldRule.getString("type"));
             //TODO： 工厂模式 策略模式。 根据不同的解析规则，生成不同的解析器
+
         }
         HashMap<String, String> keyValueMap = new HashMap<>();
         out.collect("");

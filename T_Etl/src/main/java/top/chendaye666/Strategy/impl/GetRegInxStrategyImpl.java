@@ -1,6 +1,6 @@
-package top.chendaye666.parse.impl;
+package top.chendaye666.Strategy.impl;
 
-import top.chendaye666.parse.Parse;
+import top.chendaye666.Strategy.Strategy;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 /**
  * 正则匹配解析日志
  */
-public class GetRegInxParseImpl implements Parse {
+public class GetRegInxStrategyImpl implements Strategy {
     private String logData = null;
     private String reg = null;
     private int regIndex = 0;
 
-    public GetRegInxParseImpl(String logData, String reg, int regIndex) {
+    public GetRegInxStrategyImpl(String logData, String reg, int regIndex) {
         this.logData = logData;
         this.reg = reg;
         this.regIndex = regIndex;

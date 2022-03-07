@@ -9,7 +9,7 @@ import java.util.Map;
  * 使用反射创建对象
  */
 @Slf4j
-public class  reflectUtils {
+public class ReflectUtils {
     public static Object  getObj(String className, String logData){
         try {
             Class<Object> clazz = (Class<Object>) Class.forName(className);
