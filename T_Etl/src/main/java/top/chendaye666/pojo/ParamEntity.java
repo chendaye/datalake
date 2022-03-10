@@ -7,8 +7,11 @@ public class ParamEntity {
     private String type;
     private String field;
     private String strategy;
-    private String reg = null;
-    private String regIndex = null;
+    private String reg;
+    private String regIndex;
+
+    public ParamEntity() {
+    }
 
     public ParamEntity(String type, String field, String strategy, String reg, String regIndex) {
         this.type = type;

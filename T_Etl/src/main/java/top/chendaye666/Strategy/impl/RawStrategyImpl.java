@@ -17,7 +17,7 @@ public class RawStrategyImpl implements Strategy<LogEntity, String>{
     @Override
     public String get(ParamEntity param, LogEntity data) {
         String field = param.getField().toLowerCase();
-        String ret = (String)ReflectUtils.invokeGet(data, "get" + StringUtils.upperCaseFirst(field));
+        String ret = (String)ReflectUtils.invokeGet(data, StringUtils.upperCaseFirst(field));
         return ret;
     }
 }

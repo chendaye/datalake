@@ -1,6 +1,8 @@
 package top.chendaye666.Strategy.impl;
 
 import top.chendaye666.Strategy.Strategy;
+import top.chendaye666.pojo.LogEntity;
+import top.chendaye666.pojo.ParamEntity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,20 +10,11 @@ import java.util.regex.Pattern;
 /**
  * 正则匹配解析日志
  */
-public class GetRegInxStrategyImpl implements Strategy {
-    private String logData = null;
-    private String reg = null;
-    private int regIndex = 0;
-
-    public GetRegInxStrategyImpl(String logData, String reg, int regIndex) {
-        this.logData = logData;
-        this.reg = reg;
-        this.regIndex = regIndex;
-    }
+public class RegInxStrategyImpl implements Strategy<LogEntity, String> {
 
     @Override
-    public String get() {
-        return matcherValByReg(logData, reg, regIndex);
+    public String get(ParamEntity param, LogEntity data) {
+        return matcherValByReg(data.getLog(), param.getReg(), Integer.parseInt(param.getRegIndex()));
     }
 
     /**

@@ -36,6 +36,7 @@ public class Etl {
         properties.setProperty("group.id", jsonParam.getJson("baseConf").getString("consumerID"));
         FlinkKafkaConsumer<String> consumer = new FlinkKafkaConsumer<>(jsonParam.getJson("baseConf").getString("topicName"), new SimpleStringSchema(), properties);
         consumer.setStartFromEarliest();     // 尽可能从最早的记录开始
+//        env.addSource(consumer).print();
         // 日志转化为实体类
         SingleOutputStreamOperator<String> sourceTypeContentStream = env.addSource(consumer).map(new MapFunction<String, LogEntity>() {
             @Override

@@ -8,6 +8,8 @@ import top.chendaye666.pojo.ParamEntity;
 public class ParseContext<I, O> {
     private Strategy<I, O> strategy;
 
+    public ParseContext(){}
+
     public Strategy<I, O> getStrategy() {
         return strategy;
     }

@@ -1,6 +1,8 @@
 package top.chendaye666.Strategy.impl;
 
 import top.chendaye666.Strategy.Strategy;
+import top.chendaye666.pojo.LogEntity;
+import top.chendaye666.pojo.ParamEntity;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;
@@ -10,16 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class GetTimeFormatStrategyImpl implements Strategy {
-    private String logData = null;
-
-    public GetTimeFormatStrategyImpl(String logData) {
-        this.logData = logData;
-    }
+public class TimeFormatStrategyImpl implements Strategy<LogEntity, String> {
 
     @Override
-    public String get() {
-        Matcher mat = Pattern.compile("\\[(\\d{8} \\d{9,})").matcher(logData);
+    public String get(ParamEntity param, LogEntity data) {
+        Matcher mat = Pattern.compile("\\[(\\d{8} \\d{9,})").matcher(data.getLog());
         if (mat.find()) {
             String time = mat.group(1);
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HHmmssSSS");
