@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ListStateDescriptor;
+import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.guava18.com.google.common.collect.HashBiMap;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
@@ -92,6 +93,7 @@ public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, 
             keyValueMap.put(logField, ret);
         }
         keyValueMap.put("source_type", type);
+        keyValueMap.put("create_at", System.currentTimeMillis()+"");
         out.collect(JSON.toJSONString(keyValueMap));
     }
 }
