@@ -11,7 +11,7 @@ import java.util.Date;
 
 import static org.apache.flink.table.api.Expressions.$;
 
-public class EtlToTable {
+public class EtlToTableervice {
 
     public void createHadoopCatalog(StreamTableEnvironment tEnv) {
         String hadoopCatalogSql = "CREATE CATALOG hadoop_prod WITH (\n" +

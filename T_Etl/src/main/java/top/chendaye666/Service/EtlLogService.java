@@ -1,6 +1,7 @@
 package top.chendaye666.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -15,7 +16,7 @@ import java.util.Properties;
 /**
  * 日志清洗
  */
-public class EtlLog {
+public class EtlLogService {
     public SingleOutputStreamOperator<String> etl(JsonParamUtils jsonParam, StreamExecutionEnvironment env){
         Properties properties = new Properties();
         properties.setProperty("bootstrap.servers", jsonParam.getJson("baseConf").getString("kafkaAdds"));
@@ -30,6 +31,12 @@ public class EtlLog {
                 return JSONObject.parseObject(s, LogEntity.class);
             }
         })
+//                .filter(new FilterFunction<LogEntity>() { // 筛选 source_type
+//                    @Override
+//                    public boolean filter(LogEntity logEntity) throws Exception {
+//                        return logEntity.getSource_type().equals("szv5");
+//                    }
+//                })
                 .keyBy(LogEntity::getSource_type)
                 .process(new EtlProcessFunction(jsonParam.getJson("sourceType")));
         // TODO:写入表

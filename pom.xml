@@ -25,6 +25,7 @@
         <module>hiveudtf</module>
         <module>realtimewarehouse</module>
         <module>T_Etl</module>
+        <module>T_Warehouse</module>
     </modules>
 
     <properties>

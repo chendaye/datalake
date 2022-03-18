@@ -1,0 +1,801 @@
+{
+  "baseConf": {
+    "flinkJobName": "flink_ncdd_etl",
+    "kafkaAdds": "hadoop01:9092,hadoop02:9092,hadoop03:9092",
+    "topicName": "ncdd_log",
+    "consumerID": "ncdd_etl",
+    "table": "ncdd_log"
+  },
+  "sourceType": {
+    "gtulog": {
+      "tableName": "ncdd_gtulog",
+      "mis": [
+        {
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value" : "BS_NCDD_PUB0_TIME"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "BS_NCDD_PUB0_SEAT1",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_CAP_ACC2",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_CONTRACT_NUM2",
+            "type": "map"
+          },
+          "channel4": {
+            "field": "BS_NCDD_PUB0_MARKET",
+            "type": "map"
+          },
+          "channel5": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel6": {
+            "field": "BS_NCDD_WT_PNUM",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_QD_NUM3",
+            "type": "map"
+          }
+        },
+        {
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value" : "BS_NCDD_PUB0_TIME1"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "BS_NCDD_PUB0_SEAT1",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_CAP_ACC2",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_CONTRACT_NUM2",
+            "type": "map"
+          },
+          "channel4": {
+            "field": "BS_NCDD_WT_PNUM",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_QD_NUM3",
+            "type": "map"
+          }
+        },
+        {
+          "mi": {
+            "field": "time",
+            "type": "raw",
+            "value": "BS_NCDD_RECV_TIME"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_CAP_ACC1",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_PUB0_MARKET",
+            "type": "map"
+          },
+          "channel4": {
+            "field": "BS_NCDD_WT_PNUM",
+            "type": "map"
+          },
+          "channel5": {
+            "field": "node",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_QD_NUM1",
+            "type": "map"
+          }
+        },
+        {
+          "mi": {
+            "field": "time",
+            "type": "raw",
+            "value": "BS_NCDD_SEND_TIME"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "BS_NCDD_SEND_SEAT1",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_CAP_ACC1",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_CONTRACT_NUM1",
+            "type": "map"
+          },
+          "channel4": {
+            "field": "BS_NCDD_SEND_MARKET",
+            "type": "map"
+          },
+          "channel5": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel6": {
+            "field": "BS_NCDD_WT_PNUM",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_QD_NUM2",
+            "type": "map"
+          }
+        },
+        {
+          "mi": {
+            "field": "time",
+            "type": "raw",
+            "value": "BS_NCDD_SEND_TIME1"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "BS_NCDD_SEND_SEAT1",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_CAP_ACC1",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_CONTRACT_NUM1",
+            "type": "map"
+          },
+          "channel4": {
+            "field": "BS_NCDD_WT_PNUM",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_QD_NUM2",
+            "type": "map"
+          }
+        },
+        {
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NCDD_MSG_NUM"
+          },
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format1": "yyyyMMdd HHmmssSSS",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_QD_NUM2",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_MSG_DESC",
+            "type": "map"
+          },
+          "val": {
+            "field": "BS_NCDD_MSG_NUM",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "szv5": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_NCDD_MSGTYPE",
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel": {
+            "field": "BS_NCDD_ORDERID",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_SZV5_ACC",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "time2",
+            "type": "map"
+          },
+          "channel5": {
+            "field": "BS_NCDD_ORIGID",
+            "type": "map"
+          },
+          "val": {
+            "field": "BS_NCDD_MSGTYPE",
+            "type": "map",
+            "notnull": "Y",
+            "type": "int"
+          }
+        }
+      ]
+    },
+    "runlog": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_NCDD_RUNLOGMSG",
+          "time": {
+            "field": "time",
+            "type": "time",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "node",
+            "type": "map"
+          },
+          "channel": {
+            "field": "BS_NCDD_RUNLOGID",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "BS_NCDD_RUNLOGMSG",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "BS_NCDD_ORDERID",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "BS_NCDD_RUNLOGMSG",
+            "type": "map",
+            "notnull": "Y"
+          }
+        }
+      ]
+    },
+    "custsum10min": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_SUM_10MIN",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "map",
+            "notnull": "Y",
+            "type": "int"
+          }
+        }
+      ]
+    },
+    "custsumallday": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_SUM_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "map",
+            "notnull": "Y",
+            "type": "int"
+          }
+        }
+      ]
+    },
+    "ncddoiw": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_NCDD_OIW_WT",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "NODE",
+            "type": "map"
+          },
+          "channel": {
+            "field": "TIME",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "CHANNEL2",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "CHANNEL",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "ncddoiw2": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_NCDD_OIW_COM",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "NODE",
+            "type": "map"
+          },
+          "channel": {
+            "field": "TIME",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "CHANNEL2",
+            "type": "map"
+          },
+          "val_str": {
+            "field": "CHANNEL",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "wtcounts": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_XW_WT_COUNTS",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "NODE",
+            "type": "map"
+          },
+          "channel": {
+            "field": "TIME",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "CHANNEL",
+            "type": "map"
+          },
+          "val": {
+            "field": "NODE",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "msgcounts": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_NODE_MSG_COUNTS",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "node": {
+            "field": "NODE",
+            "type": "map"
+          },
+          "channel": {
+            "field": "CHANNEL",
+            "type": "map"
+          },
+          "channel2": {
+            "field": "CHANNEL2",
+            "type": "map"
+          },
+          "channel3": {
+            "field": "TIME",
+            "type": "map"
+          },
+          "val": {
+            "field": "CHANNEL2",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "nowwtcust": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WT_KEHU_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "custnum": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_TOTAL_KEHU_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "kswtqtzl": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WT_BISHU_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "kswtlastten": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WT_BISHU_10MIN",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "kscjqt": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_BISHU_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "kscjlastten": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_BISHU_10MIN",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "cdlastten": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WITHDRAW_BISHU_10MIN",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "nowcd": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WITHDRAW_BISHU_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "cjjinetotal": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_AMOUNT_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "zctotal": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_CJ_ASSET_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "channel2": {
+            "field": "CHANNEL2",
+            "type": "map"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "nowwcrate": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WT_CHEDAN_PERCENT",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "jzjyyj": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_YJ_JZJY_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "rzrqyj": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_YJ_RZRQ_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "vipyj": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_YJ_VIP_DAY",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    },
+    "custrate": {
+      "tableName": "ncdd_common",
+      "mis": [
+        {
+          "mi": "BS_WT_ALLCUST_PERCENT",
+          "time": {
+            "field": "TIME",
+            "type": "time",
+            "format1": "yyyy-MM-dd HH:mm:ss",
+            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+          },
+          "val": {
+            "field": "CNT",
+            "type": "int",
+            "notnull": "Y",
+            "type": "map"
+          }
+        }
+      ]
+    }
+  }
+}

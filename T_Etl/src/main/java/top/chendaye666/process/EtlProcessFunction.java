@@ -3,22 +3,20 @@ package top.chendaye666.process;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.state.ListStateDescriptor;
-import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.shaded.guava18.com.google.common.collect.HashBiMap;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
-import org.apache.kafka.common.protocol.types.Field;
 import top.chendaye666.Strategy.ParseContext;
 import top.chendaye666.Strategy.impl.*;
+import top.chendaye666.Strategy.impl.auxiliary.TimestampGtuStrategyImpl;
+import top.chendaye666.Strategy.impl.auxiliary.DateGtuStrategyImpl;
+import top.chendaye666.Strategy.impl.auxiliary.TimeSpStrategyImpl;
 import top.chendaye666.pojo.LogEntity;
 import top.chendaye666.pojo.ParamEntity;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 处理键控流
@@ -72,14 +70,6 @@ public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, 
                 case "raw_log": // 常规取log.log原始值
                     context.setStrategy(new RawLogStrategyImpl());
                     break;
-                case "blank_time":
-                    context.setStrategy(new TimeBlankStrategyImpl());
-                    break;
-                case "format_time":
-                    context.setStrategy(new TimeFormatStrategyImpl());
-                    break;
-                case "sp_time":
-                    context.setStrategy(new TimeSpStrategyImpl());
                 default:
                     return;
             }

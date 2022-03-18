@@ -1,6 +1,9 @@
 package top.chendaye666.Strategy;
 
 import top.chendaye666.pojo.ParamEntity;
+import top.chendaye666.reflect.ReflectUtils;
+
+import java.lang.reflect.Constructor;
 
 /**
  * https://refactoringguru.cn/design-patterns/strategy
@@ -25,6 +28,14 @@ public class ParseContext<I, O> {
      * @return
      */
     public O executeStrategy(ParamEntity param, I data){
-        return strategy.get(param, data);
+        String stgy = param.getStrategy();
+        O firstVal = strategy.get(param, data);
+        if (stgy != null){
+            Strategy<O,O> obj = (Strategy<O,O>)ReflectUtils.getObj(stgy);
+            return obj.get(param,firstVal);
+        }
+        return firstVal;
     }
+
+
 }

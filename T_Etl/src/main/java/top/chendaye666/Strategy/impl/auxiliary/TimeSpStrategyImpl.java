@@ -1,4 +1,4 @@
-package top.chendaye666.Strategy.impl;
+package top.chendaye666.Strategy.impl.auxiliary;
 
 import top.chendaye666.Strategy.Strategy;
 import top.chendaye666.pojo.LogEntity;

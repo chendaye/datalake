@@ -3,22 +3,25 @@ package top.chendaye666.reflect;
 import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 /**
  * 使用反射创建对象
  */
 @Slf4j
 public class ReflectUtils {
-    public static Object  getObj(String className, String logData){
+    /**
+     * 使用无参构造函数，构造对象
+     * @param className
+     * @return
+     */
+    public static  Object  getObj(String className){
         try {
-            Class<Object> clazz = (Class<Object>) Class.forName(className);
+            // 获取目标类的 Class 对象
+            Class<?> clazz = Class.forName(className);
             //有参构造方法
-            Constructor<Object> cons = clazz.getConstructor(new Class[]{String.class});
-            Object obj = cons.newInstance(new Object[] {logData});
-            return obj;
+            Constructor<?> constructor = clazz.getConstructor();
+            return constructor.newInstance();
         } catch (Exception e) {
-            log.info("类："+className+"创建失败！");
             e.printStackTrace();
             return null;
         }

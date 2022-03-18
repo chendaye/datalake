@@ -9,115 +9,104 @@
   "sourceType": {
     "gtulog": {
       "time": {
-        "type": "blank_time",
+        "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.TimeBlankStrategyImpl"
+        "strategy": "top.chendaye666.Strategy.impl.auxiliary.DateGtuStrategyImpl",
+        "reg": "\\[(\\d{8} \\d{9,})",
+        "regIndex": "1"
       },
       "time2": {
-        "type": "format_time",
+        "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.TimeFormatStrategyImpl"
+        "strategy": "top.chendaye666.Strategy.impl.auxiliary.TimestampGtuStrategyImpl",
+        "reg": "\\[(\\d{8} \\d{9,})",
+        "regIndex": "1"
       },
       "node": {
         "type": "raw",
-        "field": "SOURCE_HOST",
-        "strategy": "top.chendaye666.Strategy.impl.RawStrategyImpl"
+        "field": "SOURCE_HOST"
       },
       "BS_NCDD_QD_NUM3": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\[(00102024)\\]",
         "regIndex": "1"
       },
       "BS_NCDD_PUB0_SEAT1": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "(8843|STKPBU)\\\":\\\"(\\d{6}|\\d{5})\\\"",
         "regIndex": "2"
       },
       "BS_NCDD_PUB0_MARKET": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\\"(625|STKBD)\\\":\\\"(\\d{2})\\\"",
         "regIndex": "2"
       },
       "BS_NCDD_CAP_ACC2": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "(8920|CUACCT_CODE)\\\":\\\"(\\d+)\\\"",
         "regIndex": "2"
       },
       "BS_NCDD_WT_PNUM": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "66\\\":\\\"(.*?)\\\"",
         "regIndex": "1"
       },
       "BS_NCDD_CONTRACT_NUM2": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\\"(ORDER_ID|11)\\\":\\\"(.*)\\\",\\\"(ORDER_PRICE|15)\\\"",
         "regIndex": "2"
       },
       "BS_NCDD_QD_NUM1": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\[recv\\] \\[10302001\\] \\[(.*?)\\]",
         "regIndex": "1"
       },
       "BS_NCDD_CAP_ACC1": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "8920\\\":\\\"(\\d+)\\\"",
         "regIndex": "1"
       },
       "BS_NCDD_QD_NUM2": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\[send\\] \\[10302001\\] \\[(.*?)\\]",
         "regIndex": "1"
       },
       "BS_NCDD_SEND_SEAT1": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "8843\\\":\\\"(\\d{6}|\\d{5})\\\"",
         "regIndex": "1"
       },
       "BS_NCDD_SEND_MARKET": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\\"625\\\":\\\"(\\d{2})\\\"",
         "regIndex": "1"
       },
       "BS_NCDD_CONTRACT_NUM1": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "\\\"11\\\":\\\"(\\w*)\\\",",
         "regIndex": "1"
       },
       "BS_NCDD_MSG_NUM": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "8817\\\":\\\"(11313)\\\"",
         "regIndex": "1"
       },
       "BS_NCDD_MSG_DESC": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "8819\\\":\\\"([^\"]*)\\\"",
         "regIndex": "1"
       }
@@ -126,45 +115,40 @@
       "time": {
         "type": "raw",
         "field": "AGENT_TIMESTAMP",
-        "strategy": "top.chendaye666.Strategy.impl.RawStrategyImpl"
+        "strategy": "top.chendaye666.Strategy.impl.auxiliary.DateSzv5StrategyImpl"
       },
       "time2": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
+        "strategy": "top.chendaye666.Strategy.impl.auxiliary.TimestampSzv5StrategyImpl",
         "reg": "([0-9]{1,8}-[0-9]{1,6}[0-9]\\]\\[[0-9]{1,3})",
         "regIndex": "1"
       },
       "node": {
         "type": "raw",
-        "field": "SOURCE_HOST",
-        "strategy": "top.chendaye666.Strategy.impl.RawStrategyImpl"
+        "field": "SOURCE_HOST"
       },
       "BS_NCDD_ORDERID": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "(ClOrdID|ClOrd)\\:([A-Za-z0-9]{1,8})",
         "regIndex": "2"
       },
       "BS_NCDD_ORIGID": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "(OrigClOrd)\\:([A-Za-z0-9]{1,8})",
         "regIndex": "2"
       },
       "BS_NCDD_SZV5_ACC": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "(AccountID|Acc)\\:(\\d+)",
         "regIndex": "2"
       },
       "BS_NCDD_MSGTYPE": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "MsgType\\:(100101|200102)",
         "regIndex": "1"
       }
@@ -173,31 +157,27 @@
       "time": {
         "type": "raw",
         "field": "AGENT_TIMESTAMP",
-        "strategy": "top.chendaye666.Strategy.impl.RawStrategyImpl"
+        "strategy": "top.chendaye666.Strategy.impl.auxiliary.DateSzv5StrategyImpl"
       },
       "node": {
         "type": "raw",
-        "field": "SOURCE_HOST",
-        "strategy": "top.chendaye666.Strategy.impl.RawStrategyImpl"
+        "field": "SOURCE_HOST"
       },
       "BS_NCDD_RUNLOGID": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "fail \\[([0-9]{1,5})\\]",
         "regIndex": "1"
       },
       "BS_NCDD_ORDERID": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "fail \\[11206\\].*ORDER_ID:(\\w+)\\]",
         "regIndex": "1"
       },
       "BS_NCDD_RUNLOGMSG": {
         "type": "index",
         "field": "LOG",
-        "strategy": "top.chendaye666.Strategy.impl.RegInxStrategyImpl",
         "reg": "fail \\[[0-9]{1,5}\\]-(.*)",
         "regIndex": "1"
       }
@@ -205,293 +185,243 @@
     "custsum10min": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "custsumallday": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "ncddoiw": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "NODE": {
         "type": "raw_log",
-        "field": "NODE",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "NODE"
       },
       "CHANNEL": {
         "type": "raw_log",
-        "field": "CHANNEL",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL"
       },
       "CHANNEL2": {
         "type": "raw_log",
-        "field": "CHANNEL2",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL2"
       }
     },
     "ncddoiw2": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "NODE": {
         "type": "raw_log",
-        "field": "NODE",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "NODE"
       },
       "CHANNEL": {
         "type": "raw_log",
-        "field": "CHANNEL",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL"
       },
       "CHANNEL2": {
         "type": "raw_log",
-        "field": "CHANNEL2",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL2"
       }
     },
     "wtcounts": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "NODE": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       },
       "CHANNEL": {
         "type": "raw_log",
-        "field": "CHANNEL",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL"
       }
     },
     "msgcounts": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "NODE": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       },
       "CHANNEL": {
         "type": "raw_log",
-        "field": "CHANNEL",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL"
       },
       "CHANNEL2": {
         "type": "raw_log",
-        "field": "CHANNEL2",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL2"
       }
     },
     "nowwtcust": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "custnum": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "kswtqtzl": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "kswtlastten": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "kscjqt": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "kscjlastten": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "cdlastten": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "nowcd": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "cjjinetotal": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "zctotal": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       },
       "CHANNEL2": {
         "type": "raw_log",
-        "field": "CHANNEL2",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CHANNEL2"
       }
     },
     "nowwcrate": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "jzjyyj": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "rzrqyj": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "vipyj": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     },
     "custrate": {
       "TIME": {
         "type": "raw_log",
-        "field": "TIME",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "TIME"
       },
       "CNT": {
         "type": "raw_log",
-        "field": "CNT",
-        "strategy": "top.chendaye666.Strategy.impl.RawLogStrategyImpl"
+        "field": "CNT"
       }
     }
   }
