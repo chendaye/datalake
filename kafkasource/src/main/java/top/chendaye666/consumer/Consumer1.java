@@ -2,11 +2,13 @@ package top.chendaye666.consumer;
 
 import com.sun.org.apache.xml.internal.utils.XMLStringDefault;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -18,7 +20,35 @@ import java.util.Properties;
  * 可以减小位移提交的时间间隔来减小消息重复的时间窗口，但是这会使移提交更加频繁。
  */
 public class Consumer1 {
-    public void consumer(){
+    public static void main(String[] args) {
+        consumer2();
+    }
+
+    public static void consumer2(){
+        //设置消费组的名称
+        //将属性值反序列化
+        Properties properties=new Properties();
+        properties.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("bootstrap.servers","hadoop01:9092,hadoop02:9092,hadoop03:9092");
+        properties.put("group.id","test");
+
+        //创建一个消费者客户端实例
+        KafkaConsumer<String,String> consumer=new KafkaConsumer<>(properties);
+
+        //订阅主题
+        consumer.subscribe(Collections.singletonList("ods_ncddzt_test"));
+
+        //循环消费消息
+        while (true){
+            ConsumerRecords<String,String> records=consumer.poll(Duration.ofMillis(1000));
+            for (ConsumerRecord<String,String> record:records){
+                System.out.println("receiver a message from consumer client:"+record.value());
+            }
+        }
+    }
+
+    public static void consumer(){
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop01:9092,hadoop02:9092,hadoop03:9092");
         //  group.id 相同的属于同一个 消费者组
@@ -33,7 +63,7 @@ public class Consumer1 {
 //        props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, Interceptor1.class.getName());
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Arrays.asList("iceberg"));
+        consumer.subscribe(Arrays.asList("ods_ncddzt_test"));
 
         // 启动消费
         while (true){

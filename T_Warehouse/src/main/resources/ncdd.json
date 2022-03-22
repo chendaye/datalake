@@ -18,9 +18,7 @@
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "BS_NCDD_PUB0_SEAT1",
@@ -63,9 +61,7 @@
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "BS_NCDD_PUB0_SEAT1",
@@ -94,15 +90,13 @@
         },
         {
           "mi": {
-            "field": "time",
+            "field": "mi",
             "type": "raw",
             "value": "BS_NCDD_RECV_TIME"
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "node",
@@ -135,15 +129,13 @@
         },
         {
           "mi": {
-            "field": "time",
+            "field": "mi",
             "type": "raw",
             "value": "BS_NCDD_SEND_TIME"
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "BS_NCDD_SEND_SEAT1",
@@ -180,15 +172,13 @@
         },
         {
           "mi": {
-            "field": "time",
+            "field": "mi",
             "type": "raw",
             "value": "BS_NCDD_SEND_TIME1"
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "BS_NCDD_SEND_SEAT1",
@@ -223,9 +213,7 @@
           },
           "time": {
             "field": "time",
-            "type": "time",
-            "format1": "yyyyMMdd HHmmssSSS",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "node",
@@ -254,11 +242,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_NCDD_MSGTYPE",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NCDD_MSGTYPE"
+          },
           "time": {
             "field": "time",
-            "type": "time",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "node",
@@ -282,9 +273,7 @@
           },
           "val": {
             "field": "BS_NCDD_MSGTYPE",
-            "type": "map",
-            "notnull": "Y",
-            "type": "int"
+            "type": "map"
           }
         }
       ]
@@ -293,11 +282,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_NCDD_RUNLOGMSG",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NCDD_RUNLOGMSG"
+          },
           "time": {
             "field": "time",
-            "type": "time",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "node",
@@ -327,18 +319,18 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_SUM_10MIN",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_SUM_10MIN"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "map",
-            "notnull": "Y",
-            "type": "int"
+            "type": "map"
           }
         }
       ]
@@ -347,18 +339,18 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_SUM_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_SUM_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "map",
-            "notnull": "Y",
-            "type": "int"
+            "type": "map"
           }
         }
       ]
@@ -367,12 +359,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_NCDD_OIW_WT",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NCDD_OIW_WT"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "NODE",
@@ -388,7 +382,6 @@
           },
           "val_str": {
             "field": "CHANNEL",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -398,12 +391,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_NCDD_OIW_COM",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NCDD_OIW_COM"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "NODE",
@@ -419,7 +414,6 @@
           },
           "val_str": {
             "field": "CHANNEL",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -429,12 +423,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_XW_WT_COUNTS",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_XW_WT_COUNTS"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "NODE",
@@ -450,8 +446,6 @@
           },
           "val": {
             "field": "NODE",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -461,12 +455,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_NODE_MSG_COUNTS",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_NODE_MSG_COUNTS"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "node": {
             "field": "NODE",
@@ -486,8 +482,6 @@
           },
           "val": {
             "field": "CHANNEL2",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -497,17 +491,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WT_KEHU_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WT_KEHU_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -517,17 +511,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_TOTAL_KEHU_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_TOTAL_KEHU_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -537,17 +531,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WT_BISHU_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WT_BISHU_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -557,17 +551,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WT_BISHU_10MIN",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WT_BISHU_10MIN"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -577,17 +571,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_BISHU_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_BISHU_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -597,17 +591,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_BISHU_10MIN",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_BISHU_10MIN"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -617,17 +611,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WITHDRAW_BISHU_10MIN",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WITHDRAW_BISHU_10MIN"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -637,17 +631,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WITHDRAW_BISHU_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WITHDRAW_BISHU_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -657,17 +651,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_AMOUNT_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_AMOUNT_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -677,12 +671,14 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_CJ_ASSET_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_CJ_ASSET_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "channel2": {
             "field": "CHANNEL2",
@@ -690,8 +686,6 @@
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -701,17 +695,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WT_CHEDAN_PERCENT",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WT_CHEDAN_PERCENT"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -721,17 +715,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_YJ_JZJY_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_YJ_JZJY_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -741,17 +735,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_YJ_RZRQ_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_YJ_RZRQ_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -761,17 +755,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_YJ_VIP_DAY",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_YJ_VIP_DAY"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }
@@ -781,17 +775,17 @@
       "tableName": "ncdd_common",
       "mis": [
         {
-          "mi": "BS_WT_ALLCUST_PERCENT",
+          "mi": {
+            "field": "mi",
+            "type": "raw",
+            "value": "BS_WT_ALLCUST_PERCENT"
+          },
           "time": {
             "field": "TIME",
-            "type": "time",
-            "format1": "yyyy-MM-dd HH:mm:ss",
-            "format2": "yyyy-MM-dd HH:mm:ss.SSS"
+            "type": "map"
           },
           "val": {
             "field": "CNT",
-            "type": "int",
-            "notnull": "Y",
             "type": "map"
           }
         }

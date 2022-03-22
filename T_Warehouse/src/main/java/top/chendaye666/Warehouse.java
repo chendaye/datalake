@@ -1,13 +1,16 @@
 package top.chendaye666;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -16,6 +19,8 @@ import org.apache.flink.util.Collector;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.source.FlinkSource;
 import top.chendaye666.Process.WarehouseFlatMap;
+import top.chendaye666.Process.WarehouseKeyedProcessFunction;
+import top.chendaye666.Process.WarehouseProcessFunction;
 import top.chendaye666.Service.WarehouseTableService;
 import top.chendaye666.pojo.CommonTableEntity;
 import top.chendaye666.pojo.NcddLogEntity;
@@ -59,7 +64,15 @@ public class Warehouse {
 
         // table 转为 AppendStream 进行处理
         tEnv.toAppendStream(table, NcddLogEntity.class)
+//                .filter(new FilterFunction<NcddLogEntity>() {
+//                    @Override
+//                    public boolean filter(NcddLogEntity ncddLogEntity) throws Exception {
+//                        int i = ncddLogEntity.getLog().indexOf("custrate");
+//                        return i > -1;
+//                    }
+//                })
                 .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")))
+                .process(new WarehouseProcessFunction())
         .print();
 
 

@@ -1,6 +1,7 @@
 package top.chendaye666.reflect;
 
 import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
@@ -74,18 +75,6 @@ public class ReflectUtils {
             Class<?> cls = obj.getClass();
             Method method = cls.getDeclaredMethod(methodName);   //getter没有参数
             return method.invoke(obj);
-        }catch (Exception e){
-            log.info("调用类："+obj.getClass()+"的方法："+methodName+"失败！");
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Object invokeMethod(Object obj, String methodName, Object value){
-        try {
-            Class<?> cls = obj.getClass();
-            Method method = cls.getDeclaredMethod(methodName, Object.class);   // 一个参数
-            return method.invoke(obj, value);
         }catch (Exception e){
             log.info("调用类："+obj.getClass()+"的方法："+methodName+"失败！");
             e.printStackTrace();
