@@ -1,8 +1,17 @@
 package top.chendaye666.Service;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import top.chendaye666.Process.WarehouseFlatMap;
+import top.chendaye666.Process.WarehouseProcessFunction;
+import top.chendaye666.dao.NcddDao;
+import top.chendaye666.pojo.NcddLogEntity;
+import top.chendaye666.utils.JsonParamUtils;
 
 public class WarehouseTableService {
+
     /**
      * catalog
      * @param tEnv
@@ -18,54 +27,20 @@ public class WarehouseTableService {
     }
 
     /**
-     * 一般表
+     * 入库
+     * @param env
      * @param tEnv
+     * @param logTablePath
+     * @param jsonParam
      */
-    public void createCommonTable(StreamTableEnvironment tEnv){
-        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime.ncdd_common (\n" +
-                "    `mi` STRING,\n" +
-                "    `time` STRING,\n" +
-                "    `date` STRING,\n" +
-                "    `node` STRING,\n" +
-                "    `channel` STRING,\n" +
-                "    `channel2` STRING,\n" +
-                "    `channel3` STRING,\n" +
-                "    `channel4` STRING,\n" +
-                "    `channel5` STRING,\n" +
-                "    `channel6` STRING,\n" +
-                "    `val` FLOAT,\n" +
-                "    `val_str` STRING\n" +
-                ") PARTITIONED BY (`date`) WITH (\n" +
-                "    'write.metadata.delete-after-commit.enabled'='true',\n" +
-                "    'write.metadata.previous-versions-max'='6',\n" +
-                "    'read.split.target-size'='1073741824',\n" +
-                "    'write.distribution-mode'='hash'\n" +
-                ")";
+    public void transLogToRecord(StreamExecutionEnvironment env, StreamTableEnvironment tEnv, String logTablePath, JsonParamUtils jsonParam){
+        NcddDao ncddDao = new NcddDao();
+        Table ncddLog = ncddDao.getNcddLog(env, tEnv, logTablePath);
 
-        tEnv.executeSql(sql);
-    }
-
-    public void createGtulogTable(StreamTableEnvironment tEnv){
-        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime.ncdd_gtulog (\n" +
-                "    `mi` STRING,\n" +
-                "    `time` STRING,\n" +
-                "    `date` STRING,\n" +
-                "    `node` STRING,\n" +
-                "    `channel` STRING,\n" +
-                "    `channel2` STRING,\n" +
-                "    `channel3` STRING,\n" +
-                "    `channel4` STRING,\n" +
-                "    `channel5` STRING,\n" +
-                "    `channel6` STRING,\n" +
-                "    `val` FLOAT,\n" +
-                "    `val_str` STRING\n" +
-                ") PARTITIONED BY (`date`) WITH (\n" +
-                "    'write.metadata.delete-after-commit.enabled'='true',\n" +
-                "    'write.metadata.previous-versions-max'='6',\n" +
-                "    'read.split.target-size'='1073741824',\n" +
-                "    'write.distribution-mode'='hash'\n" +
-                ")";
-
-        tEnv.executeSql(sql);
+        // table 转为 AppendStream 进行处理
+        tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
+                .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")))
+                .process(new WarehouseProcessFunction())
+                .print();
     }
 }

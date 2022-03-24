@@ -36,7 +36,8 @@ public class Etl {
         EtlToTableervice etlToTableervice = new EtlToTableervice();
         etlToTableervice.createHadoopCatalog(tEnv);
         etlToTableervice.createOdsTable(tEnv);
-        etlToTableervice.insert(tEnv, etl);
+        String tableName = jsonParam.getJson("baseConf").getString("table");
+        etlToTableervice.insert(tEnv, etl, "hadoop_prod.realtime."+tableName);
 
         env.execute("ETL");
     }

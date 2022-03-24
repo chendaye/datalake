@@ -46,7 +46,7 @@ public class EtlToTableervice {
      * @param tEnv
      * @param etl
      */
-    public void insert(StreamTableEnvironment tEnv, SingleOutputStreamOperator<String> etl){
+    public void insert(StreamTableEnvironment tEnv, SingleOutputStreamOperator<String> etl, String tableName){
         // 当前时间
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
@@ -60,7 +60,7 @@ public class EtlToTableervice {
 
         Table tempTable = tEnv.fromDataStream(tupleEtl,$("date"), $("log")); // 流转table
         tEnv.createTemporaryView("etl_table", tempTable); // 临时表
-        String sinkSql = "INSERT INTO  hadoop_prod.realtime.ncdd_log SELECT `date`, `log` FROM" +
+        String sinkSql = "INSERT INTO  "+tableName+" SELECT `date`, `log` FROM" +
                 " default_catalog" +
                 ".default_database" +
                 ".etl_table";
