@@ -1,19 +1,20 @@
 package top.chendaye666.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.streaming.api.datastream.KeyedStream;
+
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.util.OutputTag;
 import top.chendaye666.Process.WarehouseFlatMap;
 import top.chendaye666.Process.WarehouseProcessFunction;
 import top.chendaye666.dao.NcddDao;
 import top.chendaye666.pojo.CommonTableEntity;
 import top.chendaye666.pojo.NcddLogEntity;
+import top.chendaye666.pojo.RecordEntity;
 import top.chendaye666.utils.JsonParamUtils;
+import static org.apache.flink.table.api.Expressions.$;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,7 +36,7 @@ public class WarehouseTableService {
     }
 
     /**
-     * 入库
+     * 入库: hdfs dfs -ls /warehouse/iceberg/realtime/ncdd_common/data/date=2022-03-22
      * @param env
      * @param tEnv
      * @param logTablePath
@@ -50,20 +51,40 @@ public class WarehouseTableService {
         Table ncddLog = ncddDao.getNcddLog(env, tEnv, logTablePath);
 
         // table 转为 AppendStream 进行处理
-        SingleOutputStreamOperator<CommonTableEntity> sourceType = tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
+        SingleOutputStreamOperator<CommonTableEntity> commonTableEntityStream = tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
                 .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")));
+
+        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
+
         // 每个表分别插入数据
         Iterator<String> iterator = tableSet.iterator();
+        // 遍历每一张表
         while (iterator.hasNext()){
             String tableName = iterator.next();
-            SingleOutputStreamOperator<CommonTableEntity> tableStream = sourceType.filter(new FilterFunction<CommonTableEntity>() {
-                @Override
-                public boolean filter(CommonTableEntity commonTableEntity) throws Exception {
-                    return commonTableEntity.getTable_name().equals(tableName);
-                }
-            });
-            Table table = tEnv.fromDataStream(tableStream);
+            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName){});
+            // 插入对应的表
+            String tagTable = "tag_"+tableName;
+            tEnv.createTemporaryView(tagTable, sideOutput);
 
+            ncddDao.createCommonTable(tEnv, tableName);
+            String sinkSql = "INSERT INTO  hadoop_prod.realtime."+tableName+" SELECT " +
+                    "`source_type`, " +
+                    "`mi`, " +
+                    "`time`, " +
+                    "`created_at`, " +
+                    "`date`, " +
+                    "`node`, " +
+                    "`channel`, " +
+                    "`channel2`, " +
+                    "`channel3`, " +
+                    "`channel4`, " +
+                    "`channel5`, " +
+                    "`channel6`, " +
+                    "`val`, " +
+                    "`val_str` " +
+                    "from default_catalog.default_database."+tagTable ;
+
+            tEnv.executeSql(sinkSql);
         }
 
 

@@ -28,13 +28,10 @@ public class Warehouse {
         WarehouseTableService warehouseTableService = new WarehouseTableService();
         warehouseTableService.createHadoopCatalog(tEnv);
 
-
-
         // 读ncdd_log 表
         // table 转 流
         String logTablePath = "hdfs://hadoop01:8020/warehouse/iceberg/realtime/"+jsonParam.getJson("baseConf").getString("table");
         warehouseTableService.transLogToRecord(env, tEnv, logTablePath, jsonParam);
-
         env.execute("Warehouse");
     }
 }

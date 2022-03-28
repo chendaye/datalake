@@ -31,12 +31,14 @@ public class Etl {
         // etl log
         EtlLogService etlLogService = new EtlLogService();
         SingleOutputStreamOperator<String> etl = etlLogService.etl(jsonParam, env);
+        etl.print();
 
         // insert table
         EtlToTableervice etlToTableervice = new EtlToTableervice();
         etlToTableervice.createHadoopCatalog(tEnv);
         etlToTableervice.createOdsTable(tEnv);
         String tableName = jsonParam.getJson("baseConf").getString("table");
+        System.out.println(tableName);
         etlToTableervice.insert(tEnv, etl, "hadoop_prod.realtime."+tableName);
 
         env.execute("ETL");

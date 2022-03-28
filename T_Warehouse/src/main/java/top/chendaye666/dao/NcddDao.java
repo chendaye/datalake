@@ -16,15 +16,15 @@ import static org.apache.flink.table.api.Expressions.$;
 public class NcddDao {
 
     /**
-     * 创建表 ncdd_common
+     * 创建表
      * @param tEnv
      */
-    public void createCommonTable(StreamTableEnvironment tEnv){
-        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime.ncdd_common (\n" +
+    public void createCommonTable(StreamTableEnvironment tEnv, String tableName){
+        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime."+tableName+" (\n" +
                 "    `source_type` STRING,\n" +
                 "    `mi` STRING,\n" +
                 "    `time` STRING,\n" +
-                "    `created_at` LONG,\n" +
+                "    `created_at` BIGINT,\n" +
                 "    `date` STRING,\n" +
                 "    `node` STRING,\n" +
                 "    `channel` STRING,\n" +
@@ -41,38 +41,6 @@ public class NcddDao {
                 "    'read.split.target-size'='1073741824',\n" +
                 "    'write.distribution-mode'='hash'\n" +
                 ")";
-
-        tEnv.executeSql(sql);
-    }
-
-
-    /**
-     * 创建表 ncdd_gtulog
-     * @param tEnv
-     */
-    public void createGtulogTable(StreamTableEnvironment tEnv){
-        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime.ncdd_gtulog (\n" +
-                "    `source_type` STRING,\n" +
-                "    `mi` STRING,\n" +
-                "    `time` STRING,\n" +
-                "    `created_at` LONG,\n" +
-                "    `date` STRING,\n" +
-                "    `node` STRING,\n" +
-                "    `channel` STRING,\n" +
-                "    `channel2` STRING,\n" +
-                "    `channel3` STRING,\n" +
-                "    `channel4` STRING,\n" +
-                "    `channel5` STRING,\n" +
-                "    `channel6` STRING,\n" +
-                "    `val` FLOAT,\n" +
-                "    `val_str` STRING\n" +
-                ") PARTITIONED BY (`date`) WITH (\n" +
-                "    'write.metadata.delete-after-commit.enabled'='true',\n" +
-                "    'write.metadata.previous-versions-max'='6',\n" +
-                "    'read.split.target-size'='1073741824',\n" +
-                "    'write.distribution-mode'='hash'\n" +
-                ")";
-
         tEnv.executeSql(sql);
     }
 
