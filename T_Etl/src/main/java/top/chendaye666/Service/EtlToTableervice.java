@@ -27,8 +27,8 @@ public class EtlToTableervice {
      * 新建存储etl数据的表
      * @param tEnv
      */
-    public void createOdsTable(StreamTableEnvironment tEnv){
-        String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime.ncdd_log (\n" +
+    public void createOdsTable(StreamTableEnvironment tEnv, String tableName){
+        String sql = "CREATE TABLE IF NOT EXISTS "+tableName+" (\n" +
                 "    `date` STRING,\n" +
                 "    `log` STRING\n" +
                 ") PARTITIONED BY (`date`) WITH (\n" +

@@ -4,7 +4,7 @@
     "kafkaAdds": "hadoop01:9092,hadoop02:9092,hadoop03:9092",
     "topicName": "ncdd_log",
     "consumerID": "ncdd_etl",
-    "table": "ncdd_log"
+    "table": "ncdd_raw"
   },
   "sourceType": {
     "gtulog": {
@@ -239,7 +239,7 @@
       ]
     },
     "szv5": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -279,7 +279,7 @@
       ]
     },
     "runlog": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -316,7 +316,7 @@
       ]
     },
     "custsum10min": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -336,7 +336,7 @@
       ]
     },
     "custsumallday": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -356,7 +356,7 @@
       ]
     },
     "ncddoiw": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -388,7 +388,7 @@
       ]
     },
     "ncddoiw2": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -420,7 +420,7 @@
       ]
     },
     "wtcounts": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -452,7 +452,7 @@
       ]
     },
     "msgcounts": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -488,7 +488,7 @@
       ]
     },
     "nowwtcust": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -508,7 +508,7 @@
       ]
     },
     "custnum": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -528,7 +528,7 @@
       ]
     },
     "kswtqtzl": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -548,7 +548,7 @@
       ]
     },
     "kswtlastten": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -568,7 +568,7 @@
       ]
     },
     "kscjqt": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -588,7 +588,7 @@
       ]
     },
     "kscjlastten": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -608,7 +608,7 @@
       ]
     },
     "cdlastten": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -628,7 +628,7 @@
       ]
     },
     "nowcd": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -648,7 +648,7 @@
       ]
     },
     "cjjinetotal": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -668,7 +668,7 @@
       ]
     },
     "zctotal": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -692,7 +692,7 @@
       ]
     },
     "nowwcrate": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -712,7 +712,7 @@
       ]
     },
     "jzjyyj": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -732,7 +732,7 @@
       ]
     },
     "rzrqyj": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -752,7 +752,7 @@
       ]
     },
     "vipyj": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
@@ -772,7 +772,7 @@
       ]
     },
     "custrate": {
-      "tableName": "ncdd_common",
+      "tableName": "ncdd_general",
       "mis": [
         {
           "mi": {
