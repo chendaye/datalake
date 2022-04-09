@@ -58,20 +58,20 @@ public class WarehouseTableService {
         // table 转为 AppendStream 进行处理
         SingleOutputStreamOperator<CommonTableEntity> commonTableEntityStream = tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
                 .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")));
-        commonTableEntityStream.print("commonTableEntityStream");
+//        commonTableEntityStream.print("commonTableEntityStream");
         // 拆分流
-//        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
-
+        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
+//        recordEntityStream.print("recordEntityStream");
         // 每个表分别插入数据
         Iterator<String> iterator = tableSet.iterator();
         // 遍历每一张表
-//        while (iterator.hasNext()){
+        while (iterator.hasNext()){
             String tableName = iterator.next();
-//            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName){});
-//            sideOutput.print("sideOutput");
+            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName){});
+            sideOutput.print("sideOutput");
             // 插入对应的表
             String tagTable = "tag_"+tableName;
-            tEnv.createTemporaryView(tagTable, commonTableEntityStream);
+            tEnv.createTemporaryView(tagTable, sideOutput);
 
 //            TableResult execute = tEnv.sqlQuery("select * from  default_catalog.default_database." + tagTable).execute();
 //            TableResult execute = tEnv.sqlQuery("select * from  hadoop_prod.realtime.ncdd_raw").execute();
@@ -95,7 +95,7 @@ public class WarehouseTableService {
                     "`val_str` " +
                     "from default_catalog.default_database."+tagTable ;
         tEnv.executeSql(sinkSql);
-//        }
+        }
 
 
 
