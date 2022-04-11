@@ -1,6 +1,7 @@
 package top.chendaye666.Service;
 
 
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple13;
 import org.apache.flink.api.java.tuple.Tuple14;
@@ -58,27 +59,30 @@ public class WarehouseTableService {
         // table 转为 AppendStream 进行处理
         SingleOutputStreamOperator<CommonTableEntity> commonTableEntityStream = tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
                 .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")));
-//        commonTableEntityStream.print("commonTableEntityStream");
-        // 拆分流
-        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
-//        recordEntityStream.print("recordEntityStream");
+
+//        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
+
         // 每个表分别插入数据
         Iterator<String> iterator = tableSet.iterator();
         // 遍历每一张表
-        while (iterator.hasNext()){
+//        while (iterator.hasNext()){
             String tableName = iterator.next();
-            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName){});
-            sideOutput.print("sideOutput");
+            // 过滤流
+//            SingleOutputStreamOperator<CommonTableEntity> splitStream = commonTableEntityStream.filter(new FilterFunction<CommonTableEntity>() {
+//                @Override
+//                public boolean filter(CommonTableEntity commonTableEntity) throws Exception {
+//                    return commonTableEntity.getTable_name().equals(tableName);
+//                }
+//            });
+            //拆分流
+//            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName) {});
+
             // 插入对应的表
             String tagTable = "tag_"+tableName;
-            tEnv.createTemporaryView(tagTable, sideOutput);
-
-//            TableResult execute = tEnv.sqlQuery("select * from  default_catalog.default_database." + tagTable).execute();
-//            TableResult execute = tEnv.sqlQuery("select * from  hadoop_prod.realtime.ncdd_raw").execute();
-//            execute.print();
-
+            tEnv.createTemporaryView(tagTable, commonTableEntityStream);
             ncddDao.createCommonTable(tEnv, tableName);
             String sinkSql = "INSERT INTO  hadoop_prod.realtime."+tableName+" SELECT " +
+                    "`table_name`, " +
                     "`source_type`, " +
                     "`mi`, " +
                     "`time`, " +
@@ -95,9 +99,6 @@ public class WarehouseTableService {
                     "`val_str` " +
                     "from default_catalog.default_database."+tagTable ;
         tEnv.executeSql(sinkSql);
-        }
-
-
-
+//        }
     }
 }

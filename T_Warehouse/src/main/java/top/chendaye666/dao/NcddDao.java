@@ -21,6 +21,7 @@ public class NcddDao {
      */
     public void createCommonTable(StreamTableEnvironment tEnv, String tableName){
         String sql = "CREATE TABLE IF NOT EXISTS hadoop_prod.realtime."+tableName+" (\n" +
+                "    `table_name` STRING,\n" +
                 "    `source_type` STRING,\n" +
                 "    `mi` STRING,\n" +
                 "    `time` STRING,\n" +
