@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
@@ -17,30 +19,25 @@ import java.util.Properties;
  * 日志清洗
  */
 public class EtlLogService {
-    public SingleOutputStreamOperator<String> etl(JsonParamUtils jsonParam, StreamExecutionEnvironment env){
+    public SingleOutputStreamOperator<String> etl(JsonParamUtils jsonParam, StreamExecutionEnvironment env) {
         Properties properties = new Properties();
         properties.setProperty("bootstrap.servers", jsonParam.getJson("baseConf").getString("kafkaAdds"));
         properties.setProperty("group.id", jsonParam.getJson("baseConf").getString("consumerID"));
         FlinkKafkaConsumer<String> consumer = new FlinkKafkaConsumer<>(jsonParam.getJson("baseConf").getString("topicName"), new SimpleStringSchema(), properties);
-        consumer.setStartFromEarliest();     // 尽可能从最早的记录开始
-//        env.addSource(consumer).print();
+        consumer.setStartFromEarliest();     // 尽可能从最早的记录开始,默认从最新开始
+
+//        env.addSource(consumer).print("kafka");
         // 日志转化为实体类
-        SingleOutputStreamOperator<String> sourceTypeContentStream = env.addSource(consumer).map(new MapFunction<String, LogEntity>() {
-            @Override
-            public LogEntity map(String s) throws Exception {
-                return JSONObject.parseObject(s, LogEntity.class);
-            }
-        })
-//                .filter(new FilterFunction<LogEntity>() { // 筛选 source_type
-//                    @Override
-//                    public boolean filter(LogEntity logEntity) throws Exception {
-//                        return logEntity.getSource_type().equals("szv5");
-//                    }
-//                })
-                .keyBy(LogEntity::getSource_type)
+        SingleOutputStreamOperator<String> sourceTypeContentStream = env.addSource(consumer)
+                .map(new MapFunction<String, LogEntity>() {
+                    @Override
+                    public LogEntity map(String s) throws Exception {
+                        return JSONObject.parseObject(s, LogEntity.class);
+                    }
+                })
+                .keyBy((KeySelector<LogEntity, String>) logEntity -> logEntity.getSource_type())
                 .process(new EtlProcessFunction(jsonParam.getJson("sourceType")));
-        // TODO:写入表
-        sourceTypeContentStream.print();
         return sourceTypeContentStream;
     }
 }
+

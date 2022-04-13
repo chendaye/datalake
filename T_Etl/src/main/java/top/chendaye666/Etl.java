@@ -1,5 +1,6 @@
 package top.chendaye666;
 
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -7,6 +8,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import top.chendaye666.Service.EtlLogService;
 import top.chendaye666.Service.EtlToTableervice;
+import top.chendaye666.pojo.LogEntity;
 import top.chendaye666.utils.JsonParamUtils;
 
 
@@ -31,14 +33,13 @@ public class Etl {
         // etl log
         EtlLogService etlLogService = new EtlLogService();
         SingleOutputStreamOperator<String> etl = etlLogService.etl(jsonParam, env);
-        etl.print();
+        etl.print("etl");
 
         // insert table
         EtlToTableervice etlToTableervice = new EtlToTableervice();
         etlToTableervice.createHadoopCatalog(tEnv);
         String tableName = jsonParam.getJson("baseConf").getString("table");
         etlToTableervice.createOdsTable(tEnv, "hadoop_prod.realtime."+tableName);
-        System.out.println(tableName);
         etlToTableervice.insert(tEnv, etl, "hadoop_prod.realtime."+tableName);
 
         env.execute("ETL");

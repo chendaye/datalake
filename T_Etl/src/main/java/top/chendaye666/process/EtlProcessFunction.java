@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 import top.chendaye666.Strategy.ParseContext;
 import top.chendaye666.Strategy.impl.*;
@@ -22,7 +23,7 @@ import java.util.Map;
  * 处理键控流
  */
 @Slf4j
-public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, String>{
+public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, String> {
     /*日志解析配置*/
     private JSONObject sourceType;
     private ParseContext<LogEntity, String> context;
@@ -84,6 +85,7 @@ public class EtlProcessFunction extends KeyedProcessFunction<String, LogEntity, 
         }
         keyValueMap.put("source_type", type);
         keyValueMap.put("create_at", System.currentTimeMillis()+"");
+
         out.collect(JSON.toJSONString(keyValueMap));
     }
 }

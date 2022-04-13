@@ -56,49 +56,38 @@ public class WarehouseTableService {
         NcddDao ncddDao = new NcddDao();
         Table ncddLog = ncddDao.getNcddLog(env, tEnv, logTablePath);
 
+
         // table 转为 AppendStream 进行处理
         SingleOutputStreamOperator<CommonTableEntity> commonTableEntityStream = tEnv.toAppendStream(ncddLog, NcddLogEntity.class)
                 .flatMap(new WarehouseFlatMap(jsonParam.getJson("sourceType")));
 
-//        SingleOutputStreamOperator<RecordEntity> recordEntityStream = commonTableEntityStream.process(new WarehouseProcessFunction());
-
+        // 测试
+        tEnv.toAppendStream(ncddLog, NcddLogEntity.class).print();
         // 每个表分别插入数据
         Iterator<String> iterator = tableSet.iterator();
         // 遍历每一张表
-//        while (iterator.hasNext()){
-            String tableName = iterator.next();
-            // 过滤流
-//            SingleOutputStreamOperator<CommonTableEntity> splitStream = commonTableEntityStream.filter(new FilterFunction<CommonTableEntity>() {
-//                @Override
-//                public boolean filter(CommonTableEntity commonTableEntity) throws Exception {
-//                    return commonTableEntity.getTable_name().equals(tableName);
-//                }
-//            });
-            //拆分流
-//            DataStream<RecordEntity> sideOutput = recordEntityStream.getSideOutput(new OutputTag<RecordEntity>(tableName) {});
-
-            // 插入对应的表
-            String tagTable = "tag_"+tableName;
-            tEnv.createTemporaryView(tagTable, commonTableEntityStream);
-            ncddDao.createCommonTable(tEnv, tableName);
-            String sinkSql = "INSERT INTO  hadoop_prod.realtime."+tableName+" SELECT " +
-                    "`table_name`, " +
-                    "`source_type`, " +
-                    "`mi`, " +
-                    "`time`, " +
-                    "`created_at`, " +
-                    "`date`, " +
-                    "`node`, " +
-                    "`channel`, " +
-                    "`channel2`, " +
-                    "`channel3`, " +
-                    "`channel4`, " +
-                    "`channel5`, " +
-                    "`channel6`, " +
-                    "`val`, " +
-                    "`val_str` " +
-                    "from default_catalog.default_database."+tagTable ;
-        tEnv.executeSql(sinkSql);
-//        }
+        String tableName = iterator.next();
+        // 插入对应的表
+        String tagTable = "tag_"+tableName;
+        tEnv.createTemporaryView(tagTable, commonTableEntityStream);
+        ncddDao.createCommonTable(tEnv, tableName);
+        String sinkSql = "INSERT INTO  hadoop_prod.realtime."+tableName+" SELECT " +
+                "`table_name`, " +
+                "`source_type`, " +
+                "`mi`, " +
+                "`time`, " +
+                "`created_at`, " +
+                "`date`, " +
+                "`node`, " +
+                "`channel`, " +
+                "`channel2`, " +
+                "`channel3`, " +
+                "`channel4`, " +
+                "`channel5`, " +
+                "`channel6`, " +
+                "`val`, " +
+                "`val_str` " +
+                "from default_catalog.default_database."+tagTable ;
+            tEnv.executeSql(sinkSql);
     }
 }
