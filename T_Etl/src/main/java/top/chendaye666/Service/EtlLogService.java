@@ -35,7 +35,7 @@ public class EtlLogService {
                         return JSONObject.parseObject(s, LogEntity.class);
                     }
                 })
-                .keyBy((KeySelector<LogEntity, String>) logEntity -> logEntity.getSource_type())
+                .keyBy((KeySelector<LogEntity, String>) LogEntity::getSource_type)
                 .process(new EtlProcessFunction(jsonParam.getJson("sourceType")));
         return sourceTypeContentStream;
     }
