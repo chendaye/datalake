@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <artifactId>flink-cep_${scala.binary.version}</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
         </dependency>
         <dependency>
@@ -81,6 +87,23 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-sql-connector-kafka_${scala.binary.version}</artifactId>
         </dependency>
+
+        <!-- 写入数据到clickhouse -->
+<!--        https://mvnrepository.com/artifact/ru.yandex.clickhouse/clickhouse-jdbc/0.1.54-->
+<!--        <dependency>-->
+<!--            <groupId>ru.yandex.clickhouse</groupId>-->
+<!--            <artifactId>clickhouse-jdbc</artifactId>-->
+<!--            <version>0.3.2</version>-->
+<!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/com.clickhouse/clickhouse-jdbc -->
+        <dependency>
+            <groupId>com.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>0.3.2-patch8</version>
+        </dependency>
+
+
         <!--other-->
         <dependency>
             <groupId>org.projectlombok</groupId>

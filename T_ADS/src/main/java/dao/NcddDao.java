@@ -31,7 +31,7 @@ public class NcddDao {
      * @param tEnv
      * @return
      */
-    public Table getNcddGtu(StreamExecutionEnvironment env, StreamTableEnvironment tEnv, String logTablePath){
+    public Table getNcddGtu(StreamExecutionEnvironment env, StreamTableEnvironment tEnv, String logTablePath, boolean isStream){
         // 读ncdd_common 表
         // table 转 流
         TableLoader tableLoader = TableLoader.fromHadoopTable(logTablePath);
@@ -39,7 +39,7 @@ public class NcddDao {
         DataStream<RowData> stream = FlinkSource.forRowData()
                 .env(env)
                 .tableLoader(tableLoader)
-                .streaming(true )
+                .streaming(isStream )
                 // .startSnapshotId(2120L)
                 .build();
 //         stream.print("RowData");

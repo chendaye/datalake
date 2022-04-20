@@ -140,5 +140,48 @@ public class AsynchronousProducer {
         }
 //        top.chendaye666.producer.close();
     }
+
+
+    public  void producer3(){
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop01:9092,hadoop02:9092,hadoop03:9092");
+        props.put(ProducerConfig.ACKS_CONFIG, "all");
+        props.put(ProducerConfig.RETRIES_CONFIG, 1);
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 1024 * 32);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 32 * 1024 * 1024);
+        props.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, 100000000);
+        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+        String[] data = new String[3];
+        data[0] = "a 1";
+        data[1] = "b 2";
+        data[2] = "c 3";
+
+
+        String value = null;
+        //TODO:发送数据
+        while (true){
+            value = data[RandomInt.get(0,2)];
+//            System.out.println(value);
+            producer.send(new ProducerRecord<String, String>("windows_test2", value+" "+System.currentTimeMillis()), new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    if (e == null){
+                        System.out.println("Success:"+recordMetadata.offset());
+                    }else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+//        top.chendaye666.producer.close();
+    }
 }
 
