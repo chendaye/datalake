@@ -62,8 +62,8 @@ public class ClickHouseSinkUtil extends RichSinkFunction<L5Entity> {
     public void invoke(L5Entity l5Entity, Context context) throws Exception {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, l5Entity.getTime());
-        preparedStatement.setString(2, l5Entity.getListNumber());
-        preparedStatement.setString(3, l5Entity.getContractNo());
+        preparedStatement.setString(2, l5Entity.getContractNo());
+        preparedStatement.setString(3, l5Entity.getListNumber());
         preparedStatement.setString(4, l5Entity.getFundNumber());
         preparedStatement.setString(5, l5Entity.getSeatNumber());
         preparedStatement.addBatch();

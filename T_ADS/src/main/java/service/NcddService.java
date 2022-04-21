@@ -60,7 +60,7 @@ public class NcddService {
                     @Override
                     public String getKey(CommonTableEntity value) throws Exception {
                         // 不能使用 source_type 作为key 分组。state只能用在KeyedStream
-                        return "key";
+                        return value.getVal_str();
                     }
                 })
                 // 状态仅可在 KeyedStream 上使用，可以通过 stream.keyBy(...) 得到 KeyedStream.

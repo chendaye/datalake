@@ -2,6 +2,7 @@ package controller;
 
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -14,6 +15,8 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
+import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.util.Collector;
 import pojo.CommonTableEntity;
@@ -53,9 +56,9 @@ public class NcddStateController {
 
         //todo: 方法二：拆分流，然后join
         SingleOutputStreamOperator<L5Entity> process = ncddService.getL5Stream(stream);
-
-        // insert into clickhouse
-        clickhouseService.insertIntoClickHouse(env, process);
+//        process.print("1");
+//         insert into clickhouse
+        clickhouseService.insertIntoClickHouse(process);
         env.execute("stream join");
     }
 }

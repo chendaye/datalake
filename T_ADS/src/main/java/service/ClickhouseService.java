@@ -24,22 +24,30 @@ public class ClickhouseService {
     /**
      * create table dws(source_type String, index String, agent_timestamp String, topic String, total UInt16) ENGINE=TinyLog;
      * create table l5(time UInt16, contract_no String, list_number String, fund_number String, seat_number String) ENGINE=TinyLog;
+     * create table l5n(time UInt16, contract_no String, list_number String, fund_number String, seat_number String) ENGINE=ReplacingMergeTree() PARTITION BY seat_number ORDER BY  (fund_number, seat_number) PRIMARY KEY (fund_number, seat_number);
      *
-     * @param env
+     * CREATE TABLE IF NOT EXISTS default.l5r ON CLUSTER '{cluster}' (
+     *     time        UInt16,
+     *     contract_no String,
+     *     list_number String,
+     *     fund_number String,
+     *     seat_number String
+     * ) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{shard}/default/l5r', '{replica}') PARTITION BY contract_no ORDER BY (fund_number) PRIMARY KEY (fund_number) SETTINGS index_granularity = 8192;
+     *
+     * CREATE TABLE IF NOT EXISTS default.l5r_all ON CLUSTER '{layer}' AS default.l5r ENGINE = Distributed('{layer}',default,l5r,rand());
      * @param dataStream
      */
-    public void insertIntoClickHouse(StreamExecutionEnvironment env, DataStream<L5Entity> dataStream) throws Exception {
+    public void insertIntoClickHouse(DataStream<L5Entity> dataStream) throws Exception {
         try {
             // sink
-            String sql = "INSERT INTO default.l5 (time, contract_no, list_number, fund_number, seat_number) VALUES (?,?,?,?,?)";
+//            dataStream.print("wtf");
+            String sql = "INSERT INTO default.l5m (time, contract_no, list_number, fund_number, seat_number) VALUES (?,?,?,?,?)";
             ClickHouseSinkUtil clickHouseSink = new ClickHouseSinkUtil(sql);
             dataStream.addSink(clickHouseSink);
-        dataStream.print();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        env.execute("clickhouse sink");
-
     }
 
     /**
