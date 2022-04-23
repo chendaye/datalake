@@ -27,6 +27,7 @@
         <module>T_Etl</module>
         <module>T_Warehouse</module>
         <module>T_ADS</module>
+        <module>flink1.14iceberg0.13test</module>
     </modules>
 
     <properties>
