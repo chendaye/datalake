@@ -1,4 +1,4 @@
-package pojo;
+package top.chendaye666.pojo;
 
 import java.io.Serializable;
 

@@ -1,7 +1,8 @@
-package dao;
+package top.chendaye666.dao;
 
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.data.RowData;
@@ -35,6 +36,7 @@ public class NcddDao {
         // 读ncdd_common 表
         // table 转 流
         TableLoader tableLoader = TableLoader.fromHadoopTable(logTablePath);
+
         // 准实时的查询
         DataStream<RowData> stream = FlinkSource.forRowData()
                 .env(env)
@@ -43,23 +45,26 @@ public class NcddDao {
                 // .startSnapshotId(2120L)
                 .build();
 //         stream.print("RowData");
-//
          Table table = tEnv.fromDataStream(stream,
-                $("source_type"),
-                $("mi"),
-                $("time"),
-                $("created_at"),
-                $("date"),
-                $("node"),
-                $("channel"),
-                $("channel2"),
-                $("channel3"),
-                $("channel4"),
-                $("channel5"),
-                $("channel6"),
-                $("val"),
-                $("val_str")
-        );
+                Schema.newBuilder()
+                        .column("table_name", "STRING")
+                        .column("source_type", "STRING")
+                        .column("mi", "STRING")
+                        .column("time", "STRING")
+                        .column("date", "STRING")
+                        .column("created_at", "BIGINT")
+                        .column("node", "STRING")
+                        .column("channel", "STRING")
+                        .column("channel2", "STRING")
+                        .column("channel3", "STRING")
+                        .column("channel4", "STRING")
+                        .column("channel5", "STRING")
+                        .column("channel6", "STRING")
+                        .column("val", "FLOAT")
+                        .column("val_str", "STRING")
+//                        .columnByExpression("rowtime", "TO_TIMESTAMP_LTZ(created_at, 3)")
+//                        .watermark("rowtime", "rowtime - INTERVAL '10' SECOND")
+                        .build());
         return table;
     }
 }

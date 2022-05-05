@@ -1,9 +1,9 @@
-package utils;
+package top.chendaye666.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-import pojo.L5Entity;
+import top.chendaye666.pojo.L5Entity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,32 +1,17 @@
-package controller;
+package top.chendaye666.controller;
 
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
-import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.AggregateFunction;
-import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.common.functions.JoinFunction;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.state.*;
-import org.apache.flink.api.java.functions.KeySelector;
+
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
-import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
-import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.util.Collector;
-import pojo.CommonTableEntity;
-import pojo.L5Entity;
-import service.ClickhouseService;
-import service.NcddService;
-import utils.JsonParamUtils;
-import java.text.DateFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
+import top.chendaye666.pojo.CommonTableEntity;
+import top.chendaye666.pojo.L5Entity;
+import top.chendaye666.service.ClickhouseService;
+import top.chendaye666.service.NcddService;
+import top.chendaye666.utils.JsonParamUtils;
 
 
 public class NcddStateController {
@@ -43,7 +28,7 @@ public class NcddStateController {
         System.setProperty("HADOOP_USER_NAME", "hadoop");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // checkpoint
-        env.enableCheckpointing(5000);
+        env.enableCheckpointing(500);
         env.setStateBackend(new FsStateBackend("hdfs://hadoop01:8020/warehouse/backend2"));
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
 
@@ -56,7 +41,7 @@ public class NcddStateController {
 
         //todo: 方法二：拆分流，然后join
         SingleOutputStreamOperator<L5Entity> process = ncddService.getL5Stream(stream);
-//        process.print("1");
+//        top.chendaye666.process.print("1");
 //         insert into clickhouse
         clickhouseService.insertIntoClickHouse(process);
         env.execute("stream join");

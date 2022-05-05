@@ -2,6 +2,7 @@ package top.chendaye666.dao;
 
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.data.RowData;
@@ -63,9 +64,10 @@ public class NcddDao {
                 // .startSnapshotId(2120L)
                 .build();
 //         stream.print();
-        Table table = tEnv.fromDataStream(stream,
-                $("date"),
-                $("log")
+        Table table = tEnv.fromDataStream(stream, Schema.newBuilder()
+                .column("date", "String")
+                .column("log", "String")
+                .build()
         );
         return table;
     }

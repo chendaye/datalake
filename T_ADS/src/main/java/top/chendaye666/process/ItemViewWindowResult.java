@@ -1,4 +1,4 @@
-package process;
+package top.chendaye666.process;
 
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;

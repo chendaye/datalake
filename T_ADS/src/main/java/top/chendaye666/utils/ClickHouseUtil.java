@@ -1,4 +1,4 @@
-package utils;
+package top.chendaye666.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -28,13 +28,19 @@ public class ParseContext<I, O> {
      * @return
      */
     public O executeStrategy(ParamEntity param, I data){
-        String stgy = param.getStrategy();
-        O firstVal = strategy.get(param, data);
-        if (stgy != null){
-            Strategy<O,O> obj = (Strategy<O,O>)ReflectUtils.getObj(stgy);
-            return obj.get(param,firstVal);
+        try {
+            String stgy = param.getStrategy();
+            O firstVal = strategy.get(param, data);
+            if (stgy != null){
+                Strategy<O,O> obj = (Strategy<O,O>)ReflectUtils.getObj(stgy);
+                return obj.get(param,firstVal);
+            }
+            return firstVal;
+        }catch (Exception e){
+            e.printStackTrace();
+            // 解析失败返回 null
+            return null;
         }
-        return firstVal;
     }
 
 

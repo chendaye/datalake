@@ -1,7 +1,7 @@
-package process;
+package top.chendaye666.process;
 
 import org.apache.flink.api.common.functions.AggregateFunction;
-import pojo.CommonTableEntity;
+import top.chendaye666.pojo.CommonTableEntity;
 
 public class CountAgg implements AggregateFunction<CommonTableEntity, Long, Long> {
     @Override

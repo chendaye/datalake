@@ -14,6 +14,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <flink.version>1.14.4</flink.version>
+        <iceberg.version>0.13.1</iceberg.version>
     </properties>
 
     <dependencies>
@@ -39,10 +41,15 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
         </dependency>
+
+
+
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+            <artifactId>flink-table-planner_2.12</artifactId>
+            <version>1.14.4</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
@@ -52,13 +59,28 @@
             <artifactId>flink-table-common</artifactId>
         </dependency>
 
+
+
         <!-- Iceberg -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.iceberg</groupId>-->
+        <!--            <artifactId>iceberg-core</artifactId>-->
+        <!--            <version>${iceberg.version}</version>-->
+        <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.apache.iceberg/iceberg-flink -->
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-flink-runtime</artifactId>
+            <artifactId>iceberg-flink</artifactId>
+            <version>${iceberg.version}</version>
         </dependency>
 
-        <!--Hadoop-->
+        <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-flink-runtime-1.14</artifactId>
+            <version>${iceberg.version}</version>
+        </dependency>
+
+        <!--Hadoop hadoop-hdfs-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
@@ -95,6 +117,32 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>top.chendaye666.Etl</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

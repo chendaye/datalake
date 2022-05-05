@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 
 /**
  * flink 写入 clickhouse
- * /opt/flink-1.12.5/bin/flink run -m yarn-cluster -ynm clickhouse -c realtime.controller.FlinkToClickHouseController  -yjm 2048 -ytm 1024 -d /opt/work/realtimewarehouse-1.0-SNAPSHOT.jar
+ * /opt/flink-1.12.5/bin/flink run -m yarn-cluster -ynm clickhouse -c realtime.top.chendaye666.controller.FlinkToClickHouseController  -yjm 2048 -ytm 1024 -d /opt/work/realtimewarehouse-1.0-SNAPSHOT.jar
  */
 public class FlinkToClickHouseController {
     public static CommonService commonService = new CommonService();

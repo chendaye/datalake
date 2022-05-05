@@ -1,12 +1,12 @@
-package process;
+package top.chendaye666.process;
 
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
-import pojo.CommonTableEntity;
-import pojo.L5Entity;
+import top.chendaye666.pojo.CommonTableEntity;
+import top.chendaye666.pojo.L5Entity;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;

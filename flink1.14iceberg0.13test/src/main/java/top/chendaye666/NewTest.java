@@ -17,7 +17,7 @@ public class NewTest {
         env.enableCheckpointing(5000);
         // 查看flink api 文档，查询对应的类名，看过期的用什么替换
         env.setStateBackend(new HashMapStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend");
+        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend1.14");
 
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
 
@@ -29,7 +29,7 @@ public class NewTest {
                 ")";
         tEnv.executeSql(hadoopCatalogSql);
 
-        String logTablePath = "hdfs://hadoop01:8020/warehouse/iceberg/iceberg_db/sample";
+        String logTablePath = "hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_general";
 
         TableLoader tableLoader = TableLoader.fromHadoopTable(logTablePath);
         // 准实时的查询

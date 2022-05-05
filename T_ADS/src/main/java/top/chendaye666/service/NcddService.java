@@ -1,32 +1,37 @@
-package service;
+package top.chendaye666.service;
 
-import dao.NcddDao;
+import org.apache.flink.types.Row;
+import top.chendaye666.dao.NcddDao;
 import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.common.state.MapState;
-import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.util.Collector;
-import pojo.CommonTableEntity;
-import pojo.L5Entity;
-import process.L5KeyedProcessFunction;
-
-import java.text.DateFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
+import top.chendaye666.pojo.CommonTableEntity;
+import top.chendaye666.pojo.L5Entity;
+import top.chendaye666.process.L5KeyedProcessFunction;
 
 public class NcddService {
     NcddDao dao = new NcddDao();
 
     public DataStream<CommonTableEntity> getNcddGtuStream(StreamExecutionEnvironment env, StreamTableEnvironment tEnv, String tablePath){
         Table ncddGtu = dao.getNcddGtu(env, tEnv, tablePath, true);
-        DataStream<CommonTableEntity> stream = tEnv.toAppendStream(ncddGtu, CommonTableEntity.class);
+        DataStream<CommonTableEntity> stream = tEnv.toDataStream(ncddGtu, CommonTableEntity.class);
+        return stream;
+    }
+
+    /**
+     * 返回 ROW
+     * @param env
+     * @param tEnv
+     * @param tablePath
+     * @return
+     */
+    public DataStream<Row> getRowStream(StreamExecutionEnvironment env, StreamTableEnvironment tEnv, String tablePath){
+        Table ncddGtu = dao.getNcddGtu(env, tEnv, tablePath, true);
+        DataStream<Row> stream = tEnv.toDataStream(ncddGtu);
         return stream;
     }
 

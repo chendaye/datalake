@@ -19,14 +19,10 @@ public class DateGtuStrategyImpl implements Strategy<String, String> {
         Matcher mat = Pattern.compile("(\\d{8} \\d{9,})").matcher(data);
         if (mat.find()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HHmmssSSS");
-            Date date = null;
-            try {
-                date = dateFormat.parse(data, new ParsePosition(0));
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                return simpleDateFormat.format(date.getTime());
-            } catch (Exception e) {
-                return null;
-            }
+            Date date;
+            date = dateFormat.parse(data, new ParsePosition(0));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            return simpleDateFormat.format(date.getTime());
         }
         return null;
     }

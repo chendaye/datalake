@@ -1,23 +1,14 @@
-package service;
+package top.chendaye666.service;
 
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.data.RowData;
-import org.apache.iceberg.flink.TableLoader;
-import org.apache.iceberg.flink.source.FlinkSource;
-import pojo.L5Entity;
-import utils.ClickHouseSinkUtil;
-import utils.ClickHouseUtil;
+import top.chendaye666.pojo.L5Entity;
+import top.chendaye666.utils.ClickHouseSinkUtil;
+import top.chendaye666.utils.ClickHouseUtil;
 
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import static org.apache.flink.table.api.Expressions.$;
 
 public class ClickhouseService {
 

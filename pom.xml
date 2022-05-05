@@ -172,6 +172,7 @@
                 <version>${flink.version}</version>
             </dependency>
 
+
             <!-- Hive -->
             <dependency>
                 <groupId>org.apache.flink</groupId>

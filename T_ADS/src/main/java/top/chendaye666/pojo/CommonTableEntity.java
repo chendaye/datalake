@@ -1,10 +1,12 @@
-package pojo;
+package top.chendaye666.pojo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
-public class RecordEntity implements Serializable {
-    private static final long serialVersionUID = 5543092917727744539L;
+public class CommonTableEntity implements Serializable {
 
+    private static final long serialVersionUID = -4727606735952323159L;
+    String table_name;
     String source_type;
     String mi;
     String time;
@@ -19,9 +21,12 @@ public class RecordEntity implements Serializable {
     String channel6;
     float val;
     String val_str;
+//    Timestamp rowtime;
 
-    public RecordEntity(){}
-    public RecordEntity(String source_type, String mi, String time, String date, long created_at, String node, String channel, String channel2, String channel3, String channel4, String channel5, String channel6, float val, String val_str) {
+    public CommonTableEntity(){}
+
+    public CommonTableEntity(String table_name, String source_type, String mi, String time, String date, long created_at, String node, String channel, String channel2, String channel3, String channel4, String channel5, String channel6, float val, String val_str) {
+        this.table_name = table_name;
         this.source_type = source_type;
         this.mi = mi;
         this.time = time;
@@ -36,14 +41,6 @@ public class RecordEntity implements Serializable {
         this.channel6 = channel6;
         this.val = val;
         this.val_str = val_str;
-    }
-
-    public String getSource_type() {
-        return source_type;
-    }
-
-    public void setSource_type(String source_type) {
-        this.source_type = source_type;
     }
 
     public String getMi() {
@@ -68,14 +65,6 @@ public class RecordEntity implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public long getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
     }
 
     public String getNode() {
@@ -150,10 +139,36 @@ public class RecordEntity implements Serializable {
         this.val_str = val_str;
     }
 
+    public String getTable_name() {
+        return table_name;
+    }
+
+    public void setTable_name(String table_name) {
+        this.table_name = table_name;
+    }
+
+    public String getSource_type() {
+        return source_type;
+    }
+
+    public void setSource_type(String source_type) {
+        this.source_type = source_type;
+    }
+
+    public long getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
+
+
     @Override
     public String toString() {
-        return "RecordEntity{" +
-                "source_type='" + source_type + '\'' +
+        return "CommonTableEntity{" +
+                "table_name='" + table_name + '\'' +
+                ", source_type='" + source_type + '\'' +
                 ", mi='" + mi + '\'' +
                 ", time='" + time + '\'' +
                 ", date='" + date + '\'' +

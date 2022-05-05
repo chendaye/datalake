@@ -3,8 +3,10 @@ package top.chendaye666.Service;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import top.chendaye666.pojo.LogPraseEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,15 +53,20 @@ public class EtlToTableervice {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         String currentDaye = simpleDateFormat.format(date);
-        SingleOutputStreamOperator<Tuple2<String, String>> tupleEtl = etl.map(new MapFunction<String, Tuple2<String, String>>() {
+        SingleOutputStreamOperator<LogPraseEntity> tupleEtl = etl.map(new MapFunction<String, LogPraseEntity>() {
             @Override
-            public Tuple2<String, String> map(String s) throws Exception {
-                return new Tuple2<>(currentDaye, s);
+            public LogPraseEntity map(String s) throws Exception {
+                return new LogPraseEntity(currentDaye, s);
             }
         });
 
-        Table tempTable = tEnv.fromDataStream(tupleEtl,$("date"), $("log")); // 流转table
+//        tupleEtl.print("tupleEtl");
+        Table tempTable = tEnv.fromDataStream(tupleEtl, Schema.newBuilder()
+                .column("date", "STRING")
+                .column("log", "STRING")
+                .build());
         tEnv.createTemporaryView("etl_table", tempTable); // 临时表
+//        tEnv.sqlQuery("select * from etl_table limit 10").execute().print();
         String sinkSql = "INSERT INTO  "+tableName+" SELECT `date`, `log` FROM" +
                 " default_catalog" +
                 ".default_database" +
