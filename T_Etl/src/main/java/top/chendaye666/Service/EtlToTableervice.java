@@ -35,7 +35,7 @@ public class EtlToTableervice {
                 "    `log` STRING\n" +
                 ") PARTITIONED BY (`date`) WITH (\n" +
                 "    'write.metadata.delete-after-commit.enabled'='true',\n" +
-                "    'write.metadata.previous-versions-max'='6',\n" +
+                "    'write.metadata.previous-versions-max'='20',\n" +
                 "    'read.split.target-size'='1073741824',\n" +
                 "    'write.distribution-mode'='hash'\n" +
                 ")";

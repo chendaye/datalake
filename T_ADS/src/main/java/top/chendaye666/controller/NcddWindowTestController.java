@@ -69,7 +69,7 @@ public class NcddWindowTestController {
                     public long extractTimestamp(Row element, long recordTimestamp) {
                         return System.currentTimeMillis();
                     }
-                }))
+                })).setParallelism(2)
                 .print("rowstream");
 
 

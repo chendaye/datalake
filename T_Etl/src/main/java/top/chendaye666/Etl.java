@@ -29,10 +29,13 @@ public class Etl {
         env.setStateBackend(new HashMapStateBackend());
         env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend");
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
-
-        // etl log
+        // 设置并行度
+        env.setParallelism(5);
+        // kafka etl log
         EtlLogService etlLogService = new EtlLogService();
         SingleOutputStreamOperator<String> etl = etlLogService.etl(jsonParam, env);
+
+        etl.print("etl");
 
         // insert table
         EtlToTableervice etlToTableervice = new EtlToTableervice();

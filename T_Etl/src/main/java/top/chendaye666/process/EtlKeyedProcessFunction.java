@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 import top.chendaye666.Strategy.ParseContext;
-import top.chendaye666.Strategy.impl.RawLogStrategyImpl;
-import top.chendaye666.Strategy.impl.RawStrategyImpl;
-import top.chendaye666.Strategy.impl.RegInxStrategyImpl;
+import top.chendaye666.Strategy.impl.*;
+import top.chendaye666.Strategy.impl.auxiliary.TimestampGtuStrategyImpl;
+import top.chendaye666.Strategy.impl.auxiliary.DateGtuStrategyImpl;
+import top.chendaye666.Strategy.impl.auxiliary.TimeSpStrategyImpl;
 import top.chendaye666.pojo.LogEntity;
 import top.chendaye666.pojo.ParamEntity;
 
@@ -17,13 +19,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * 处理键控流
+ */
 @Slf4j
-public class EtlProcessFunction extends ProcessFunction<String, String> {
+public class EtlKeyedProcessFunction extends KeyedProcessFunction<String, LogEntity, String> {
     /*日志解析配置*/
     private JSONObject sourceType;
     private ParseContext<LogEntity, String> context;
 
-    public EtlProcessFunction(JSONObject sourceType) {
+    public EtlKeyedProcessFunction(JSONObject sourceType) {
         this.sourceType = sourceType;
     }
 
@@ -34,9 +39,7 @@ public class EtlProcessFunction extends ProcessFunction<String, String> {
     }
 
     @Override
-    public void processElement(String record, Context ctx, Collector<String> out) throws Exception {
-        // 转化为json
-        LogEntity value = JSONObject.parseObject(record, LogEntity.class);
+    public void processElement(LogEntity value, Context ctx, Collector<String> out) throws Exception {
         HashMap<String, String> keyValueMap = new HashMap<>();
         // 当前log 的 source_type 类型
         String type = value.getSource_type();
