@@ -47,10 +47,10 @@ public class NcddWindowTestController {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(config);
         env.setParallelism(3);
         // checkpoint
-//        env.enableCheckpointing(60000);
-//        env.setStateBackend(new HashMapStateBackend());
-//        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend");
-//        env.getCheckpointConfig().setCheckpointTimeout(60000*2);
+        env.enableCheckpointing(60000);
+        env.setStateBackend(new HashMapStateBackend());
+        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend");
+        env.getCheckpointConfig().setCheckpointTimeout(60000*2);
 
 
 

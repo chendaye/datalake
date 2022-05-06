@@ -47,6 +47,8 @@ public class NcddDao {
 //         stream.print("RowData");
          Table table = tEnv.fromDataStream(stream,
                 Schema.newBuilder()
+//                        .column("date", "STRING")
+//                        .column("log", "STRING")
                         .column("table_name", "STRING")
                         .column("source_type", "STRING")
                         .column("mi", "STRING")
@@ -65,6 +67,7 @@ public class NcddDao {
 //                        .columnByExpression("rowtime", "TO_TIMESTAMP_LTZ(created_at, 3)")
 //                        .watermark("rowtime", "rowtime - INTERVAL '10' SECOND")
                         .build());
+
         return table;
     }
 }
