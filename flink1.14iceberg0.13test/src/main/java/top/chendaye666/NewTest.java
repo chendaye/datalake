@@ -50,7 +50,7 @@ public class NewTest {
                 ")";
         tEnv.executeSql(hadoopCatalogSql);
 
-        String logTablePath = "hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_raw";
+        String logTablePath = "hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_general";
 
         TableLoader tableLoader = TableLoader.fromHadoopTable(logTablePath);
         // 准实时的查询
@@ -61,7 +61,6 @@ public class NewTest {
                 .streaming(true)
 //                .startSnapshotId(3615347613201348772L)
                 .build();
-//        SingleOutputStreamOperator<RowData>
         stream
                 .assignTimestampsAndWatermarks(WatermarkStrategy.<RowData>forBoundedOutOfOrderness(Duration.ofSeconds(5)).withTimestampAssigner(new SerializableTimestampAssigner<RowData>() {
                     @Override
@@ -73,8 +72,8 @@ public class NewTest {
                     }
                 }))
                 //todo: Iceberg table (hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_raw) reader -> Timestamps/Watermarks
-                // Task[Iceberg table reader] 和 Task[Timestamps/Watermarks] 并行度不能一样；否则无法生成水印
-                .setParallelism(12)
+                // Task[Iceberg table reader] 和 Task[Timestamps/Watermarks] 并行度不能一样(并行度一样会整合成一个task)；否则无法生成水印
+                .setParallelism(9)
                 .windowAll(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .process(new ProcessAllWindowFunction<RowData, String, TimeWindow>() {
                     @Override

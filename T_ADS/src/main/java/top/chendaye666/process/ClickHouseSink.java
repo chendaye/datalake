@@ -1,9 +1,10 @@
-package top.chendaye666.utils;
+package top.chendaye666.process;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import top.chendaye666.pojo.L5Entity;
+import top.chendaye666.utils.ClickHouseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,29 +13,30 @@ import java.sql.PreparedStatement;
  * 自定义Sink
  */
 @Slf4j
-public class ClickHouseSinkUtil extends RichSinkFunction<L5Entity> {
+public class ClickHouseSink extends RichSinkFunction<L5Entity> {
+    private static final long serialVersionUID = -4139336872174437681L;
     Connection connection = null;
     String sql;
     String host = "hadoop01";
     String database = "default";
     int port = 8123;
 
-    public ClickHouseSinkUtil(String sql){
+    public ClickHouseSink(String sql){
         this.sql = sql;
     }
 
-    public ClickHouseSinkUtil(String host, String database){
+    public ClickHouseSink(String host, String database){
         this.host = host;
         this.database = database;
     }
 
-    public ClickHouseSinkUtil(String host, String database, String sql){
+    public ClickHouseSink(String host, String database, String sql){
         this.host = host;
         this.database = database;
         this.sql = sql;
     }
 
-    public ClickHouseSinkUtil(String host, String database, int port){
+    public ClickHouseSink(String host, String database, int port){
         this.host = host;
         this.database = database;
         this.port = port;
