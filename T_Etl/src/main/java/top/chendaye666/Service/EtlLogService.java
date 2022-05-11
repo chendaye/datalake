@@ -29,13 +29,10 @@ public class EtlLogService {
                 .setValueOnlyDeserializer(new SimpleStringSchema())
                 .build();
 
-        DataStreamSource<String> kafkaSource = env
-                .fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
-
-        // 日志转化为实体类
-        SingleOutputStreamOperator<String> sourceTypeContentStream = kafkaSource
+        SingleOutputStreamOperator<String> process = env
+                .fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source")
                 .process(new EtlProcessFunction(jsonParam.getJson("sourceType")));
-        return sourceTypeContentStream;
+        return process;
     }
 }
 

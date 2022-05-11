@@ -28,6 +28,14 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-runtime-web_2.12</artifactId>
+      <version>1.14.4</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
   <properties>
     <iceberg.version>0.13.1</iceberg.version>
     <flink.version>1.14.4</flink.version>

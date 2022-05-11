@@ -125,7 +125,7 @@ public class NcddService {
                                 return timestamp;
                             }
                         }))
-                .setParallelism(10)
+                .setParallelism(1)
                 .process(new ProcessFunction<CommonTableEntity, CommonTableEntity>() {
                     @Override
                     public void processElement(CommonTableEntity value, Context ctx, Collector<CommonTableEntity> out) throws Exception {

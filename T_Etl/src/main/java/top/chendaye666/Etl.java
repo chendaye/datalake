@@ -1,6 +1,7 @@
 package top.chendaye666;
 
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -23,19 +24,20 @@ public class Etl {
         // flink 运行环境
         System.setProperty("HADOOP_USER_NAME", "hadoop");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+//        Configuration config = new Configuration();
+//        StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(config);
         // checkpoint
-        env.enableCheckpointing(500);
-        // 查看flink api 文档，查询对应的类名，看过期的用什么替换
+        env.enableCheckpointing(60000);
         env.setStateBackend(new HashMapStateBackend());
         env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop01:8020/warehouse/backend");
+        env.getCheckpointConfig().setCheckpointTimeout(60000 * 2);
+        // tEnv 环境
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
-        // 设置并行度
-        env.setParallelism(5);
+        //todo： 设置并行度 Iceberg 报错（丢失版本文件）
+//        env.setParallelism(5);
         // kafka etl log
         EtlLogService etlLogService = new EtlLogService();
         SingleOutputStreamOperator<String> etl = etlLogService.etl(jsonParam, env);
-
-        etl.print("etl");
 
         // insert table
         EtlToTableervice etlToTableervice = new EtlToTableervice();
