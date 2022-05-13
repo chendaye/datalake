@@ -1,4 +1,4 @@
-package top.chendaye666.timedtask;
+package top.chendaye666.timedtask.flink;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -6,7 +6,7 @@ import org.apache.iceberg.Table;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.actions.Actions;
 
-public class CompactDataFilesFlinkAction {
+public class CompactDataFilesAction {
     public static void main(String[] args) {
         // flink 运行环境
         System.setProperty("HADOOP_USER_NAME", "hadoop");

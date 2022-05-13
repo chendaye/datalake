@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.timedtask.CompactDataFilesAction</mainClass>
+                  <mainClass>top.chendaye666.timedtask.spark.CompactDataFilesAction</mainClass>
                 </transformer>
               </transformers>
             </configuration>

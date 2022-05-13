@@ -1,5 +1,6 @@
-package top.chendaye666.timedtask;
+package top.chendaye666.timedtask.iceberg;
 
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.iceberg.Table;
 import org.apache.iceberg.hadoop.HadoopTables;
@@ -15,9 +16,13 @@ public class ExpireSnapshotsActions {
     public static void main(String[] args) {
         Configuration conf = new Configuration();
         HadoopTables tables = new HadoopTables(conf);
-        Table table = tables.load("hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_general");
 
-        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 60 * 1); // 1h
+        ParameterTool params = ParameterTool.fromArgs(args);
+        String name = params.get("table",     null);
+        // hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_general
+        Table table = tables.load(name);
+
+        long tsToExpire = System.currentTimeMillis() - (1000 * 60 * 60 * 10); // 1h
         table.expireSnapshots()
                 .expireOlderThan(tsToExpire)
                 .commit();

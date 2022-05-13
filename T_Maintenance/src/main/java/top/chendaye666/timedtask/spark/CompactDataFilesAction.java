@@ -1,4 +1,4 @@
-package top.chendaye666.timedtask;
+package top.chendaye666.timedtask.spark;
 
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.hadoop.conf.Configuration;
@@ -30,7 +30,7 @@ public class CompactDataFilesAction {
                 .set("spark.sql.catalog.hadoop_prod.type", "hadoop")
                 .set("spark.sql.catalog.hadoop_prod.warehouse", "hdfs://hadoop01:8020/warehouse/iceberg")
                 .set("spark.sql.catalog.hadoop_prod.default-catalog", "realtime")
-                .setMaster("local[*]")
+//                .setMaster("local[*]")
                 .setAppName("compact file");
 
         SparkSession sparkSession = SparkSession
@@ -43,11 +43,28 @@ public class CompactDataFilesAction {
         // hadoop_prod.realtime.ncdd_raw
         Table table = Spark3Util.loadIcebergTable(sparkSession, name);
 
+        /**
+         * https://iceberg.apache.org/javadoc/0.13.1/org/apache/iceberg/actions/RewriteDataFiles.html
+         * https://www.cnblogs.com/payapa/p/15932512.html
+         *
+         * https://iceberg.apache.org/javadoc/0.13.1/constant-values.html#org.apache.iceberg.actions.RewriteDataFiles.TARGET_FILE_SIZE_BYTES
+         *
+         * Exception in thread "main" java.lang.RuntimeException:
+         * Cannot commit rewrite because of a ValidationException or CommitFailedException.
+         * This usually means that this rewrite has conflicted with another concurrent Iceberg operation.
+         * To reduce the likelihood of conflicts, set partial-progress.enabled which will
+         * break up the rewrite into multiple smaller commits controlled by partial-progress.max-commits.
+         * Separate smaller rewrite commits can succeed independently while any commits that conflict
+         * with another Iceberg operation will be ignored. This mode will create additional snapshots in the table history,
+         * one for each commit.
+         */
         SparkActions
                 .get(sparkSession)
                 .rewriteDataFiles(table)
 //                .filter(Expressions.equal("date", "2020-08-18"))
                 .option("target-file-size-bytes", Long.toString(500 * 1024 * 1024)) // 500 MB
+                .option("partial-progress.enabled", "true") // 500 MB
+//                .option("use-starting-sequence-number", "true") // 500 MB
                 .execute();
         sparkSession.close();
     }
