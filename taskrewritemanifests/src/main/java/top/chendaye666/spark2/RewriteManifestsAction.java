@@ -23,7 +23,7 @@ public class RewriteManifestsAction {
 
         Configuration conf = new Configuration();
         HadoopTables tables = new HadoopTables(conf);
-        Table table = tables.load("hdfs://hadoop01:8020/warehouse/path/ods/ods_ncddzt");
+        Table table = tables.load("hdfs://hadoop01:8020/warehouse/iceberg/realtime/ncdd_raw");
 
         table.rewriteManifests()
                 .rewriteIf(file -> file.length() < 20 * 1024 * 1024) // 10 MB

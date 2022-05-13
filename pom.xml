@@ -28,6 +28,7 @@
         <module>T_Warehouse</module>
         <module>T_ADS</module>
         <module>flink1.14iceberg0.13test</module>
+        <module>T_Maintenance</module>
     </modules>
 
     <properties>
