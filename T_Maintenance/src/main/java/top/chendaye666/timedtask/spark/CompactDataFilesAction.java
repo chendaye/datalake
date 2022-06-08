@@ -39,7 +39,7 @@ public class CompactDataFilesAction {
                 .getOrCreate();
 
         ParameterTool params = ParameterTool.fromArgs(args);
-        String name = params.get("table",     null);
+        String name = params.get("table", null);
         // hadoop_prod.realtime.ncdd_raw
         Table table = Spark3Util.loadIcebergTable(sparkSession, name);
 
