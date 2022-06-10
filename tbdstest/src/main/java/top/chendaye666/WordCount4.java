@@ -1,10 +1,7 @@
 package top.chendaye666;
 
-import org.apache.flink.api.java.ExecutionEnvironment;
-import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import top.chendaye666.utils.MyFlatMapper;
 
 import java.util.ArrayList;
 
@@ -20,10 +17,8 @@ import java.util.ArrayList;
  *      ./bin/flink run  -m yarn-cluster -c top.chendaye666.WordCount2 -yqu root.bigdatayunwei  -ynm wc  -yjm 1024 -ytm 2048  --detached /opt/jar/tbdstest-1.0-SNAPSHOT.jar
  *
  *      ./bin/flink run -m yarn-cluster -ynm wc -yjm 2048 -ytm 1024  -d ./examples/batch/WordCount.jar --input hdfs://hdfsCluster/user/chenxiaolong1/ctest  --output hdfs://hdfsCluster/user/chenxiaolong1/ctestout
- *
- *      /opt/flink-1.14.4/bin/flink run   -c top.chendaye666.WordCount  -yjm 1024 -ytm 2048  -d  /opt/jar/tbdstest-1.0-SNAPSHOT.jar hdfs://hdfsCluster/tmp/ctest01  hdfs://hdfsCluster/tmp/c_ctestuser6
  */
-public class WordCount2 {
+public class WordCount4 {
     public static void main(String[] args) throws Exception {
         // 创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -33,6 +28,9 @@ public class WordCount2 {
         System.setProperty("hadoop_security_authentication_tbds_username", "chenxiaolong1");
         System.setProperty("HADOOP_USER_NAME", "chenxiaolong1");
 
+        // 从文件中读取数据
+        String inputPath = "hdfs://hdfsCluster/user/chenxiaolong1/ctest";
+        String outputPath = "hdfs://hdfsCluster/tmp/ctestout2";
 
         ArrayList<String> strings = new ArrayList<>();
         strings.add("appale");
@@ -42,6 +40,7 @@ public class WordCount2 {
         strings.add("appale5");
         strings.add("appale6");
         DataStreamSource<String> stringDataSource = env.fromCollection(strings);
+        stringDataSource.writeAsText(outputPath);
         stringDataSource.print();
 
         env.execute();

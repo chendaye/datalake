@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>top.chendaye666.WordCount2</mainClass>
+                  <mainClass>top.chendaye666.WordCount4</mainClass>
                 </transformer>
                 <transformer>
                   <resource>reference.conf</resource>
