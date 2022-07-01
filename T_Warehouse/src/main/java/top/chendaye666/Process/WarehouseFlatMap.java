@@ -29,6 +29,7 @@ public class WarehouseFlatMap implements FlatMapFunction<NcddLogEntity, CommonTa
 
     @Override
     public void flatMap(NcddLogEntity ncddLogEntity, Collector<CommonTableEntity> collector) throws Exception {
+        System.out.println(">>>>>>>>>>>"+ncddLogEntity.getLog());
         // log
         JSONObject ncddLog = JSON.parseObject(ncddLogEntity.getLog());
         String date = ncddLogEntity.getDate();
