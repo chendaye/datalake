@@ -42,7 +42,7 @@ public class NcddDao {
                 .env(env)
                 .tableLoader(tableLoader)
                 .streaming(isStream )
-                // .startSnapshotId(2120L)
+                 .startSnapshotId(2120L)
                 .build();
 //         stream.print("RowData");
          Table table = tEnv.fromDataStream(stream,

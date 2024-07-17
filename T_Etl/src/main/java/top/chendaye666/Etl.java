@@ -38,7 +38,7 @@ public class Etl {
         // kafka etl log
         EtlLogService etlLogService = new EtlLogService();
         SingleOutputStreamOperator<String> etl = etlLogService.etl(jsonParam, env);
-
+        etl.print();
         // insert table
         EtlToTableervice etlToTableervice = new EtlToTableervice();
         etlToTableervice.createHadoopCatalog(tEnv);

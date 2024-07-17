@@ -31,7 +31,8 @@ public class EtlLogService {
 
         SingleOutputStreamOperator<String> process = env
                 .fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source")
-                .process(new EtlProcessFunction(jsonParam.getJson("sourceType")));
+                .process(new EtlProcessFunction(jsonParam.getJson("sourceType")))
+                .setParallelism(3); //todo: 设置并行度
         return process;
     }
 }

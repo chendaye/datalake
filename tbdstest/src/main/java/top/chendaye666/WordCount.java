@@ -1,10 +1,12 @@
 package top.chendaye666;
 
+import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.hadoop.conf.Configuration;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.RestOptions;
 import org.apache.hadoop.security.UserGroupInformation;
 import top.chendaye666.utils.MyFlatMapper;
 
@@ -25,11 +27,14 @@ public class WordCount {
     public static void main(String[] args) throws Exception {
         // 创建执行环境
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+        Configuration configuration = env.getConfiguration();
+        configuration.setString(RestOptions.BIND_PORT, "9081-9089");
+        configuration.setString("jobmanager.rpc.address", "localhost");
         // 设置 hadoop 用户
-//        System.setProperty("hadoop_security_authentication_tbds_secureid", "RmgNfrMNcrwNYfQbG4ZsvJa2Va4EUzvEhaAA");
-//        System.setProperty("hadoop_security_authentication_tbds_securekey", "sodFLCRlCnWnqcwHx755HH8PQCnjh1Fj");
-//        System.setProperty("hadoop_security_authentication_tbds_username", "chenxiaolong1");
-//        System.setProperty("HADOOP_USER_NAME", "chenxiaolong1");
+        System.setProperty("hadoop_security_authentication_tbds_secureid", "z87A4rgCyxKQsxl1HMddJzqvnDE9qDcHn5qu");
+        System.setProperty("hadoop_security_authentication_tbds_securekey", "ZQP4suI4RvIittcng5aaNhsRh0Bo6V77");
+        System.setProperty("hadoop_security_authentication_tbds_username", "chenxiaolong1");
+        System.setProperty("HADOOP_USER_NAME", "chenxiaolong1");
 
 
         // 从文件中读取数据
